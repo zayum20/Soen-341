@@ -1,1 +1,125 @@
+# CareerConnect — User Stories & Task Breakdown
 
+**Course:** SOEN 341 — Fall 2026  
+**Document Owner:** Angelina Yajaira Montano  
+**Project:** CareerConnect
+
+This document serves as the central repository for all project user stories and technical task breakdowns.
+
+---
+
+## Part 1: AI-Generated User Stories (US-01 to US-10)
+
+*The following 10 initial user stories were generated using Claude and validated by comparing them to system features required.*
+
+
+### Detailed User Stories & Tasks
+
+#### US-01: Account Registration
+  * **User story:** As a job seeker, I want to create an account with my email and password so that I can access platform features and save my progress.
+* **Acceptance Criteria:**
+  - [ ] System accepts valid emails and passwords
+  - [ ] The passwords must be encrypted before being saved
+  - [ ] System gives a message when the user tries to create an account with a known email or a weak password
+  * **Tasks:**
+    - [ ] Task 1.1: Design user schema (job seeker vs. recruiter roles)
+    - [ ] Task 1.2: Build signup API endpoint with password encryption for security
+    - [ ] Task 1.3: Build registration UI form
+
+#### US-02: Recruiter Account Registration
+ * **User story:** As a recruiter, I want to register a company account so that I can post jobs and manage applicants under my organization.
+ * **Acceptance Criteria:**
+  - [ ] The recruiter can register using his company's information
+  - [ ] System clearly divides the features availables to job seekers and recruiters
+ * **Tasks:**
+   - [ ] Task 2.1: Add company/organization fields to schema
+   - [ ] Task 2.2: Build recruiter-specific signup flow
+   - [ ] Task 2.3: Add role-based access control (recruiter vs. job seeker permissions)
+
+#### US-03: Profile Management
+ * **User story:** As a job seeker, I want to build and edit a profile with my skills, education, and work experience so that recruiters can learn more about my background.
+ * **Acceptance Criteria:**
+  - [ ] The job seeker can edit and view his profile on his account
+  - [ ] System saves the data in the database
+ * **Tasks:**
+  - [ ] Task 3.1: Design profile data model
+  - [ ] Task 3.2: Build profile edit UI
+  - [ ] Task 3.3: Implement profile save/update API
+
+#### US-04: Resume Upload
+ * **User story:** As a job seeker, I want to upload and store my resume (PDF/DOCX) so that I can attach it to job applications without re-uploading each time.
+* **Acceptance Criteria:**
+  - [ ] System accepts only PDF and DOCX type files
+  - [ ] The uploaded resume is directly stored linked to the user's account
+ * **Tasks:**
+  - [ ] Task 4.1: Implement file upload endpoint with size/type validation
+  - [ ] Task 4.2: Store resume file and link to user profile
+  - [ ] Task 4.3: Build "manage resumes" UI (upload, replace, delete)
+
+#### US-05: Job Posting Management
+ * **User story:** As a recruiter, I want to create, edit, and close job postings so that I can advertise open roles and control which are visible to applicants.
+ * **Acceptance Criteria:**
+  - [ ] Recruiter can write and post job postings with specifications 
+  - [ ] Recruiter can change the status of a job posting once the position is taken (open or closed)
+ * **Tasks:**
+  - [ ] Task 5.1: Design job posting schema (title, description, requirements, status)
+  - [ ] Task 5.2: Build create/edit job posting form
+  - [ ] Task 5.3: Implement open/close posting status logic
+
+#### US-06: Job Search and Filtering
+ * **User story:** As a job seeker, I want to search and filter job postings by keyword, location, and job type so that I can quickly find relevant opportunities.
+ * **Acceptance Criteria:**
+  - [ ] System filters the search query of job seekers using keyword, location and job type
+ * **Tasks:**
+  - [ ] Task 6.1: Build search/filter API with query parameters
+  - [ ] Task 6.2: Implement filter UI (location, job type, keyword)
+  - [ ] Task 6.3: Add pagination for search results
+
+#### US-07: Job Application Submission
+ * **User story:** As a job seeker, I want to submit an application to a job posting using my saved resume and profile so that I don't have to redo work for each application.
+ * **Acceptance Criteria:**
+  - [ ] System does not let the job seeker submit an application more than once to the same job posting
+ * **Tasks:**
+  - [ ] Task 7.1: Build "apply" button/flow linking resume + profile to a job
+  - [ ] Task 7.2: Implement application submission API
+  - [ ] Task 7.3: Prevent duplicate applications to the same posting
+
+#### US-08: Application Status Tracking
+ * **User story:** As a job seeker, I want to view the status of each application (Applied, Interview, Offered, Rejected) so that I can track my progress across all my job searches.
+ * **Acceptance Criteria:**
+  - [ ] System shows the updates on the status of job postings made by the recruiters
+  - [ ] System shows only the four states of job postings (Applied, Interview, Offered, Rejected)
+ * **Tasks:**
+  - [ ] Task 8.1: Add status field with allowed transitions to application model
+  - [ ] Task 8.2: Build recruiter UI to update applicant status
+  - [ ] Task 8.3: Build job seeker dashboard showing status per application
+
+#### US-09: Saved Jobs / Favorites
+ * **User story:** As a job seeker, I want to save job postings to a favorites list so that I can revisit them later without searching again.
+ * **Acceptance Criteria:**
+  - [ ] System lets the job seeker put or deleter job postings from his favorites list
+ * **Tasks:**
+  - [ ] Task 9.1: Implement save/unsave job endpoint
+  - [ ] Task 9.2: Build "saved jobs" list view
+  - [ ] Task 9.3: Add save/favorite icon to job listing UI
+
+#### US-10: AI-Assisted Resume Feedback
+ * **User story:** As a job seeker, I want to receive AI-generated feedback on my resume compared to a specific job posting so that I can improve my chances of getting noticed by recruiters.
+ * **Acceptance Criteria:**
+  - [ ] AI prompted returns detailed feedback to the job seeker concerning his strength and places that can be improved
+ * **Tasks:**
+  - [ ] Task 10.1: Integrate AI API (e.g., resume text + job description as input)
+  - [ ] Task 10.2: Design prompt to generate structured feedback (strengths, gaps, suggestions)
+  - [ ] Task 10.3: Build UI to display AI feedback alongside the job posting
+
+---
+
+## Part 2: Team-Generated User Stories (US-11 to US-15)
+
+*The following 5 user stories will be brainstormed, defined, and assigned collaboratively during the next Sprint Planning meeting to fulfill remaining Sprint 1 requirements.*
+
+---
+
+**Document Owner:** Angelina Yajaira Montano
+**Project:** CareerConnect
+**Course:** SOEN 341 — Fall 2026
