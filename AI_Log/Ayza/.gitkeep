@@ -1,1 +1,46 @@
+# AI Usage Log — Ayza
+
+## Entry 1 — Team Process Document
+
+**Date:** September 20, 2026
+**Team Member:** Ayza
+**AI Tool:** ChatGPT
+**Purpose:** Creating and improving the CareerConnect team process document for SOEN 341 Sprint 1.
+
+### Task
+
+I used ChatGPT to help organize and improve the team's Team Process document. The document covers:
+
+* Team roles and Sprint 1 responsibilities
+* GitHub workflow
+* Branching strategy
+* Pull Request process
+* Code review process
+* Definition of Ready
+* Definition of Done
+* GitHub issue labels
+* Repository structure
+* Communication and meetings
+* AI usage requirements
+* User story and task management
+* Sprint 1 completion checklist
+
+### AI Assistance
+
+ChatGPT suggested improvements to the structure and wording of the document, including clarification of the GitHub workflow, Pull Request process, AI logging requirements, and the requirement to maintain 15 user stories.
+
+### Action Taken
+
+**Modified**
+
+I reviewed the AI-generated suggestions and modified the content to match the CareerConnect project, our team's responsibilities, and the requirements for SOEN 341.
+
+### Validation
+
+The Team Process document was reviewed by me before being added to the GitHub repository. I verified that the responsibilities, GitHub workflow, AI logging process, and Sprint 1 requirements reflect our team's planned process.
+
+### Related Work
+
+**Repository:** CareerConnect / Soen-341
+**Related Document:** `Team Process.md`
 
