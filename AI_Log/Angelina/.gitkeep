@@ -1,1 +1,115 @@
+# AI Usage Log — Angelina
 
+## Entry 1 — Generate Baseline User Stories and Tasks
+
+**Task ID/Title:** Task 1.1: Generate 10 initial user stories 
+
+**Date:** September 20, 2026  
+
+**Responsible Person:** Angelina Yajaira Montano  
+
+**AI Tool:** Claude  
+
+**Purpose of AI Use:** Brainstorming of user stories
+
+**Chat Link or Prompt/Response:** https://claude.ai/share/6fd5e848-f068-4cc1-8d43-bfb3590ce069
+
+**AI-Suggested Content:** Using Claude, the content produced is a list of stories for the job seekers and recruiters of CareerConnect
+* **US-01: Account Registration**
+  * **User story:** As a job seeker, I want to create an account with my email and password so that I can access platform features and save my progress.
+  * **Tasks:**
+    * Task: Design user schema (job seeker vs. recruiter roles)
+    * Task: Build signup API endpoint with password encryption for security
+    * Task: Build registration UI form
+
+* **US-02: Recruiter Account Registration**
+ * **User story:** As a recruiter, I want to register a company account so that I can post jobs and manage applicants under my organization.
+ * **Tasks:**
+   * Task: Add company/organization fields to schema
+   * Task: Build recruiter-specific signup flow
+   * Task: Add role-based access control (recruiter vs. job seeker permissions)
+
+* **US-03: Profile Management**
+ * **User story:** As a job seeker, I want to build and edit a profile with my skills, education, and work experience so that recruiters can learn more about my background.
+ * **Tasks:**
+  * Task: Design profile data model
+  * Task: Build profile edit UI
+  * Task: Implement profile save/update API
+
+* **US-04: Resume Upload**
+ * **User story:** As a job seeker, I want to upload and store my resume (PDF/DOCX) so that I can attach it to job applications without re-uploading each time.
+ * **Tasks:**
+  * Task: Implement file upload endpoint with size/type validation
+  * Task: Store resume file and link to user profile
+  * Task: Build "manage resumes" UI (upload, replace, delete)
+
+* **US-05: Job Posting Management**
+ * **User story:** As a recruiter, I want to create, edit, and close job postings so that I can advertise open roles and control which are visible to applicants.
+ * **Tasks:**
+  * Task: Design job posting schema (title, description, requirements, status)
+  * Task: Build create/edit job posting form
+  * Task: Implement open/close posting status logic
+
+* **US-06: Job Search and Filtering**
+ * **User story:** As a job seeker, I want to search and filter job postings by keyword, location, and job type so that I can quickly find relevant opportunities.
+ * **Tasks:**
+  * Task: Build search/filter API with query parameters
+  * Task: Implement filter UI (location, job type, keyword)
+  * Task: Add pagination for search results
+
+* **US-07: Job Application Submission**
+ * **User story:** As a job seeker, I want to submit an application to a job posting using my saved resume and profile so that I don't have to redo work for each application.
+ * **Tasks:**
+  * Task: Build "apply" button/flow linking resume + profile to a job
+  * Task: Implement application submission API
+  * Task: Prevent duplicate applications to the same posting
+
+* **US-08: Application Status Tracking**
+ * **User story:** As a job seeker, I want to view the status of each application (Applied, Interview, Offered, Rejected) so that I can track my progress across all my job searches.
+ * **Tasks:**
+  * Task: Add status field with allowed transitions to application model
+  * Task: Build recruiter UI to update applicant status
+  * Task: Build job seeker dashboard showing status per application
+
+* **US-09: Saved Jobs / Favorites**
+ * **User story:** As a job seeker, I want to save job postings to a favorites list so that I can revisit them later without searching again.
+ * **Tasks:**
+  * Task: Implement save/unsave job endpoint
+  * Task: Build "saved jobs" list view
+  * Task: Add save/favorite icon to job listing UI
+
+* **US-10: AI-Assisted Resume Feedback**
+ * **User story:** As a job seeker, I want to receive AI-generated feedback on my resume compared to a specific job posting so that I can improve my chances of getting noticed by recruiters.
+ * **Tasks:**
+  * Task: Integrate AI API (e.g., resume text + job description as input)
+  * Task: Design prompt to generate structured feedback (strengths, gaps, suggestions)
+  * Task: Build UI to display AI feedback alongside the job posting
+
+### Validation
+
+Each of the user stories generated were compared to the required system features of the Sprint 1 document to see if they needed specification.
+* **For US-01:** It matches the requirement of user registration and authentication for job seekers but it did not cover the security aspect with the password encryption
+* **For US-02:** It matches the requirement of a user role specific to a recruiter that cannot be controlled by the other user type of job seeker
+* **For US-03:** It matches the profile management feature with the possibility of editing the profile.
+* **For US-04:** It matches the feature of resume upload and management
+* **For US-05:** It matches the feature of job posting management for recruiters
+* **For US-06:** It matches the feature of job search and filtering capabilities.
+* **For US-07:** It matches the feature of job application submission
+* **For US-08:** It matches the feature of application status tracking with the labels(Applied, Interview, Offered, Rejected).
+* **For US-09:** It matches the feature of saved jobs and favourites.
+* **For US-10:** It matches the feature of AI-assisted resume feedback or job matching suggestions
+
+
+### Decision
+
+**Modified and Accepted**
+
+### Reflection
+
+AI on Claude managed to generate user stories that fulfill some system features but there are still two missing from the list: 
+1.	Application history dashboard.
+2.	 Notifications and reminders for application deadlines.
+As a team, we have to discuss and brainstorm to implement these two features in the 5 user stories required for the Sprint 1 deliverable.
+  
+
+Responsible Person: Angelina Yajaira Montano
