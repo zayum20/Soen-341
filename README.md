@@ -1,0 +1,35 @@
+# SOEN 341 Project
+
+## Project Description
+The goal of this project is to create a web-based platform for job searching, similar to LinkedIn and Indeed. It will be called CareerConnect, and it is meant to centralize job search activities for both recruiters and job seekers. This platform should ease the job search process for job seekers by allowing them to manage their search activities, and thus stay organized throughout their career development journey. All users should be able to create profiles, upload and manage their resumes, search for job opportunities, and track application statuses and their progression. As for recruiters, the system should allow them to post and manage job postings. The team will be undertaking this project using Agile practices and GitHub-based collaboration. The development process will be divided into four sprints over four months.
+
+## Identified Problem
+Most online job boards were made to solve the issue of job posting visibility and distribution. However, they still do not allow users to manage and track their applications, which would be much more convenient for job seekers since it would allow them to centralize all of their job activities in a single space. 
+
+## Proposed Solution
+Our team proposes to build a web-based platform that aims to centralize the entire job search process, from searching and saving job postings, tailoring resumes to job postings, applying to said postings, and tracking application status for job seekers, to posting and managing job postings for recruiters. 
+
+## Team Members
+Sara Azmoon - saraazzz
+Tasneem Sultana Chowdhury - TasneemChowdhury
+Aminata Mbengue - mina
+Angelina Yajaira Montano - aymontano1
+Ariane Madjofo Sofouet - Mesa237
+Ayza Waris - zayum20
+
+## Technologies
+
+Front-end:
+HTML, CSS, JavaScript
+
+Backend:
+Node.js, express.js(?)
+
+Database:
+MySQL
+
+
+## Setup Instructions
+
+
+## Proposed Features
