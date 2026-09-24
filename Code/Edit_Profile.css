@@ -1,0 +1,144 @@
+/* Edit Profile - trimmed: presentable .profile-summary and only styles used by the page */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  background: #f3f6fb;
+  color: #0f1724;
+  margin: 0;
+}
+
+.page-container {
+  padding: 32px;
+}
+
+/* Presentable left summary card (kept for layout parity) */
+.profile-summary {
+  width: 280px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(16, 24, 40, 0.06);
+}
+
+.edit-card {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.card-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.card-header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.edit-form {
+  background: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(16, 24, 40, 0.06);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field.full {
+  grid-column: 1 / -1;
+}
+
+.field label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #0f1724;
+}
+
+.required {
+  color: #ef4444;
+  margin-left: 4px;
+  font-weight: 600;
+}
+
+.field input,
+.field textarea,
+.field select {
+  padding: 12px;
+  border: 1px solid #e6eefb;
+  border-radius: 10px;
+  font-size: 14px;
+  background: #fff;
+}
+
+.field textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.btn.cancel {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  padding: 8px 16px;
+}
+
+.btn.cancel:hover {
+  background: #f9fafb;
+  color: #111827;
+}
+
+.btn.save {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+}
+
+@media (max-width: 900px) {
+  .page-container {
+    padding: 16px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-summary {
+    width: 100%;
+  }
+}
