@@ -1,0 +1,110 @@
+/* Minimal, de-duplicated nav + header styles */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+  background-color: #f8fafc;
+  margin-left: 220px; /* space for sidebar */
+  margin-top: 60px;  /* space for header */
+}
+
+/* Top header */
+.top-header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  background: #335bed;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+  z-index: 1100;
+}
+
+.header-logo{
+  height: 36px;
+  width: auto;
+}
+
+.hamburger{
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.hamburger span{
+  display: block;
+  height: 3px;
+  background: #fff;
+  border-radius: 3px;
+}
+
+/* Sidebar / navbar */
+.navbar{
+  position: fixed;
+  top: 60px;
+  left: 0;
+  height: calc(100vh - 60px);
+  width: 220px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding-top: 18px;
+  box-shadow: 0 2px 6px rgba(16,24,40,0.06);
+  transition: transform 0.25s ease;
+  z-index: 1000;
+}
+
+.nav-links{
+  list-style: none;
+  width: 100%;
+}
+
+.nav-links li{ width: 100%; }
+
+.nav-links a{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #0f1724;
+  text-decoration: none;
+  padding: 12px 18px;
+  /* ensure margins don't cause the link to overflow its container */
+  width: calc(100% - 12px);
+  font-weight: 600;
+  border-radius: 8px 0 0 8px;
+  margin: 6px 6px 0 6px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.nav-links a i{ font-size: 18px; }
+
+.nav-links a:hover{ background: rgba(51,91,237,0.06); color: #0b1220 }
+
+.nav-links a.active{ background: #335bed; color: #fff }
+
+/* Collapsed state removes sidebar spacing */
+body.nav-collapsed{ margin-left: 0; }
+body.nav-collapsed .navbar{ 
+  transform: translateX(-100%); 
+  box-shadow: none;  }
+
+@media (max-width: 600px){
+  body{ margin-left: 0; }
+  .navbar{ width: 100%; height: calc(100vh - 60px); }
+  .nav-links a{ padding: 12px 16px; }
+}
