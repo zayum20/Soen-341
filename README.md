@@ -10,15 +10,14 @@ Most online job boards were made to solve the issue of job posting visibility an
 Our team proposes to build a web-based platform that aims to centralize the entire job search process, from searching and saving job postings, tailoring resumes to job postings, applying to said postings, and tracking application status for job seekers, to posting and managing job postings for recruiters. 
 
 ## Team Members
-Sara Azmoon - saraazzz
-Tasneem Sultana Chowdhury - TasneemChowdhury
-Aminata Mbengue - mina
-Angelina Yajaira Montano - aymontano1
-Ariane Madjofo Sofouet - Mesa237
-Ayza Waris - zayum20
+Sara Azmoon - saraazzz 
+Tasneem Sultana Chowdhury - TasneemChowdhury 
+Aminata Mbengue - mina 
+Angelina Yajaira Montano - aymontano1 
+Ariane Madjofo Sofouet - Mesa237 
+Ayza Waris - zayum20 
 
 ## Technologies
-
 Front-end:
 HTML, CSS, JavaScript
 
@@ -33,3 +32,17 @@ MySQL
 
 
 ## Proposed Features
+- User registration, authentication, and profile management
+- Resume upload and management
+- Job posting management for recruiters
+- Job search and filtering
+- Job application submission done from the website
+- Application status tracking (Applied, Interview, Offered, Rejected)
+- Application history dashboard
+- Notifications and reminders for application deadlines
+- Saved jobs and favorites
+
+AI-based features:
+- AI-assisted resume feedback (suggestion)
+- Job matching suggestions (suggestion)
+
