@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Job Seeker Registration</title>
+
+<link rel="stylesheet" href="style.css">
+
+
+</head>
+
+
+<body>
+
+
+<main class="welcome-page">
+
+    <div class="welcome-container">
+
+        <h1>Create Your Account</h1>
+
+        <p>Job Seeker Registration</p>
+
+        <form>
+
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    minlength="2"
+                    maxlength="50"
+                    pattern="[A-Za-zÀ-ÖØ-öø-ÿ' -]+"
+                    title="First name can only contain letters, spaces, hyphens, and apostrophes."
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    minlength="2"
+                    maxlength="50"
+                    pattern="[A-Za-zÀ-ÖØ-öø-ÿ' -]+"
+                    title="Last name can only contain letters, spaces, hyphens, and apostrophes."
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    maxlength="255"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    minlength="8"
+                    required
+                >
+                <small>
+                At least 8 characters, including one uppercase letter,
+                one lowercase letter, and one number.
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    minlength="8"
+                    required
+                >
+                
+            </div>
+
+            <button type="submit" class="btn login-btn">
+                Create Account
+            </button>
+
+        </form>
+
+        <p class="back-link">
+            <a href="register.html">← Back</a>
+        </p>
+
+    </div>
+
+</main>
+
+<script src="register.js"></script>
+</body>
+
+</html>

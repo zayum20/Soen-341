@@ -163,31 +163,82 @@ section .profile-info{
     color: #111827;
 }
 
-/* Skills Badges */
+
 .skills-section {
-    margin-top: 15px;
     width: 100%;
+    margin-top: 20px;
 }
 
-.skills-heading {
-    font-weight: 600;
-    margin-bottom: 8px !important;
+.skills-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: none;
+    border: none;
+    border-top: 1px solid #e5e7eb;
+
+    padding: 16px 0;
+
+    font-size: 1.1rem;
+    font-weight: 200;
     color: #111827;
+
+    cursor: pointer;
+    text-align: left;
 }
 
-.skills-list {
+.skills-toggle i {
+    transition: transform 0.2s ease;
+}
+
+.skills-toggle.open i {
+    transform: rotate(180deg);
+}
+
+.skills-options {
+    display: none;
+
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+
+    padding: 5px 0 15px;
+}
+
+.skills-options.show {
+    display: grid;
+}
+
+.skills-options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px;
+
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.skills-options input {
+    width: 17px;
+    height: 17px;
+    cursor: pointer;
+}
+
+.selected-skills {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    margin-bottom: 10px;
 }
 
 .skill-tag {
-    background-color: #eef2ff;
-    color: #335bed;
-    font-size: 0.85rem;
-    font-weight: 600;
-    padding: 6px 14px;
+    background: #eef2ff;
+    color: #2563eb;
+    padding: 6px 12px;
     border-radius: 20px;
-    border: 1px solid #dbeafe;
-    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 500;
 }

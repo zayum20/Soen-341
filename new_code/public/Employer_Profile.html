@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Profile</title>
+        <title>Company Profile</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=photo_camera" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,7 +24,7 @@
         <nav id="main-nav" class="navbar">
             <ul class="nav-links">
                 <li>
-                    <a href="Profile.html" class="active">
+                    <a href="Employer_Profile.html" class="active">
                         <i class="bi bi-person"></i>
                         <span>My Profile</span>
                     </a>
@@ -54,20 +54,41 @@
         </nav>
         <section>
             <span class="header">
-                <p><b>My Profile</b></p>
-                <a href="Edit_Profile.html" class="edit-btn">Edit Profile</a>
+                <p><b>Company Profile</b></p>
+                <a href="Employer_Edit_Profile.html" class="edit-btn">Edit Profile</a>
             </span>
             
-            <p> Keep your profile up to date.</p>
+            <p> Keep your company profile up to date.</p>
             
         </section>
         <section>
             <div class="profile-panel">
                 <div class="profile-card">
                     <div class="profile-info">
-                        
+                        <!-- 
+                            ===================================================================
+                            BACKEND INTEGRATION NOTES (Node.js + SQL) - PROFILE PICTURE:
+                            ===================================================================
+                            1. Node.js Route Needed:
+                               - POST /api/profile/upload-avatar
+                               - Handle multipart/form-data using the 'multer' package.
+                               - Save the uploaded image to server folder (e.g., 'public/uploads/').
+
+                            2. SQL Database Requirements:
+                               - In 'users' table, store file path as VARCHAR:
+                                 ALTER TABLE users ADD COLUMN profile_picture VARCHAR(255) DEFAULT 'images/default.png';
+                               - SQL Update query:
+                                 UPDATE users SET profile_picture = ? WHERE id = ?;
+
+                            3. Frontend Upload Logic (in profile.js):
+                               - When user selects a file below, JS sends FormData with field 'avatar':
+                                 const formData = new FormData();
+                                 formData.append('avatar', fileInput.files[0]);
+                                 fetch('/api/profile/upload-avatar', { method: 'POST', body: formData });
+                            ===================================================================
+                        -->
                         <div class="profile-picture">
-                            <img src="default.png" alt="Profile picture">
+                            <img src="images/default.png" alt="Profile picture">
                             <label for="file-path">
                                 <span class="material-symbols-rounded">
                                   photo_camera  
@@ -77,37 +98,35 @@
                         </div>
 
                         <div class="profile-text">
-                            <p>name</p>
-                            <p>Career Type</p>
+                        <p id="profile-company">Loading...</p>
+                        <p id="profile-contact">Loading...</p>
                         </div>
-                        <div class="profile-details">
-                            <p>
-                                <i class="bi bi-envelope"></i>
-                                email
-                            </p>
-                            <p>
-                                <i class="bi bi-telephone"></i>
-                                number
-                            </p>
-                            <p>
-                                <i class="bi bi-geo-alt"></i>
-                                location
-                            </p>
-                            <p>About Me</p>
-                            <div class="skills-section">
-                                <p class="skills-heading">Skills</p>
-                                <div class="skills-list" id="profile-skills-list">
-                                    <span class="skill-tag">JavaScript</span>
-                                    <span class="skill-tag">Python</span>
-                                    <span class="skill-tag">SQL</span>
-                                    <span class="skill-tag">Git</span>
-                                </div>
-                            </div>
-                        </div>
+
+                    <div class="profile-details">
+                        <p>
+                        <i class="bi bi-envelope"></i>
+                        <span id="profile-email">Loading...</span>
+                        </p>
+
+                        <p>
+                            <i class="bi bi-telephone"></i>
+                            <span id="profile-phone">Loading...</span>
+                        </p>
+
+                        <p>
+                            <i class="bi bi-geo-alt"></i>
+                            <span id="profile-location">Loading...</span>
+                        </p>
+
+                        <p id="profile-about">Loading...</p>
+
+
+                    </div>
+
                     </div>
                 </div>
             </div>
         </section>
-        <script src="profile.js"></script>
+        <script src="employer_profile.js"></script>
     </body>
 </html>

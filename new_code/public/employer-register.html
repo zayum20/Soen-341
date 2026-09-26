@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Employer Registration</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<main class="welcome-page">
+
+    <div class="welcome-container">
+
+        <h1>Create an Employer Account</h1>
+
+        <p>Tell us about your company.</p>
+
+        <form>
+
+            <div class="form-group">
+                <label for="companyName">Company Name</label>
+                <input
+                    type="text"
+                    id="companyName"
+                    name="companyName"
+                    minlength="2"
+                    maxlength="100"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="contactName">Contact Name</label>
+                <input
+                    type="text"
+                    id="contactName"
+                    name="contactName"
+                    minlength="2"
+                    maxlength="100"
+                    pattern="[A-Za-zÀ-ÖØ-öø-ÿ' -]+"
+                    title="Contact name can only contain letters, spaces, hyphens, and apostrophes."
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    maxlength="255"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    minlength="8"
+                    required
+                >
+                <small>
+                At least 8 characters, including one uppercase letter,
+                one lowercase letter, and one number.
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    minlength="8"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="btn login-btn">
+                Create Employer Account
+            </button>
+
+        </form>
+
+        <p class="back-link">
+            <a href="register.html">← Back</a>
+        </p>
+
+    </div>
+
+</main>
+
+<script src="employer-register.js"></script>
+</body>
+
+</html>
