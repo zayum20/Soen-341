@@ -65,30 +65,9 @@
             <div class="profile-panel">
                 <div class="profile-card">
                     <div class="profile-info">
-                        <!-- 
-                            ===================================================================
-                            BACKEND INTEGRATION NOTES (Node.js + SQL) - PROFILE PICTURE:
-                            ===================================================================
-                            1. Node.js Route Needed:
-                               - POST /api/profile/upload-avatar
-                               - Handle multipart/form-data using the 'multer' package.
-                               - Save the uploaded image to server folder (e.g., 'public/uploads/').
-
-                            2. SQL Database Requirements:
-                               - In 'users' table, store file path as VARCHAR:
-                                 ALTER TABLE users ADD COLUMN profile_picture VARCHAR(255) DEFAULT 'images/default.png';
-                               - SQL Update query:
-                                 UPDATE users SET profile_picture = ? WHERE id = ?;
-
-                            3. Frontend Upload Logic (in profile.js):
-                               - When user selects a file below, JS sends FormData with field 'avatar':
-                                 const formData = new FormData();
-                                 formData.append('avatar', fileInput.files[0]);
-                                 fetch('/api/profile/upload-avatar', { method: 'POST', body: formData });
-                            ===================================================================
-                        -->
+                        
                         <div class="profile-picture">
-                            <img src="images/default.png" alt="Profile picture">
+                            <img src="default.png" alt="Profile picture">
                             <label for="file-path">
                                 <span class="material-symbols-rounded">
                                   photo_camera  
@@ -115,7 +94,15 @@
                                 location
                             </p>
                             <p>About Me</p>
-                            <p>Skills (suggestion)</p>
+                            <div class="skills-section">
+                                <p class="skills-heading">Skills</p>
+                                <div class="skills-list" id="profile-skills-list">
+                                    <span class="skill-tag">JavaScript</span>
+                                    <span class="skill-tag">Python</span>
+                                    <span class="skill-tag">SQL</span>
+                                    <span class="skill-tag">Git</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

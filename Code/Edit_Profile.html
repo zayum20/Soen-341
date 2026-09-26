@@ -50,6 +50,21 @@
                             <label for="about">About Me <span class="required">*</span></label>
                             <textarea id="about" name="about">I'm a software engineering student with a passion for technology and problem solving. I'm looking for opportunities to gain experience and build my career in the tech industry.</textarea>
                         </div>
+
+                        <div class="field full">
+                            <label for="skill-input">Skills</label>
+                            <div class="skill-input-group">
+                                <input type="text" id="skill-input" placeholder="Type a skill (e.g. Python, SQL)">
+                                <button type="button" id="add-skill-btn" class="btn-add-skill"><i class="bi bi-plus-lg"></i> Add</button>
+                            </div>
+                            <div id="skills-container" class="skills-chips">
+                                <span class="skill-chip">JavaScript <button type="button" class="chip-remove" aria-label="Remove skill">&times;</button></span>
+                                <span class="skill-chip">Python <button type="button" class="chip-remove" aria-label="Remove skill">&times;</button></span>
+                                <span class="skill-chip">SQL <button type="button" class="chip-remove" aria-label="Remove skill">&times;</button></span>
+                                <span class="skill-chip">Git <button type="button" class="chip-remove" aria-label="Remove skill">&times;</button></span>
+                            </div>
+                            <input type="hidden" id="skills-hidden" name="skills" value="JavaScript, Python, SQL, Git">
+                        </div>
                     </div>
 
                     <div class="form-actions">
@@ -59,5 +74,6 @@
                 </form>
             </main>
         </div>
+        <script src="edit_profile.js"></script>
     </body>
 </html>

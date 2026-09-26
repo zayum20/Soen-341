@@ -17,3 +17,27 @@ if (profilePic && userFile) {
         }
     });
 }
+
+
+// Render saved skills from localStorage if present
+document.addEventListener('DOMContentLoaded', () => {
+    const skillsList = document.getElementById('profile-skills-list');
+    const savedSkills = localStorage.getItem('userSkills');
+
+    if (skillsList && savedSkills) {
+        try {
+            const skills = JSON.parse(savedSkills);
+            if (Array.isArray(skills) && skills.length > 0) {
+                skillsList.innerHTML = '';
+                skills.forEach(skill => {
+                    const tag = document.createElement('span');
+                    tag.className = 'skill-tag';
+                    tag.textContent = skill;
+                    skillsList.appendChild(tag);
+                });
+            }
+        } catch (e) {
+            console.error('Error rendering saved skills:', e);
+        }
+    }
+});

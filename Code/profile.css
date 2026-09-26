@@ -162,3 +162,32 @@ section .profile-info{
     line-height: 1.5;
     color: #111827;
 }
+
+/* Skills Badges */
+.skills-section {
+    margin-top: 15px;
+    width: 100%;
+}
+
+.skills-heading {
+    font-weight: 600;
+    margin-bottom: 8px !important;
+    color: #111827;
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skill-tag {
+    background-color: #eef2ff;
+    color: #335bed;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid #dbeafe;
+    display: inline-block;
+}
