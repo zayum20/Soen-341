@@ -190,7 +190,41 @@ The tasks for the last three features brainstormed by the team go over the featu
 
 The tasks will be added under the part on team-generated user stories to fulfill the Sprint 1 requirements.
 
-Responsible Person: Angelina Yajaira Montano
+**Responsible Person:** Angelina Yajaira Montano
+
+## Entry 3 — Generate GitHub issues using the same format for the Ai-generated ones and the team-generated ones
+
+**Task ID/Title:** Task 1.3: Generate GitHub issues for the 5 user stories discussed by the team
+
+**Date:** September 27, 2026  
+
+**Responsible Person:** Angelina Yajaira Montano  
+
+**AI Tool:** ChatGPT 
+
+**Purpose of AI Use:** Documentation writing
+
+**Chat Link or Prompt/Response:** https://chatgpt.com/s/t_6ab9a115ca7c8191a37a431f52349a24
+
+
+**AI-Suggested Content:** Using ChatGPT, the content produced is a list of the 5 team-generated user stories formatted into GitHub issues
+
+
+### Validation
+
+The issues respect the same format as mentioned in the  Sprint 1 Document
+
+### Decision
+
+**Accepted**
+
+
+### Reflection
+
+Ai helped formatting the issues using the structure required
+
+**Responsible Person:** Angelina Yajaira Montano  
+
 
 **Repository:** CareerConnect / Soen-341
 **Related Document:** `User Stories`
