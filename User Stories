@@ -119,15 +119,17 @@ This document serves as the central repository for all project user stories and 
 *The following 5 user stories were brainstormed, defined, and assigned collaboratively during the Sprint Planning meetings to fulfill remaining Sprint 1 requirements.*
 
 #### US-11: Application Dashboard
- * **User story:** As a job seeker, I want a dashboard showing all my submitted applications with their statuses so that I can track my progress.
+ * **User story:** As a job seeker, I want a summary dashboard with visual analytics so that I can evaluate my job search strategy
  * **Acceptance Criteria:**
    - [ ] Job seeker must be able to view the submitted applications's details (company name, job title, location, salary range) 
    - [ ] System must show the statuses of the applications
+   - [ ] Dashboard displays the rates of the applications submitted 
  * **Tasks:**
-   - [ ] Task 11.1: Design database to track each application's status (Applied, Interview, Offered, Rejected)
-   - [ ] Task 11.2: Implement backend API endpoint to fetch all submitted applications and statuses for the logged-in user
-   - [ ] Task 11.3: Build dashboard UI component listing applications with status indicators
-
+  - [ ] Task 11.1: Design the dashboard wireframe/layout (summary cards + chart placement).
+  - [ ] Task 11.2: Implement backend endpoint to aggregate application data by status (Applied, Interview, Offered, Rejected) and time period.
+  - [ ] Task 11.3: Build frontend dashboard page with summary stat cards (total applications, response rate, etc.).
+  - [ ] Task 11.4: Integrate a charting library (e.g., Chart.js) to visualize application breakdown and trends.
+  - [ ] Task 11.5: Write tests for the aggregation logic and dashboard rendering.
 
 #### US-12: Notifications and reminders for application deadlines. 
  * **User story:** As a job seeker, I want to receive notifications and reminders for upcoming applications deadlines.
