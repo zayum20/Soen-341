@@ -204,7 +204,133 @@ The tasks will be added under the part on team-generated user stories to fulfill
 
 **Purpose of AI Use:** Documentation writing
 
-**Chat Link or Prompt/Response:** https://chatgpt.com/s/t_6ab9a115ca7c8191a37a431f52349a24
+**Chat Link or Prompt/Response:** Yes. I would convert **US-11 through US-15** into five separate GitHub issues, keeping the same structure your teammate used. I also cleaned up a few wording/grammar issues while preserving the requirements.
+
+### US-11 — Application Dashboard
+
+Type: User Story
+Origin: Team-generated during Sprint Planning; documented by Angelina in User Stories.
+Scope: Product backlog; implementation sprint and target date to be agreed by the team. Sprint 1 includes documenting this requirement, not implementing it.
+Priority: Medium (proposed; team to confirm)
+Estimate: Team estimate pending.
+Status: Not Started / backlog.
+
+User story: As a job seeker, I want a summary dashboard with visual analytics so that I can evaluate my job search strategy.
+
+Acceptance Criteria:
+
+* [ ] Job seeker must be able to view submitted application details, including company name, job title, location, and salary range.
+* [ ] System must show the status of each application.
+* [ ] Dashboard must display application submission rates and relevant application statistics.
+
+Tasks:
+
+* [ ] Task 11.1: Design the dashboard wireframe/layout, including summary cards and chart placement.
+* [ ] Task 11.2: Implement backend endpoint to aggregate application data by status (Applied, Interview, Offered, Rejected) and time period.
+* [ ] Task 11.3: Build frontend dashboard page with summary statistics cards (total applications, response rate, etc.).
+* [ ] Task 11.4: Integrate a charting library (e.g., Chart.js) to visualize application breakdown and trends.
+* [ ] Task 11.5: Write tests for the aggregation logic and dashboard rendering.
+
+Related checkpoint: Acceptance checkboxes remain open until evidence is recorded.
+
+### US-12 — Notifications and Reminders
+
+Type: User Story
+Origin: Team-generated during Sprint Planning; documented by Angelina in User Stories.
+Scope: Product backlog; implementation sprint and target date to be agreed by the team. Sprint 1 includes documenting this requirement, not implementing it.
+Priority: Medium (proposed; team to confirm)
+Estimate: Team estimate pending.
+Status: Not Started / backlog.
+
+User story: As a job seeker, I want to receive notifications and reminders for upcoming application deadlines so that I do not miss important deadlines.
+
+Acceptance Criteria:
+
+* [ ] System must display notification settings for available notification methods, including email and text messages.
+* [ ] Job seeker must be able to choose the interval for deadline reminders (e.g., 3 days before, 1 day before).
+
+Tasks:
+
+* [ ] Task 12.1: Design schema for storing deadline and reminder records linked to applications.
+* [ ] Task 12.2: Implement backend logic (scheduled job or check-on-load) to detect upcoming application deadlines.
+* [ ] Task 12.3: Implement API endpoints to create, fetch, and dismiss notifications.
+
+Related checkpoint: Acceptance checkboxes remain open until evidence is recorded.
+
+### US-13 — Community Posts
+
+Type: User Story
+Origin: Team-generated during Sprint Planning; documented by Angelina in User Stories.
+Scope: Product backlog; implementation sprint and target date to be agreed by the team. Sprint 1 includes documenting this requirement, not implementing it.
+Priority: Medium (proposed; team to confirm)
+Estimate: Team estimate pending.
+Status: Not Started / backlog.
+
+User story: As a job seeker, I want to view and create community posts about upcoming networking events, hackathons, and workshops so that I can stay informed.
+
+Acceptance Criteria:
+
+* [ ] System must display a feed of community posts in the order they were added.
+* [ ] System must allow users to create and edit community posts containing text and images.
+
+Tasks:
+
+* [ ] Task 13.1: Design schema for posts, including title, content, category (networking/hackathon/workshop), author, and timestamp.
+* [ ] Task 13.2: Implement API endpoints to create and list community posts.
+* [ ] Task 13.3: Build UI form for creating and editing a community post.
+* [ ] Task 13.4: Build UI feed to browse and view community posts.
+
+Related checkpoint: Acceptance checkboxes remain open until evidence is recorded.
+
+### US-14 — Profile Hashtags
+
+Type: User Story
+Origin: Team-generated during Sprint Planning; documented by Angelina in User Stories.
+Scope: Product backlog; implementation sprint and target date to be agreed by the team. Sprint 1 includes documenting this requirement, not implementing it.
+Priority: Medium (proposed; team to confirm)
+Estimate: Team estimate pending.
+Status: Not Started / backlog.
+
+User story: As a job seeker, I want to add hashtags under my profile picture so that recruiters can identify my skills and areas of interest.
+
+Acceptance Criteria:
+
+* [ ] System must limit each profile to a maximum of 3 hashtags.
+
+Tasks:
+
+* [ ] Task 14.1: Extend the user profile schema to store hashtags/skill tags.
+* [ ] Task 14.2: Implement API endpoint to add, edit, and remove hashtags from a profile.
+* [ ] Task 14.3: Build UI component to display and edit hashtags on the profile page.
+
+Related checkpoint: Acceptance checkboxes remain open until evidence is recorded.
+
+### US-15 — Messaging System
+
+Type: User Story
+Origin: Team-generated during Sprint Planning; documented by Angelina in User Stories.
+Scope: Product backlog; implementation sprint and target date to be agreed by the team. Sprint 1 includes documenting this requirement, not implementing it.
+Priority: Medium (proposed; team to confirm)
+Estimate: Team estimate pending.
+Status: Not Started / backlog.
+
+User story: As a job seeker or recruiter, I want to be able to contact and message other users of CareerConnect to discuss job postings.
+
+Acceptance Criteria:
+
+* [ ] Job seekers must only see message threads initiated by a recruiter; job seekers cannot start a chat.
+* [ ] System must group message threads explicitly by the specific job posting name.
+
+Tasks:
+
+* [ ] Task 15.1: Design schema for conversations and messages between users.
+* [ ] Task 15.2: Implement API endpoints to send and retrieve messages.
+* [ ] Task 15.3: Build UI messaging interface, including the conversation list and chat window.
+
+Related checkpoint: Acceptance checkboxes remain open until evidence is recorded.
+
+These are ready to paste into **five separate GitHub Issues**. I kept the same proposed `Medium` priority, pending estimate, and backlog status as your teammate's example so the issues are consistent.
+
 
 
 **AI-Suggested Content:** Using ChatGPT, the content produced is a list of the 5 team-generated user stories formatted into GitHub issues
