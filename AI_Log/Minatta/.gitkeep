@@ -1,204 +1,138 @@
-# AI Usage Log Sprint 1 — Aminata 
+# AI Usage Log – Sprint 1 
 
-## Entry 1 — Recruiting Website Setup and Backend Configuration
 
-Date: 19 September 2026
-Team Member: Aminata
-AI Tool: ChatGPT
-Purpose:Setting up and configuring the CareerConnect recruiting website development environment in VS Code.
+--> Task 1.1: Project Structure
 
-### Task
+Purpose of AI Use: Technical guidance and project planning
 
-I used ChatGPT to help set up the development environment for the CareerConnect recruiting website. This included:
+Chat Link or Prompt/Response: https://chatgpt.com/share/6aaf19c5-a490-83ea-adfe-3f5100654dff 
 
-* Organizing the project structure in VS Code
-* Setting up the Node.js backend
-* Installing and configuring required npm packages
-* Installing and configuring MySQL
-* Creating the recruiting website database
-* Connecting the Node.js server to MySQL
-* Running and testing the local server
-* Troubleshooting terminal and server errors
-* Connecting the frontend pages to the backend
+AI-Suggested Content: AI provided guidance on the structure for separating the frontend, backend, and database functionality.
 
-### AI Assistance
+Validation: Compared the suggestions with the team's project requirements and the existing project structure.
 
-ChatGPT provided step-by-step guidance for creating the Node.js project, installing Express and MySQL-related packages, starting the MySQL service, creating the database, and connecting the backend to MySQL.
+Decision: Partially accepted (Modified before use). As the suggested technology such as Node.js, Express, JavaScript/HTML/CSS, and MySQL were used, but the use of SQLite as database was rejected. 
 
-ChatGPT also helped troubleshoot issues encountered during development, including problems starting the Node.js server and verifying that data from the registration forms was successfully being stored in the MySQL database.
+Reflection: AI helped clarify how the different technologies would work together and helped establish a suitable starting structure for the project.
 
-### Action Taken
+Responsible Person: Aminata 
 
-**Modified**
 
-I followed the suggested commands and implementation steps, then modified the code and configuration to match the CareerConnect project structure and requirements. I also tested the server and database connection myself and made changes when necessary.
 
-### Validation
+--> Task 1.2 : Design Job Seeker and Employer Registration page 
 
-The setup was tested locally through VS Code. I verified that the Node.js server could start successfully, the website could be accessed through the local server, and registration information could be inserted into and retrieved from the MySQL database.
+Purpose of AI Use: Requirements clarification and implementation support 
 
-### Related Work
+Chat Link or Prompt/Response:  Same as task 1.1
 
-**Repository: CareerConnect / Soen-341
-**Related Files: server/server.js, package.json, package-lock.json, and files in the public folder
+AI-Suggested Content: AI helped determine how to organize separate registration areas for job seekers and recruiters and suggested the information that should be collected during account creation.
 
----
+Validation: Compared the suggested fields and account types with the requirements of the recruiting website given by the sprint 1 requirements.
 
-## Entry 2 — Job Seeker Registration
+Decision: Modified and accepted. The registration process was implemented for both job seekers and recruiters. (* to note that the html pages layout and css for the registration/ log in are not final as of sprint 1)
 
-**Date: 19 September 2026
-**Team Member: Aminata 
-**AI Tool: ChatGPT
-**Purpose: Developing and troubleshooting the Job Seeker registration functionality.
+Reflection: AI helped identify the information and structure needed for the two different user types. Some suggestions were adjusted to better match the project's requirements.
 
-### Task
+Responsible Person: Aminata 
 
-I used ChatGPT to help develop the Job Seeker account creation functionality for the CareerConnect website. The work included:
 
-* Creating the Job Seeker registration form
-* Adding form fields such as first name, last name, email, and password
-* Connecting the registration form to the backend
-* Sending registration information from the frontend to the Node.js server
-* Storing registration information in MySQL
-* Troubleshooting issues where the registration form was not displaying correctly
-* Testing the registration process
 
-### AI Assistance
+--> Task 1.3: Connect the Website to MySQL
 
-ChatGPT provided coding suggestions and helped identify problems in the HTML, JavaScript, and backend implementation. It also explained how the frontend registration form communicates with the Node.js server and how the server inserts the submitted information into MySQL.
+Purpose of AI Use: Backend development and database integration
 
-### Action Taken
+Chat Link or Prompt/Response: Same as task 1.1
 
-**Modified**
+AI-Suggested Content:AI provided guidance for installing and starting MySQL, creating the database connection in Node.js, and inserting and retrieving registration information from the database.
 
-I reviewed the suggested code, implemented the necessary parts in my project, and modified the implementation to fit the existing CareerConnect website.
+Validation:Tested the application locally and verified that newly registered job seeker and recruiter accounts were being stored in MySQL.
 
-### Validation
+Decision: Accepted with modifications where necessary.
 
-I tested the registration page locally and verified that new Job Seeker accounts could be submitted successfully. I also checked the MySQL database to confirm that the submitted information was being stored.
+Reflection: AI helped explain the connection between the Node.js server and MySQL and helped troubleshoot database-related issues during development.
 
-### Related Work
+Responsible Person: Aminata 
 
-**Repository:** CareerConnect / Soen-341
-**Related Files:** Job Seeker registration HTML/JavaScript files and `server/server.js`
 
----
 
-## Entry 3 — Recruiter Registration
+--> Task 1.4: Implement Login and Password Security
 
-**Date:** September 2026
-**Team Member: Aminata
-**AI Tool:** ChatGPT
-**Purpose:** Developing and troubleshooting the Recruiter account creation functionality.
+Purpose of AI Use: Backend implementation and security guidance
 
-### Task
+Chat Link or Prompt/Response: Same as task 1.1
 
-I used ChatGPT to help implement the Recruiter registration functionality. This included:
+AI-Suggested Content: AI suggested using Express sessions for maintaining login state and bcrypt for securely hashing user passwords instead of storing passwords as plain text.
 
-* Creating the Recruiter registration form
-* Connecting the form to the backend
-* Adding Recruiter-specific registration information
-* Inserting Recruiter account information into MySQL
-* Troubleshooting the registration process
+Validation: Reviewed the implementation and tested the registration/login functionality locally.
 
-### AI Assistance
+Decision: Accepted and implemented.
 
-ChatGPT explained how to connect the Recruiter registration form to the Node.js backend and how the backend could process and store the submitted information in MySQL. ChatGPT also helped troubleshoot issues where the Recruiter registration functionality was not initially working as expected.
+Reflection: AI helped introduce basic security practices into the application, particularly password hashing and session management. The implementation was tested to ensure that the login system worked correctly.
 
-### Action Taken
+Responsible Person: Aminata 
 
-**Modified**
 
-I used the suggestions as a starting point and modified the code according to the CareerConnect project requirements, the existing project structure and my knowledge from previous projects.
+--> Task 1.5: Connecting the profile page and the registraion / log in page 
 
-### Validation
+Purpose of AI Use: Help in merging two projects (profile page and registration/ log in page) 
 
-I tested the Recruiter registration process and confirmed that the information was successfully submitted and stored in the MySQL database.
+Chat Link or Prompt/Response: https://chatgpt.com/share/6aaf19c5-a490-83ea-adfe-3f5100654dff 
 
-### Related Work
+AI-Suggested Content: AI suggested ways to merge the two projectes together to make a cleaner project. 
 
-**Repository: CareerConnect / Soen-341
-**Related Files: Recruiter registration HTML/JavaScript files and server/server.js
+Validation: Tested the registration and log in page to verify that it brings the user to the profile page.
 
----
+Decision: Modified before use.
 
-## Entry 4 — Profile and Edit Profile Functionality
+Reflection: AI helped in making the registration/ log in page linked to the profile page, while giving tips to reduce redundancies in the project. 
 
-**Date: 26 September 2026
-**Team Member: Aminata
-**AI Tool: ChatGPT
-**Purpose: Developing and troubleshooting the user profile and Edit Profile functionality.
+Responsible Person: Aminata 
 
-### Task
 
-I used ChatGPT to assist with implementing and improving the profile functionality of the CareerConnect website. This included:
 
-* Connecting profile information to the logged-in user
-* Handling profile fields such as name, email, and phone number
-* Troubleshooting form validation
-* Modifying phone number validation requirements
-* Improving the frontend behavior and layout
+--> Task 1.6: Debug Registration and Server Issues
 
-### AI Assistance
+Purpose of AI Use: Debugging and troubleshooting 
 
-ChatGPT provided suggestions for the HTML, CSS, and JavaScript implementation and helped troubleshoot validation issues. It also helped modify the form so that the "About Me" field could be left empty and adjust the phone number validation so that valid phone numbers were not unnecessarily rejected.
+Chat Link or Prompt/Response: In other chats it can be seen where issues arise in each steps. 
 
-### Action Taken
+AI-Suggested Content: AI analyzed errors encountered while running the Node.js server and displaying/submitting the registration forms. It suggested possible causes and changes to the server and frontend code.
 
-**Modified**
+Validation: Applied the suggested changes and tested the application locally to determine whether the errors were resolved.
 
-I reviewed and modified the suggested implementation to match the CareerConnect requirements and the desired behavior of the profile pages.
+Decision: Accepted some suggestions and modified others based on the observed results.
 
-### Validation
+Reflection: AI was useful for identifying likely causes of errors and explaining what different error messages meant. However, testing the changes locally was still necessary because some suggestions did not completely solve the problem on the first attempt.
 
-I tested the Edit Profile form using different inputs and verified that optional fields could be left empty and that phone numbers were accepted according to the updated requirements.
+Responsible Person: Aminata 
 
-### Related Work
 
-**Repository: CareerConnect / Soen-341
-**Related Files: Edit_Profile.html, Edit_Profile.css, edit_profile.js, profile-related JavaScript/CSS files
 
----
+--> Task 1.7: Configure Git and GitHub based on the VsCode files
 
-## Entry 5 — GitHub and Project Integration
+Purpose of AI Use: Version control guidance
 
-**Date: 26 September 2026
-**Team Member: Aminata
-**AI Tool: ChatGPT
-**Purpose: Integrating my coding work into the team's CareerConnect GitHub repository.
+Chat Link or Prompt/Response: https://chatgpt.com/share/6ab9865e-819c-83ea-af6b-2205b938a8ef 
 
-### Task
+AI-Suggested Content: AI explained how to add the local VS Code project to the team's existing GitHub repository, how to work with the existing "code" folder, and how to stage, commit, and push changes.
 
-I used ChatGPT to help understand how to add my existing VS Code project to the team's GitHub repository without unnecessarily adding unrelated files.
+Validation: Checked the Git status and verified that the correct project files appeared in the team's repository.
 
-The work included:
+Decision: Accepted with modifications based on the team's existing repository structure (the repository was already created , therefore only adding the project was needed).
 
-* Moving or copying my project files into the appropriate repository folder
-* Using Git from the VS Code terminal
-* Checking staged and unstaged changes
-* Removing unwanted files such as `.DS_Store`
-* Committing changes
-* Pushing my work to the team's GitHub repository
+Reflection: AI helped clarify how a local project could be integrated into an existing team repository without unnecessarily adding unrelated files. It also helped explain Git status messages and staged changes using VsCode terminal. 
 
-### AI Assistance
+Responsible Person: Aminata 
 
-ChatGPT explained Git commands and the relationship between my local VS Code project and the team's remote GitHub repository. It also helped me understand which files should be committed and how to avoid adding unrelated files.
 
-### Action Taken
+End AI Log Sprint 1 _ September 27th 2026 
+----------------------------
 
-**Modified**
 
-I followed the Git guidance but made the final decisions about which project files belonged in the repository. I reviewed the staged files before committing my changes.
 
-### Validation
 
-I checked the Git status before committing and verified that the intended CareerConnect project files were included while unnecessary files were removed.
 
-### Related Work
 
-**Repository: CareerConnect / Soen-341
-**Related Work: GitHub repository integration and project file management
 
---------------------------------------------------------------------
-# AI Usage Log Sprint 2 — Aminata 
+
 
