@@ -15,6 +15,8 @@
 **Chat Link or Prompt/Response:** https://claude.ai/share/6fd5e848-f068-4cc1-8d43-bfb3590ce069
 
 **AI-Suggested Content:** Using Claude, the content produced is a list of stories for the job seekers and recruiters of CareerConnect
+
+**Chat Response:**
 * **US-01: Account Registration**
   * **User story:** As a job seeker, I want to create an account with my email and password so that I can access platform features and save my progress.
   * **Tasks:**
@@ -130,6 +132,7 @@ Responsible Person: Angelina Yajaira Montano
 
 **AI-Suggested Content:** Using Claude, the content produced is a list of tasks for the technical steps that need be taken in order to implement the features that the whole team generated in our meetings
 
+**Chat Response:**
 * **US-11: Application Dashboard**
 
 * Task: Design the dashboard wireframe/layout (summary cards + chart placement).
@@ -204,7 +207,11 @@ The tasks will be added under the part on team-generated user stories to fulfill
 
 **Purpose of AI Use:** Documentation writing
 
-**Chat Link or Prompt/Response:** Yes. I would convert **US-11 through US-15** into five separate GitHub issues, keeping the same structure your teammate used. I also cleaned up a few wording/grammar issues while preserving the requirements.
+**Chat Link: https://chatgpt.com/c/6ab999cc-db68-83ea-a8ba-c8a63686a110
+
+**AI-Suggested Content:** Using ChatGPT, the content produced is a list of the 5 team-generated user stories formatted into GitHub issues
+
+**Chat Response:** Yes. I would convert **US-11 through US-15** into five separate GitHub issues, keeping the same structure your teammate used. I also cleaned up a few wording/grammar issues while preserving the requirements.
 
 ### US-11 — Application Dashboard
 
@@ -332,8 +339,6 @@ Related checkpoint: Acceptance checkboxes remain open until evidence is recorded
 These are ready to paste into **five separate GitHub Issues**. I kept the same proposed `Medium` priority, pending estimate, and backlog status as your teammate's example so the issues are consistent.
 
 
-
-**AI-Suggested Content:** Using ChatGPT, the content produced is a list of the 5 team-generated user stories formatted into GitHub issues
 
 
 ### Validation
