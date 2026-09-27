@@ -116,7 +116,58 @@ This document serves as the central repository for all project user stories and 
 
 ## Part 2: Team-Generated User Stories (US-11 to US-15)
 
-*The following 5 user stories will be brainstormed, defined, and assigned collaboratively during the next Sprint Planning meeting to fulfill remaining Sprint 1 requirements.*
+*The following 5 user stories were brainstormed, defined, and assigned collaboratively during the Sprint Planning meetings to fulfill remaining Sprint 1 requirements.*
+
+#### US-11: Application Dashboard
+ * **User story:** As a job seeker, I want a dashboard showing all my submitted applications with their statuses so that I can track my progress.
+ * **Acceptance Criteria:**
+   - [ ] Job seeker must be able to view the submitted applications's details (company name, job title, location, salary range) 
+   - [ ] System must show the statuses of the applications
+ * **Tasks:**
+   - [ ] Task 11.1: Design database to track each application's status (Applied, Interview, Offered, Rejected)
+   - [ ] Task 11.2: Implement backend API endpoint to fetch all submitted applications and statuses for the logged-in user
+   - [ ] Task 11.3: Build dashboard UI component listing applications with status indicators
+
+
+#### US-12: Notifications and reminders for application deadlines. 
+ * **User story:** As a job seeker, I want to receive notifications and reminders for upcoming applications deadlines.
+ * **Acceptance Criteria:**
+   - [ ] System must display options for the notification settings (email, text messages)
+   - [ ] Job seeker must be able to choose the interval of the reminders (3 days before, 1 day before, etc.)
+ * **Tasks:**
+   - [ ] Task 12.1: Design schema for storing deadline/reminder records linked to applications
+   - [ ] Task 12.2: Implement backend logic (scheduled job or check-on-load) to detect upcoming deadlines
+   - [ ] Task 12.3: Implement API endpoints to create, fetch, and dismiss notifications
+
+#### US-13: Community Posts
+ * **User story:** As a job seeker, I want to view and create community posts about upcoming networking events, hackathons and workshops so that I can stay informed.
+ * **Acceptance Criteria:**
+   - [ ] System shows a feed with the posts in the order they were added
+   - [ ] System lets user create and edit community posts by having text written and images that can be added
+ * **Tasks:**
+   - [ ] Task 13.1: Design schema for posts (title, content, category : networking/hackathon/workshop, author, timestamp)
+   - [ ] Task 13.2: Implement API endpoints to create and list community posts
+   - [ ] Task 13.3: Build UI form for creating a new post
+   - [ ] Task 13.4: Build UI feed to browse/view posts
+
+#### US-14: Hashtags under the profile picture
+* **User story:** As a job seeker, I want to add hashtags under my profile picture so that recruiters can identify my skills and areas of interest.
+* **Acceptance Criteria:**
+  - [ ] Limit set on the amount of characters permittef for the hashtags (maximum 3 hashtags)
+* **Tasks:**
+  - [ ] Task 14.1: Extend user profile schema to store hashtags/skill tags
+  - [ ] Task 14.2: Implement API endpoint to add/edit/remove hashtags on a profile
+  - [ ] Task 14.3: Build UI component to display and edit hashtags on the profile page
+
+#### US-15: Messaging system
+* **User story:**  As a job seeker or a recruiter, I want to be able to contact and message other users of CareerConnect to discuss about job postings.
+* **Acceptance Criteria:**
+  - [ ] Job seeker must only see message threads initiated by a Recruiter (Job seekers cannot start a chat).
+  - [ ] System must group threads explicitly by the specific job posting name.
+* **Tasks:**
+  - [ ] Task 15.1: Design schema for conversations and messages between users
+  - [ ] Task 15.2: Implement API endpoints to send and retrieve messages
+  - [ ] Task 15.3: Build UI messaging interface (conversation list + chat window)
 
 ---
 
