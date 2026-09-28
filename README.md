@@ -10,12 +10,19 @@ Most online job boards were made to solve the issue of job posting visibility an
 Our team proposes to build a web-based platform that aims to centralize the entire job search process, from searching and saving job postings, tailoring resumes to job postings, applying to said postings, and tracking application status for job seekers, to posting and managing job postings for recruiters. 
 
 ## Team Members
-Sara Azmoon - saraazzz 
-Tasneem Sultana Chowdhury - TasneemChowdhury 
-Aminata Mbengue - mina 
-Angelina Yajaira Montano - aymontano1 
-Ariane Madjofo Sofouet - Mesa237 
-Ayza Waris - zayum20 
+Sara Azmoon - saraazzz. 
+
+Tasneem Sultana Chowdhury - TasneemChowdhury. 
+
+Aminata Mbengue - mina. 
+
+Angelina Yajaira Montano - aymontano1. 
+
+Ariane Madjofo Sofouet - Mesa237. 
+
+Ayza Waris - zayum20. 
+
+
 
 ## Technologies
 Front-end:
@@ -32,14 +39,14 @@ MySQL
 
 1. Define project structure
 
-
+<img width="341" height="421" alt="Screenshot 2026-09-27 at 10 49 51 PM" src="https://github.com/user-attachments/assets/0710bef1-d8bb-4327-8da2-8a6f9d6d96ba" />
 
 2. Check that Node.js and npm are installed
 
   In the project terminal, input:
-  node -v
-  npm -v
-
+  node -v. 
+  npm -v. 
+  
   If they are installed, the terminal will display your node and npm version number.
 
 3. Initialize the Node.js project
