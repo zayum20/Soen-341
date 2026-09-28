@@ -82,7 +82,8 @@ The source notes do not give explicit deadlines or owners for the next focus. Th
 ## Meeting 3 — Saturday, September 26, 2026
 
 ### Attendance
-**Present/absent:** To be confirmed for this meeting.  
+**Present:** Ayza, Tasneem, Sara, Angelina, Elfy, Minatta.  
+**Absent:** None. Attendance confirmed by Sara on September 27.  
 **Meeting start/end:** Not recorded.
 
 ### Progress and decisions
