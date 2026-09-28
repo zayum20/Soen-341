@@ -4,7 +4,7 @@
 **Recorder:** Sara Azmoon  
 **Platform:** Discord
 
-These records organize Sara's September 18 and 20 Discord notes. Sara confirmed on September 26 that all six members attended both meetings. Progress statements below are meeting reports, not independent tests of the software. Issue links were added afterwards for traceability.
+These records organize Sara's September 18, 20, and 26 Discord meeting notes. Sara confirmed on September 26 that all six members attended both meetings. Progress statements below are meeting reports, not independent tests of the software. Issue links were added afterwards for traceability.
 
 ## Meeting 1 — September 18, 2026
 
@@ -78,6 +78,43 @@ The source notes do not give explicit deadlines or owners for the next focus. Th
 - Remaining implementation work and evidence that both features work together.
 - Actual available hours and remaining effort estimates.
 - Next meeting date/time: not recorded.
+
+## Meeting 3 — Saturday, September 26, 2026
+
+### Attendance
+**Present/absent:** To be confirmed for this meeting.  
+**Meeting start/end:** Not recorded.
+
+### Progress and decisions
+- The team completed brainstorming for the five remaining non-AI user stories/features. Sara reported that these ideas were developed by the team.
+- Minatta merged the code, as reported in the meeting notes. Database finalization remained outstanding before Sunday's final checkup/meeting.
+- Tasneem will prepare the submission PDF with the required information and README content.
+- Every team member must upload their AI logs to GitHub before the final checkup/meeting.
+
+### Team-generated stories
+Angelina's issues are linked below for traceability. These links were checked after the meeting; the minutes do not claim the issues were all published during the meeting.
+
+| Story | Issue |
+| --- | --- |
+| US-11 Application Dashboard | [#26](https://github.com/zayum20/Soen-341/issues/26) |
+| US-12 Notifications and reminders for application deadlines | [#27](https://github.com/zayum20/Soen-341/issues/27) |
+| US-13 Community Posts | [#28](https://github.com/zayum20/Soen-341/issues/28) |
+| US-14 Hashtags under the profile picture | [#29](https://github.com/zayum20/Soen-341/issues/29) |
+| US-15 Messaging system | [#30](https://github.com/zayum20/Soen-341/issues/30) |
+
+### Action items
+| Owner | Action | Target | Status at meeting |
+| --- | --- | --- | --- |
+| Owner not specified in notes; confirm with implementation team | Finalize the database and verify it works with the merged code | Sunday, September 27, before final checkup/meeting | Pending |
+| Tasneem | Prepare submission PDF with project title, all six names, README copy, and working repository link | Final submission September 28; review readiness at Sunday checkup | Pending |
+| Each team member | Upload their Sprint 1 PDF AI report to their personal GitHub AI_Log folder | Before final checkup/meeting | Pending |
+| Team | Conduct final checkup of database integration, demo, documentation, and AI logs | Sunday, September 27; time not recorded | Planned |
+
+### Related sprint checkpoints
+- [CP2 #3](https://github.com/zayum20/Soen-341/issues/3): five team-generated ideas are now recorded as issues; remaining backlog checks still apply.
+- [CP5 #6](https://github.com/zayum20/Soen-341/issues/6): code merge reported complete; database and end-to-end verification remain.
+- [CP6 #7](https://github.com/zayum20/Soen-341/issues/7): final testing/checkup.
+- [CP7 #8](https://github.com/zayum20/Soen-341/issues/8): submission PDF and individual AI reports.
 
 ## Future meeting template
 
