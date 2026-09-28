@@ -30,6 +30,82 @@ MySQL
 
 ## Setup Instructions
 
+1. Define project structure
+
+
+
+2. Check that Node.js and npm are installed
+
+  In the project terminal, input:
+  node -v
+  npm -v
+
+  If they are installed, the terminal will display your node and npm version number.
+
+3. Initialize the Node.js project
+
+  In the project terminal, input:
+  npm init -y
+  
+  This will create a “package.json” file.
+
+4. Install Express.js
+
+  In the project terminal, input:
+  npm install express
+  
+  Then, once MySQL is installed, input:
+  npm install mysql2 bcrypt
+
+5. Install MySQL
+
+  In the project terminal, input:
+  brew install MySQL
+  
+  Then, to start MySQL, input:
+  brew services start MySQL
+  
+  To check that mySQL is running, input:
+  brew services list
+  
+  If it is successfully installed, you should see mySQL running.
+
+6. Open MySQL
+
+  In the project terminal, input:
+  MySQL -u root (There is no password as it is installed locally)
+
+7. Create the Database
+
+  In the project terminal, input:
+  CREATE DATABASE recruiting_website
+  USE recruiting_website
+
+8. Create the user table
+
+  In the project terminal, input:
+	SHOW TABLES
+	DESCRIBE users
+	
+  This will allow you to check and inspect the database.
+
+9. Connect Node.js to MySQL
+
+  In the project terminal, input:
+	host: localhost
+	user: root
+	password: “”
+	database: recruiting_website
+
+10. Start the server
+
+  In the main project terminal, input:
+  node server/server.js
+  
+  After inputting, you should see the following in the terminal:
+  Connected to MySQL database!
+  Server running at http://localhost:3000 
+  Open the link http://localhost:3000 
 
 ## Proposed Features
 - User registration, authentication, and profile management
