@@ -35,10 +35,10 @@ These are proposed planning targets based on the September 28 deadline. The Sept
 | Issue | Checkpoint | Responsible member | Target | Priority | Status snapshot |
 | --- | --- | --- | --- | --- | --- |
 | [#2](https://github.com/zayum20/Soen-341/issues/2) | CP1 Setup and workflow | Ayza | Sep 25 | High | In Progress; verification pending |
-| [#3](https://github.com/zayum20/Soen-341/issues/3) | CP2 Requirements and backlog | Angelina; Sara coordinates plan | Sep 25 | High | In Progress; five original stories pending |
+| [#3](https://github.com/zayum20/Soen-341/issues/3) | CP2 Requirements and backlog | Angelina; Sara coordinates plan | Sep 25 | High | In Progress; five team-generated issues now recorded |
 | [#4](https://github.com/zayum20/Soen-341/issues/4) | CP3 Registration/login | Minatta; Elfy supports UI | Sep 26 | High | In Progress; end-to-end verification pending |
 | [#5](https://github.com/zayum20/Soen-341/issues/5) | CP4 Profile management | Elfy | Sep 26 | High | In Progress; fixes/integration pending |
-| [#6](https://github.com/zayum20/Soen-341/issues/6) | CP5 Integration | Minatta and Elfy | Sep 26 | High | Not Started; completion unverified |
+| [#6](https://github.com/zayum20/Soen-341/issues/6) | CP5 Integration | Minatta and Elfy | Sep 27 before checkup | High | Code merge reported complete; database/verification pending |
 | [#7](https://github.com/zayum20/Soen-341/issues/7) | CP6 Testing and review | Sara coordinates with Minatta and Elfy | Sep 27 | High | Not Started; results pending |
 | [#8](https://github.com/zayum20/Soen-341/issues/8) | CP7 Documentation and submission | Sara coordinates; all members contribute | Sep 28 | High | Not Started; final review pending |
 
@@ -75,7 +75,14 @@ The ten existing stories in [User Stories](User%20Stories) originated with Claud
 | US-10 | [#18](https://github.com/zayum20/Soen-341/issues/18) | AI-assisted resume feedback |
 
 ### Team-Generated User Stories and Features
-Pending the team's own brainstorming and documentation. At least five additional original stories are needed to reach the minimum 15 user-story issues. Checkpoint and implementation-task issues do not count toward that minimum. Angelina coordinates this under #3. Do not label AI-generated ideas as team-generated. The full project must include a Generative AI feature and an additional original feature.
+The team completed its five non-AI stories/features during the September 26 meeting, as reported by Sara. Angelina has recorded US-11 through US-15 as [#26](https://github.com/zayum20/Soen-341/issues/26), [#27](https://github.com/zayum20/Soen-341/issues/27), [#28](https://github.com/zayum20/Soen-341/issues/28), [#29](https://github.com/zayum20/Soen-341/issues/29), and [#30](https://github.com/zayum20/Soen-341/issues/30). There are now 15 user-story issues. Keep their team origin distinct from US-01–US-10 and review acceptance criteria, assignments, and task breakdown under #3. Checkpoint/task issues do not count as stories. The full project must include a Generative AI feature and an additional original feature.
+
+## September 26 meeting update
+- Five remaining team-generated stories/features were brainstormed and are now linked above.
+- Minatta merged the code (reported). Database finalization is due Sunday, September 27, before the final checkup/meeting; the database owner was not specified in the notes and needs confirmation.
+- Tasneem is preparing the submission PDF with the required project/team information, README copy, and repository link. Final submission remains September 28.
+- Each member must upload their Sprint 1 PDF AI report to GitHub before Sunday's final checkup/meeting.
+- Code merge does not establish database readiness or successful end-to-end tests. Keep CP5/CP6 open until the remaining checks are evidenced.
 
 ## Capacity and estimates
 Six members are available in the team; their actual available hours for September 26–28 have not been supplied. Each member must record their hours and remaining task estimates before the plan is considered committed. The six implementation tasks total **15 proposed points**; this excludes process/documentation work and does not establish whether capacity is sufficient. Use 1/2/3/5 relative sizes, split oversized tasks, and estimate remaining effort after inspecting existing code.
@@ -93,7 +100,7 @@ Six members are available in the team; their actual available hours for Septembe
 | Risk | Response | Owner |
 | --- | --- | --- |
 | Tight deadline and unknown remaining effort | Inspect existing work and confirm capacity immediately; prioritize two integrated features | Sara and feature owners |
-| Missing original stories | Hold team brainstorming and record original ideas separately | Angelina and team |
+| Incomplete story refinement | Review the five new team stories, acceptance criteria, and associated tasks; preserve origin labels | Angelina and team |
 | Git/merge conflicts | Follow short branches, peer review, and integration checks | Ayza, Minatta, Elfy |
 | New languages or database integration | Agree API/schema contracts and test the full flow early | Minatta and Elfy |
 | Miscommunication or stale statuses | Record blockers in issues and decisions in minutes | All members; Sara coordinates |
