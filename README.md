@@ -43,76 +43,76 @@ MySQL
 
 2. Check that Node.js and npm are installed
 
-  In the project terminal, input:
-  node -v. 
-  npm -v. 
+  In the project terminal, input:<br>
+  node -v<br>
+  npm -v
   
   If they are installed, the terminal will display your node and npm version number.
 
 3. Initialize the Node.js project
 
-  In the project terminal, input:
+  In the project terminal, input:<br>
   npm init -y
   
   This will create a “package.json” file.
 
 4. Install Express.js
 
-  In the project terminal, input:
+  In the project terminal, input:<br>
   npm install express
   
-  Then, once MySQL is installed, input:
+  Then, once MySQL is installed, input:<br>
   npm install mysql2 bcrypt
 
 5. Install MySQL
 
-  In the project terminal, input:
+  In the project terminal, input:<br>
   brew install MySQL
   
-  Then, to start MySQL, input:
+  Then, to start MySQL, input:<br>
   brew services start MySQL
   
-  To check that mySQL is running, input:
+  To check that mySQL is running, input:<br>
   brew services list
   
   If it is successfully installed, you should see mySQL running.
 
 6. Open MySQL
 
-  In the project terminal, input:
+  In the project terminal, input:<br>
   MySQL -u root (There is no password as it is installed locally)
 
 7. Create the Database
 
-  In the project terminal, input:
-  CREATE DATABASE recruiting_website
+  In the project terminal, input:<br>
+  CREATE DATABASE recruiting_website<br>
   USE recruiting_website
 
 8. Create the user table
 
-  In the project terminal, input:
-	SHOW TABLES
-	DESCRIBE users
+  In the project terminal, input:<br>
+  SHOW TABLES<br>
+  DESCRIBE users
 	
   This will allow you to check and inspect the database.
 
 9. Connect Node.js to MySQL
 
-  In the project terminal, input:
-	host: localhost
-	user: root
-	password: “”
+  In the project terminal, input:<br>
+	host: localhost<br>
+	user: root<br>
+	password: “”<br>
 	database: recruiting_website
 
 10. Start the server
 
-  In the main project terminal, input:
+  In the main project terminal, input:<br>
   node server/server.js
   
-  After inputting, you should see the following in the terminal:
-  Connected to MySQL database!
-  Server running at http://localhost:3000 
-  Open the link http://localhost:3000 
+  After inputting, you should see the following in the terminal:<br>
+  Connected to MySQL database!<br>
+  Server running at http://localhost:3000<br>
+  Open the link http://localhost:3000
 
 ## Proposed Features
 - User registration, authentication, and profile management
