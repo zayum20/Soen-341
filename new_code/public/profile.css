@@ -54,7 +54,7 @@ body{
     bottom: 0;
     right: 0;
     color: #fff;
-    background-color: #1b74e4;
+    background-color: #7222ac;
     width: 46px;
     height: 46px;
     display: flex;
@@ -66,7 +66,7 @@ body{
     opacity: 1;
     pointer-events: all;
     transition: 0.2s;
-    border: 3px solid #1b74e4;
+    border: 3px solid #7222ac;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -82,7 +82,7 @@ body{
 
 .edit-btn{
     display: inline-block;
-    background: #2563eb;
+    background: #7222ac;
     color: #fff;
     padding: 8px 14px;
     border-radius: 6px;
@@ -90,7 +90,7 @@ body{
     font-weight: 600;
 }
 
-.edit-btn:hover{ background: #1e4fd8; }
+.edit-btn:hover{ background: #5f1b93; }
 
 section{
     padding: 18px 24px;
@@ -180,6 +180,7 @@ section .profile-info{
     border-top: 1px solid #e5e7eb;
 
     padding: 16px 0;
+    
 
     font-size: 1.1rem;
     font-weight: 200;
@@ -235,10 +236,86 @@ section .profile-info{
 }
 
 .skill-tag {
-    background: #eef2ff;
-    color: #2563eb;
+    background: rgba(114, 34, 172, 0.08);
+    color: #7222ac;
     padding: 6px 12px;
     border-radius: 20px;
     font-size: 0.9rem;
     font-weight: 500;
+}
+
+.resume-section {
+    width: 100%;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.resume-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.resume-add {
+    border: none;
+    background: transparent;
+    color: #111827;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: 200;
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 0;
+}
+
+.resume-add:hover {
+    color: #111827;
+    background: transparent;
+}
+
+.resume-box {
+    margin-top: 12px;
+    padding: 18px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(15, 23, 36, 0.04);
+}
+
+.resume-box p {
+    margin: 0 0 12px;
+    font-size: 0.95rem;
+    color: #374151;
+}
+
+.resume-box input[type="file"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #f9fafb;
+    margin-bottom: 12px;
+}
+
+.resume-save {
+    border: none;
+    background: #7222ac;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.resume-save:hover {
+    background: #5f1b93;
 }
