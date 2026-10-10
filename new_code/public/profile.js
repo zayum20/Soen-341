@@ -30,8 +30,6 @@ userFile.addEventListener('change', function () {
     }
 
 });
-
-
 }
 
 // Load the logged-in user's profile
@@ -187,6 +185,23 @@ if (saveSkillsButton) {
         } catch (error) {
             console.error("Skills update error:", error);
             alert("Could not connect to the server.");
+        }
+    });
+}
+
+const resumeToggle = document.getElementById("resume-toggle");
+const resumeBox = document.getElementById("resume-box");
+
+if (resumeToggle && resumeBox) {
+    resumeToggle.addEventListener("click", () => {
+        const isHidden = resumeBox.hasAttribute("hidden");
+
+        if (isHidden) {
+            resumeBox.removeAttribute("hidden");
+            resumeToggle.setAttribute("aria-expanded", "true");
+        } else {
+            resumeBox.setAttribute("hidden", "hidden");
+            resumeToggle.setAttribute("aria-expanded", "false");
         }
     });
 }
