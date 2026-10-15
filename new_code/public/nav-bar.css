@@ -23,7 +23,7 @@ body{
   align-items: center;
   gap: 12px;
   padding: 0 12px;
-  background: #335bed;
+  background: #7222ac;
   box-shadow: 0 2px 4px rgba(0,0,0,0.06);
   z-index: 1100;
 }
@@ -96,9 +96,9 @@ body{
 
 .nav-links a i{ font-size: 18px; }
 
-.nav-links a:hover{ background: rgba(51,91,237,0.06); color: #0b1220 }
+.nav-links a:hover{ background: rgba(114,34,172,0.06); color: #0b1220 }
 
-.nav-links a.active{ background: #335bed; color: #fff }
+.nav-links a.active{ background: #7222ac; color: #fff }
 
 /* Collapsed state removes sidebar spacing */
 body.nav-collapsed{ margin-left: 0; }

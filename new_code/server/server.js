@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(session({
     secret: "careerconnect-secret",
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
 }));
 
 // Serve frontend files
