@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Post a Job</title>
+        <link rel="icon" type="image/png" href="images/tab-logo.png">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="nav-bar.css">
+        <link rel="stylesheet" href="profile.css">
+        <link rel="stylesheet" href="applications.css">
+    </head>
+    <body class="nav-collapsed">
+        <header class="top-header">
+            <button id="hamburger" class="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <img class="header-logo" src="images/careerconnect-logo.png" alt="CareerConnect Logo">
+        </header>
+
+        <nav id="main-nav" class="navbar">
+            <ul class="nav-links">
+                <li>
+                    <a href="Employer_Profile.html">
+                        <i class="bi bi-person"></i>
+                        <span>My Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="employer-post-job.html" class="active">
+                        <i class="bi bi-plus-circle"></i>
+                        <span>Post a Job</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="employer-applicants.html">
+                        <i class="bi bi-people"></i>
+                        <span>Applicants</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="Dashboard.html">
+                        <i class="bi bi-house"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="bi bi-gear"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="logout-link">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <section>
+            <span class="header">
+                <p><b>Post a Job</b></p>
+            </span>
+            <p>Publish an open role. It will appear on the main jobs page.</p>
+            <form id="post-job-form" class="apply-form page-width">
+                <label for="title">Job title</label>
+                <input id="title" name="title" type="text" maxlength="255" required>
+                <label for="location">Location</label>
+                <input id="location" name="location" type="text" maxlength="255">
+                <label for="job-type">Job type</label>
+                <select id="job-type" name="jobType">
+                    <option value="">Select a type</option>
+                    <option>Full-time</option>
+                    <option>Part-time</option>
+                    <option>Internship</option>
+                    <option>Contract</option>
+                </select>
+                <label for="description">Description</label>
+                <textarea id="description" name="description" maxlength="5000" required></textarea>
+                <p id="post-message" class="save-message" hidden></p>
+                <button type="submit" class="apply-button">Publish job</button>
+            </form>
+            <div id="my-jobs" class="page-width job-list"></div>
+        </section>
+
+        <script src="applications-common.js"></script>
+        <script src="employer-post-job.js"></script>
+    </body>
+</html>

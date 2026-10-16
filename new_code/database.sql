@@ -7,6 +7,8 @@ CREATE DATABASE IF NOT EXISTS recruiting_website;
 USE recruiting_website;
 
 -- Users
+DROP TABLE IF EXISTS `applications`;
+DROP TABLE IF EXISTS `job_postings`;
 DROP TABLE IF EXISTS `job_seeker_skills`;
 DROP TABLE IF EXISTS `job_seeker_profiles`;
 DROP TABLE IF EXISTS `employer_profiles`;
@@ -63,6 +65,46 @@ CREATE TABLE `job_seeker_skills` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `job_seeker_skills_ibfk_1`
     FOREIGN KEY (`user_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Job Postings
+CREATE TABLE `job_postings` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `employer_id` int NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `job_type` varchar(50) DEFAULT NULL,
+  `description` text,
+  `status` enum('open','closed') NOT NULL DEFAULT 'open',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `employer_id` (`employer_id`),
+  CONSTRAINT `job_postings_ibfk_1`
+    FOREIGN KEY (`employer_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Applications
+CREATE TABLE `applications` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `job_id` int NOT NULL,
+  `job_seeker_id` int NOT NULL,
+  `status` enum('Applied','Under Review','Interview','Offered','Rejected') NOT NULL DEFAULT 'Applied',
+  `cover_note` text,
+  `applied_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_application` (`job_id`,`job_seeker_id`),
+  KEY `job_seeker_id` (`job_seeker_id`),
+  CONSTRAINT `applications_ibfk_1`
+    FOREIGN KEY (`job_id`)
+    REFERENCES `job_postings` (`id`)
+    ON DELETE CASCADE,
+  CONSTRAINT `applications_ibfk_2`
+    FOREIGN KEY (`job_seeker_id`)
     REFERENCES `users` (`id`)
     ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
