@@ -47,6 +47,7 @@ CREATE TABLE `job_seeker_profiles` (
   `location` varchar(255) DEFAULT NULL,
   `about` text,
   `profile_picture` varchar(255) DEFAULT 'images/default.png',
+  `resume_path` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   CONSTRAINT `job_seeker_profiles_ibfk_1`
     FOREIGN KEY (`user_id`)
