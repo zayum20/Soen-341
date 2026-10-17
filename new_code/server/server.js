@@ -633,7 +633,94 @@ app.put("/api/profile", (req, res) => {
     );
 });
  
+// ==========================================
+// RECRUITER JOB POSTING ENDPOINTS
+// ==========================================
 
+// Create a new job posting (Recruiter only!)
+app.post("/api/jobs", (req, res) => {
+    
+    //Authentification check
+    if (!req.session.userId) {
+        return res.status(401).json({
+            message: "You must be logged in to post a job offer."
+        });
+    }
+    if (req.session.role !== "employer") {
+        return res.status(403).json({
+            message: "Access denied. Only employers can create job postings."
+        });
+    }
+    
+    const{
+        title,
+        company,
+        location,
+        category,
+        job_type,
+        description
+    } =req.body;
+
+    //Validation check for required fields
+     if (!title || !company || !location || !category || !job_type || !description) {
+        return res.status(400).json({
+            message: "All fields are required."
+        });
+    }
+
+    const validJobTypes = ["Full-time", "Part-time", "Contract", "Internship"];
+    if (!validJobTypes.includes(job_type)) {
+        return res.status(400).json({
+            message: "Invalid job type. Must be one of: Full-time, Part-time, Contract, Internship."
+        });
+    }
+
+    //Insert into the jobs table for the database
+    const sql=`
+        INSERT INTO jobs (employer_id, title, company, location, category, job_type, description)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    db.query(
+        sql,
+        [
+            req.session.userId,
+            title.trim(),
+            company.trim(),
+            location.trim(),
+            category.trim(),
+            job_type,
+            description.trim()
+        ],
+
+    (error,result)=>{
+
+        if (error){
+
+        console.error("Error creating job posting:", error);
+                               
+                            return res.status(500).json({
+                                message: "Could not create job posting due to database error."
+                            });
+                        }
+
+    
+             else {
+                console.log("New job posting created!");
+                console.log("Job ID:", result.insertId);
+                console.log("Title:", title);
+
+                return res.status(201).json({
+                    message: "Job posting created successfully.",
+                    jobID: result.insertId
+                });
+            }
+        }
+    );
+});
+ 
+
+    
 
 app.post("/api/logout", (req, res) => {
 
