@@ -89,13 +89,19 @@
                             ===================================================================
                         -->
                         <div class="profile-picture">
-                            <img src="images/default.png" alt="Profile picture">
-                            <label for="file-path">
+                            <img src="images/default.png" alt="Profile picture"
+                             onerror="this.src='images/default.png'">
+                            <button type="button" id="camera-btn" class="camera-btn">
                                 <span class="material-symbols-rounded">
                                   photo_camera  
                                 </span>
-                            </label>
-                            <input type="file" accept="image/jpeg, image/png, image/jpg" id="file-path">
+                            </button>
+                            <input type="file" accept="image/jpeg, image/png, image/jpg, image/svg+xml" id="file-path" hidden>
+
+                            <div id="avatar-menu" class="avatar-menu" hidden>
+                                <button type="button" id="upload-photo-btn">Upload Photo</button>
+                                <button type="button" id="delete-avatar-btn" class="delete-btn">Remove Photo</button>
+                            </div>
                         </div>
 
                         <div class="profile-text">

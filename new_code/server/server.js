@@ -1,9 +1,21 @@
 const express = require("express");
 const mysql = require("mysql2");
 
+const fs = require("fs");
+const path = require("path");
+
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 
+const multer = require("multer");
+const storage = multer.diskStorage({
+    destination: "public/uploads/",
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname);
+        cb(null, `${Date.now()}-${file.fieldname}${ext}`);
+    }
+});
+const upload = multer({ storage });
 const app = express();
 const PORT = 3000;
 
@@ -300,7 +312,8 @@ app.get("/api/profile", (req, res) => {
                 job_seeker_profiles.phone,
                 job_seeker_profiles.location,
                 job_seeker_profiles.about,
-                job_seeker_profiles.profile_picture
+                job_seeker_profiles.profile_picture,
+                job_seeker_profiles.resume_path
             FROM users
             LEFT JOIN job_seeker_profiles
                 ON users.id = job_seeker_profiles.user_id
@@ -641,7 +654,100 @@ app.post("/api/logout", (req, res) => {
 
 });
 
+// Handle profile picture upload (Both Roles)
+app.post('/api/profile/avatar', upload.single('avatar'), (req, res) => {
+    if (!req.session.userId) return res.status(401).json({ message: 'Please log in first.' });
+    if (!req.file) return res.status(400).json({ message: 'No file uploaded.' });
+
+    const table = req.session.role === 'employer' ? 'employer_profiles' : 'job_seeker_profiles';
+
+    db.query(`SELECT profile_picture FROM ${table} WHERE user_id = ?`, [req.session.userId], (err, rows) => {
+        const oldPicture = rows[0]?.profile_picture;
+        if (oldPicture && oldPicture !== 'images/default.png') {
+            fs.unlink(path.join('public', oldPicture), () => {});
+        }
+
+        const filePath = `uploads/${req.file.filename}`;
+        db.query(`UPDATE ${table} SET profile_picture = ? WHERE user_id = ?`, [filePath, req.session.userId], (err) => {
+            if (err) return res.status(500).json({ message: 'Error updating profile picture.' });
+            res.json({ profile_picture: filePath });
+        });
+    });
+});
+
+// Delete profile picture (Both Roles)
+app.delete('/api/profile/avatar', (req, res) => {
+    if (!req.session.userId) return res.status(401).json({ message: 'Please log in first.' });
+
+    const table = req.session.role === 'employer' ? 'employer_profiles' : 'job_seeker_profiles';
+
+    db.query(`SELECT profile_picture FROM ${table} WHERE user_id = ?`, [req.session.userId], (err, rows) => {
+        const oldPicture = rows[0]?.profile_picture;
+        if (oldPicture && oldPicture !== 'images/default.png') {
+            fs.unlink(path.join('public', oldPicture), () => {});
+        }
+
+        db.query(`UPDATE ${table} SET profile_picture = "images/default.png" WHERE user_id = ?`, [req.session.userId], (err) => {
+            if (err) return res.status(500).json({ message: 'Error removing picture.' });
+            res.json({ profile_picture: 'images/default.png' });
+        });
+    });
+});
+
+// Upload resume
+app.post('/api/profile/resume', upload.single('resume'), (req, res) => {
+    if (!req.session.userId) return res.status(401).json({ message: 'Please log in first.' });
+    if (!req.file) return res.status(400).json({ message: 'No file uploaded.' });
+
+    // Delete old resume file if one exists
+    db.query('SELECT resume_path FROM job_seeker_profiles WHERE user_id = ?', [req.session.userId], (err, rows) => {
+        const oldResume = rows[0]?.resume_path;
+        if (oldResume) {
+            fs.unlink(path.join('public', oldResume), () => {});
+        }
+
+        // Save new resume path to MySQL
+        const filePath = `uploads/${req.file.filename}`;
+        db.query(
+            'UPDATE job_seeker_profiles SET resume_path = ? WHERE user_id = ?',
+            [filePath, req.session.userId],
+            (err) => {
+                if (err) return res.status(500).json({ message: 'Error saving resume.' });
+                res.json({ message: 'Resume uploaded successfully!', resume_path: filePath });
+            }
+        );
+    });
+});
+
+// Delete resume
+app.delete('/api/profile/resume', (req, res) => {
+    if (!req.session.userId) return res.status(401).json({ message: 'Please log in first.' });
+
+    db.query('SELECT resume_path FROM job_seeker_profiles WHERE user_id = ?', [req.session.userId], (err, rows) => {
+        const resumePath = rows[0]?.resume_path;
+        if (resumePath) {
+            fs.unlink(path.join('public', resumePath), () => {});
+        }
+
+        db.query('UPDATE job_seeker_profiles SET resume_path = NULL WHERE user_id = ?', [req.session.userId], (err) => {
+            if (err) return res.status(500).json({ message: 'Error removing resume.' });
+            res.json({ message: 'Resume removed successfully.' });
+        });
+    });
+});
+
+// Allow employers to view any candidate's profile & resume
+app.get('/api/candidates/:id', (req, res) => {
+    db.query('SELECT first_name, last_name, about, profile_picture, resume_path FROM job_seeker_profiles WHERE user_id = ?', 
+        [req.params.id], (err, rows) => {
+            if (err || !rows.length) return res.status(404).json({ message: 'Candidate not found.' });
+            res.json(rows[0]);
+        }
+    );
+});
+
 // Start server
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
+

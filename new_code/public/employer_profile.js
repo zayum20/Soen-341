@@ -19,19 +19,11 @@ const profilePic = document.querySelector('.profile-picture img');
 const userFile = document.getElementById('file-path');
 
 if (profilePic && userFile) {
-
-
-userFile.addEventListener('change', function () {
-
-    if (this.files && this.files[0]) {
-
-        profilePic.src = URL.createObjectURL(this.files[0]);
-
-    }
-
-});
-
-
+    userFile.addEventListener('change', function () {
+        if (this.files && this.files[0]) {
+            profilePic.src = URL.createObjectURL(this.files[0]);
+        }
+    });
 }
 
 // Load the logged-in user's profile
@@ -134,4 +126,63 @@ if (logoutLink) {
 
     });
 
+}
+const cameraBtn = document.getElementById('camera-btn');
+const avatarMenu = document.getElementById('avatar-menu');
+const uploadPhotoBtn = document.getElementById('upload-photo-btn');
+const deleteAvatarBtn = document.getElementById('delete-avatar-btn');
+
+// Toggle menu
+cameraBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    avatarMenu.hidden = !avatarMenu.hidden;
+});
+
+// Close menu when clicking outside
+document.addEventListener('click', () => {
+    if (avatarMenu) avatarMenu.hidden = true;
+});
+
+// "Upload Photo" triggers file chooser
+uploadPhotoBtn?.addEventListener('click', () => {
+    userFile.click();
+    avatarMenu.hidden = true;
+});
+
+// "Remove Photo" calls DELETE API
+deleteAvatarBtn?.addEventListener('click', async () => {
+    avatarMenu.hidden = true;
+    if (!confirm('Remove profile picture?')) return;
+
+    const res = await fetch('/api/profile/avatar', { method: 'DELETE' });
+    const data = await res.json();
+    if (res.ok) profilePic.src = data.profile_picture;
+});
+
+// Save selected picture to server
+if (userFile) {
+    userFile.addEventListener('change', async function () {
+        if (!this.files[0]) return;
+
+        const formData = new FormData();
+        formData.append('avatar', this.files[0]);
+
+        try {
+            const response = await fetch('/api/profile/avatar', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                alert('Profile picture updated successfully!');
+                profilePic.src = data.profile_picture;
+            } else {
+                alert(data.message || 'Failed to upload picture.');
+            }
+        } catch (error) {
+            console.error('Upload error:', error);
+            alert('Could not upload image.');
+        }
+    });
 }
