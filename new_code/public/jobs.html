@@ -1,0 +1,121 @@
+
+<!-- Tell the browser that this document uses HTML5. -->
+<!DOCTYPE html>
+
+<!-- Start the HTML document. lang="en" means the page is in English. -->
+<html lang="en">
+
+<!-- The head contains information about the page, not its visible content. -->
+<head>
+
+    <!-- Use UTF-8 so letters, symbols, and special characters display correctly. -->
+    <meta charset="UTF-8">
+
+    <!-- Make the page scale correctly on phones, tablets, and computers. -->
+    <!-- width=device-width matches the webpage width to the device screen. -->
+    <!-- initial-scale=1.0 means the page starts at its normal zoom level. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Text shown in the browser tab. -->
+    <title>Find Jobs | CareerConnect</title>
+
+    <!-- Set the small icon displayed in the browser tab. -->
+    <!-- href specifies the location of the icon file. -->
+    <link rel="icon" type="image/png" href="images/tab-logo.png">
+
+    <!-- Connect this HTML page to the existing CSS stylesheet. -->
+    <!-- The browser reads style.css to determine how elements should look. -->
+    <link rel="stylesheet" href="style.css">
+
+<!-- End the head section. -->
+</head>
+
+<!-- Begin the visible content of the webpage. -->
+<body>
+
+    <!-- The header contains the website branding and navigation. -->
+    <!-- class="jobs-header" lets us style this specific header using CSS. -->
+    <header class="jobs-header">
+
+        <!-- This is the website name, which also acts as a clickable link. -->
+        <!-- Clicking it takes the user to index.html (the welcome page). -->
+        <!-- class="jobs-brand" is used to style the brand name. -->
+        <a href="index.html" class="jobs-brand">CareerConnect</a>
+
+        <!-- nav identifies a group of navigation links. -->
+        <!-- aria-label describes this navigation for screen readers. -->
+        <nav class="jobs-nav" aria-label="Main navigation">
+
+            <!-- Link to the jobs page. -->
+            <!-- aria-current="page" identifies the page currently being viewed. -->
+            <a href="jobs.html" aria-current="page">Jobs</a>
+
+            <!-- Link to the profile page being developed by Elfy. -->
+            <!-- The filename may need updating when her work is integrated. -->
+            <a href="profile.html">Profile</a>
+
+            <!-- Link to the team's existing login page. -->
+            <a href="login.html">Log In</a>
+
+        <!-- Close the navigation element. -->
+        </nav>
+
+    <!-- Close the header. -->
+    </header>
+
+    <!-- main contains the primary content of the webpage. -->
+    <!-- We use a class so CSS can control the width, margins, and padding. -->
+    <main class="jobs-container">
+
+        <!-- section groups related content together. -->
+        <!-- This section introduces the job search page. -->
+        <section class="jobs-intro">
+
+            <!-- h1 is the main heading of this page. -->
+            <h1>Find Your Next Opportunity</h1>
+
+            <!-- p creates a paragraph explaining the purpose of the page. -->
+            <p>Explore available job opportunities and take the next step in your career.</p>
+
+        <!-- Close the introduction section. -->
+        </section>
+
+        <!-- Tasneem will integrate search and filtering here later. -->
+        <!-- This comment is only a reminder; it does not display anything. -->
+
+        <!-- This section contains the available job listings. -->
+        <!-- aria-labelledby connects this section to its heading below. -->
+        <section class="jobs-section" aria-labelledby="jobs-heading">
+
+            <!-- h2 is a secondary heading. -->
+            <!-- id gives the heading a unique identifier. -->
+            <h2 id="jobs-heading">Available Jobs</h2>
+
+            
+<!-- Container where JavaScript will insert job cards. -->
+<!-- The id allows JavaScript to find this exact element. -->
+<!-- The class applies the CSS grid layout. -->
+<div class="job-list" id="job-list">
+
+    <!-- JavaScript will generate the job cards here. -->
+
+</div>
+
+
+        <!-- Close the job listings section. -->
+        </section>
+
+    <!-- Close the main content area. -->
+    </main>
+
+<!-- End the visible webpage content. -->
+ 
+<!-- Load the JavaScript responsible for displaying job listings. -->
+<!-- defer waits until HTML parsing is complete before running it. -->
+<script src="jobs.js" defer></script>
+
+</body>
+
+
+<!-- End the HTML document. -->
+</html>

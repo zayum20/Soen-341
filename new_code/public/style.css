@@ -119,3 +119,332 @@ cursor: pointer;
 .back-link:hover {
     color: #7222ac;
 }
+
+/* ============================================== */
+/* SPRINT 2: JOB LISTINGS PAGE                     */
+/* ============================================== */
+
+
+/* Style the navigation header of the jobs page. */
+.jobs-header {
+
+    /* Give the header a white background. */
+    background: white;
+
+    /* Add 20px of space vertically and 6% horizontally. */
+    padding: 20px 6%;
+
+    /* Arrange the brand and navigation links side by side. */
+    display: flex;
+
+    /* Push the brand left and navigation links right. */
+    justify-content: space-between;
+
+    /* Vertically center the items inside the header. */
+    align-items: center;
+
+    /* Add a subtle shadow beneath the navigation bar. */
+    /* rgba uses red, green, blue, and opacity values. */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+
+/* Style the CareerConnect brand displayed in the header. */
+.jobs-brand {
+
+    /* Set the brand text size to 24 pixels. */
+    font-size: 24px;
+
+    /* Make the brand text bold. */
+    font-weight: bold;
+
+    /* Use the purple colour from the existing website. */
+    color: #7222ac;
+
+    /* Remove the default underline from the link. */
+    text-decoration: none;
+}
+
+
+/* Style the container holding the navigation links. */
+.jobs-nav {
+
+    /* Arrange navigation links horizontally. */
+    display: flex;
+
+    /* Add 25 pixels of space between the links. */
+    gap: 25px;
+}
+
+
+/* Apply these styles to all links inside jobs-nav. */
+.jobs-nav a {
+
+    /* Remove the default underline from the links. */
+    text-decoration: none;
+
+    /* Make the link text dark gray. */
+    color: #333;
+
+    /* Make the navigation text bold. */
+    font-weight: bold;
+}
+
+
+/* Style a navigation link when the user hovers over it. */
+/* Also highlight the link representing the current page. */
+.jobs-nav a:hover,
+.jobs-nav a[aria-current="page"] {
+
+    /* Change the link text to purple. */
+    color: #7222ac;
+}
+
+
+/* Style the main container holding the job listings. */
+.jobs-container {
+
+    /* Prevent the content from becoming wider than 1100px. */
+    max-width: 1100px;
+
+    /* Add 45px above/below and center horizontally. */
+    /* auto divides the remaining horizontal space equally. */
+    margin: 45px auto;
+
+    /* Add 20px of space inside the left and right edges. */
+    padding: 0 20px;
+}
+
+
+/* Style the introductory section of the jobs page. */
+.jobs-intro {
+
+    /* Add space below the introduction section. */
+    margin-bottom: 40px;
+}
+
+
+/* Style the main page heading inside jobs-intro. */
+.jobs-intro h1 {
+
+    /* Set the main heading size. */
+    font-size: 34px;
+
+    /* Add space underneath the heading. */
+    margin-bottom: 12px;
+}
+
+
+/* Style the description paragraph under the heading. */
+.jobs-intro p {
+
+    /* Use gray text for secondary information. */
+    color: #666;
+
+    /* Set the paragraph font size. */
+    font-size: 17px;
+}
+
+
+/* Style the Available Jobs section heading. */
+.jobs-section h2 {
+
+    /* Set the heading size. */
+    font-size: 24px;
+
+    /* Add space between the heading and job cards. */
+    margin-bottom: 25px;
+}
+
+
+/* Style the container holding all job cards. */
+.job-list {
+
+    /* Use CSS Grid to arrange the job cards. */
+    display: grid;
+
+    /* Create as many columns as fit the screen width. */
+    /* repeat() avoids writing each column manually. */
+    /* auto-fit automatically adjusts the number of columns. */
+    /* minmax(260px, 1fr) sets a 260px minimum column size. */
+    /* 1fr means the column can expand to fill available space. */
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+
+    /* Add 20px of spacing between the job cards. */
+    gap: 20px;
+}
+
+
+/* Style each individual job listing card. */
+.job-card {
+
+    /* Give each job card a white background. */
+    background: white;
+
+    /* Round the corners of the card. */
+    border-radius: 10px;
+
+    /* Add space inside the card around its content. */
+    padding: 25px;
+
+    /* Create a thin, light-gray border. */
+    border: 1px solid #e5e7eb;
+
+    /* Use Flexbox to organize the contents of the card. */
+    display: flex;
+
+    /* Stack the contents vertically instead of horizontally. */
+    flex-direction: column;
+
+    /* Align the contents to the start (left in English). */
+    align-items: flex-start;
+
+    /* Add 12px between the card's child elements. */
+    gap: 12px;
+
+    /* Smoothly animate changes to the card's shadow. */
+    /* The animation takes 0.2 seconds. */
+    transition: box-shadow 0.2s ease;
+}
+
+
+/* Apply a shadow when the cursor moves over a card. */
+.job-card:hover {
+
+    /* Add a soft shadow to emphasize the card. */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+
+/* Style the job title inside each card. */
+.job-card h3 {
+
+    /* Set the job title font size. */
+    font-size: 19px;
+
+    /* Use dark text for readability. */
+    color: #222;
+}
+
+
+/* Style the company name inside each card. */
+.job-company {
+
+    /* Use medium gray text. */
+    color: #555;
+
+    /* Make the company name bold. */
+    font-weight: bold;
+}
+
+
+/* Style the job location. */
+.job-location {
+
+    /* Use lighter gray text. */
+    color: #777;
+
+    /* Make the location text smaller than the job title. */
+    font-size: 14px;
+}
+
+
+/* Style the badge showing Internship or Full-time. */
+.job-type {
+
+    /* Allow the span to behave like a small block. */
+    /* It can now use padding while staying inline. */
+    display: inline-block;
+
+    /* Give the badge a light purple background. */
+    background: #f2e8fa;
+
+    /* Use dark purple for the text. */
+    color: #7222ac;
+
+    /* Add 7px vertical and 12px horizontal inner spacing. */
+    padding: 7px 12px;
+
+    /* Round the badge corners to create a pill shape. */
+    border-radius: 20px;
+
+    /* Make the badge text slightly smaller. */
+    font-size: 13px;
+
+    /* Make the badge text bold. */
+    font-weight: bold;
+}
+
+
+/* Style the View Details link. */
+.job-details {
+
+    /* Let the link behave as an inline block element. */
+    display: inline-block;
+
+    /* Push the link toward the bottom of the job card. */
+    /* This works because the parent uses Flexbox. */
+    margin-top: auto;
+
+    /* Add some space above the link text. */
+    padding-top: 10px;
+
+    /* Use the website's purple theme colour. */
+    color: #7222ac;
+
+    /* Remove the default underline. */
+    text-decoration: none;
+
+    /* Make the link bold. */
+    font-weight: bold;
+}
+
+
+/* Style the View Details link when hovered over. */
+.job-details:hover {
+
+    /* Underline the link to indicate interactivity. */
+    text-decoration: underline;
+}
+
+
+/* ============================================== */
+/* RESPONSIVE DESIGN FOR SMALLER SCREENS            */
+/* ============================================== */
+
+
+/* Apply these rules only when the screen is 600px */
+/* wide or smaller. This is called a media query. */
+@media (max-width: 600px) {
+
+    /* Change the header layout on smaller screens. */
+    .jobs-header {
+
+        /* Stack the brand and navigation vertically. */
+        flex-direction: column;
+
+        /* Add 18px between the brand and navigation. */
+        gap: 18px;
+    }
+
+    /* Adjust navigation spacing on smaller screens. */
+    .jobs-nav {
+
+        /* Reduce the spacing between navigation links. */
+        gap: 18px;
+    }
+
+    /* Reduce the main heading size on smaller screens. */
+    .jobs-intro h1 {
+
+        /* Change from 34px to 27px. */
+        font-size: 27px;
+    }
+
+    /* Adjust main content spacing on smaller screens. */
+    .jobs-container {
+
+        /* Reduce the space above the content. */
+        margin-top: 30px;
+    }
+}

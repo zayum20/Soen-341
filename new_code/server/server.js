@@ -20,12 +20,12 @@ app.use(session({
 // Serve frontend files
 app.use(express.static("public"));
 
-// MySQL connection
+// Connect CareerConnect's backend to the local MySQL server
 const db = mysql.createConnection({
     host: "localhost",
-    user: "root",
-    password: "",
-    database: "recruiting_website"
+    user: "careerconnect", // The database account created
+    password: process.env.DB_PASSWORD, // Read the password from an environment variable
+    database: "recruiting_website" // The database containing our four tables
 });
 
 // Connect to MySQL
@@ -639,6 +639,66 @@ app.post("/api/logout", (req, res) => {
         });
     });
 
+});
+
+/*
+ * Sprint 2 - Job Listings API
+ * Assigned to: Sara
+ *
+ * Purpose:
+ * Retrieve available job postings from MySQL.
+ *
+ * HTTP method: GET
+ * Endpoint: /api/jobs
+ */
+
+// Define a GET endpoint at the URL /api/jobs.
+// req contains information about the incoming request.
+// res is used to send the response back to the client.
+app.get("/api/jobs", (req, res) => {
+
+    // SQL query to retrieve job records.
+    // SELECT specifies the columns we want to retrieve.
+    // FROM jobs specifies the database table.
+    // ORDER BY displays the newest postings first.
+    const sql = `
+        SELECT
+            id,
+            employer_id,
+            title,
+            company,
+            location,
+            category,
+            description,
+            job_type,
+            created_at
+        FROM jobs
+        ORDER BY created_at DESC, id DESC
+    `;
+
+    // Send the SQL query to the MySQL database.
+    // db is the existing database connection.
+    // The callback runs when MySQL finishes processing.
+    db.query(sql, (error, results) => {
+
+        // Check whether the database query failed.
+        if (error) {
+
+            // Print technical error details in the server terminal.
+            console.error("Job retrieval error:", error);
+
+            // Return HTTP 500 to indicate a server error.
+            // Send a safe error message to the frontend.
+            return res.status(500).json({
+                message: "Could not retrieve job postings."
+            });
+        }
+
+        // If the query succeeds, send all jobs as JSON.
+        // results is an array of database records.
+        // If the table is empty, results will be [].
+        res.json(results);
+    });
 });
 
 // Start server
