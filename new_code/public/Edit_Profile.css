@@ -31,9 +31,23 @@ body {
 
 .card-header {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
   margin-bottom: 18px;
+}
+
+.header-links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.header-links a {
+  color: #7222ac;
+  font-weight: 600;
+  text-decoration: none;
 }
 
 .card-header h1 {

@@ -1,50 +1,35 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-<title>Recruiting Website</title>
-<link rel="icon" type="image/png" href="images/tab-logo.png">
-<link rel="stylesheet" href="style.css">
-
-
+    <title>CareerConnect</title>
+    <link rel="icon" type="image/png" href="images/tab-logo.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="applications.css">
 </head>
-
 <body>
+    <header class="site-header">
+        <img class="header-logo" src="images/careerconnect-logo.png" alt="CareerConnect">
+        <nav class="site-nav" aria-label="Account">
+            <a id="account-link" href="login.html">Log In</a>
+            <a id="register-link" href="register.html">Create an Account</a>
+        </nav>
+    </header>
 
+    <main class="job-board">
+        <h1>Find a job</h1>
+        <p class="intro">Browse open roles posted by employers on CareerConnect.</p>
+        <form id="search-form" class="search-form">
+            <label class="visually-hidden" for="search-input">Search jobs</label>
+            <input id="search-input" type="search" placeholder="Search by title, company, or location">
+            <button type="submit">Search</button>
+        </form>
+        <div id="jobs-list" class="job-list"></div>
+        <p id="jobs-message" class="board-message" hidden></p>
+    </main>
 
-<main class="welcome-page">
-
-    <div class="welcome-container">
-
-        <h1>Welcome</h1>
-
-        <p>
-            Connect with opportunities and talent.
-        </p>
-
-        <div class="auth-buttons">
-
-            <a href="login.html" class="btn login-btn">
-                Log In
-            </a>
-
-            <a href="register.html" class="btn register-btn">
-                Create an Account
-            </a>
-
-        </div>
-
-    </div>
-
-</main>
-
+    <script src="applications-common.js"></script>
+    <script src="index.js"></script>
 </body>
-
 </html>
-
-

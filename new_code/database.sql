@@ -7,6 +7,7 @@ CREATE DATABASE IF NOT EXISTS recruiting_website;
 USE recruiting_website;
 
 -- Users
+DROP TABLE IF EXISTS `applications`;
 DROP TABLE IF EXISTS `jobs`;
 DROP TABLE IF EXISTS `job_seeker_skills`;
 DROP TABLE IF EXISTS `job_seeker_profiles`;
@@ -84,6 +85,28 @@ CREATE TABLE `jobs` (
   KEY `employer_id` (`employer_id`),
   CONSTRAINT `jobs_ibfk_1`
     FOREIGN KEY (`employer_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Applications
+CREATE TABLE `applications` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `job_id` int NOT NULL,
+  `job_seeker_id` int NOT NULL,
+  `status` enum('Applied','Under Review','Interview','Offered','Rejected') NOT NULL DEFAULT 'Applied',
+  `cover_note` text,
+  `applied_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_application` (`job_id`,`job_seeker_id`),
+  KEY `job_seeker_id` (`job_seeker_id`),
+  CONSTRAINT `applications_ibfk_1`
+    FOREIGN KEY (`job_id`)
+    REFERENCES `jobs` (`id`)
+    ON DELETE CASCADE,
+  CONSTRAINT `applications_ibfk_2`
+    FOREIGN KEY (`job_seeker_id`)
     REFERENCES `users` (`id`)
     ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

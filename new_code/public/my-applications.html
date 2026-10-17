@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My Applications</title>
+        <link rel="icon" type="image/png" href="images/tab-logo.png">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="nav-bar.css">
+        <link rel="stylesheet" href="profile.css">
+        <link rel="stylesheet" href="applications.css">
+    </head>
+    <body class="nav-collapsed">
+        <header class="top-header">
+            <button id="hamburger" class="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <img class="header-logo" src="images/careerconnect-logo.png" alt="CareerConnect Logo">
+        </header>
+
+        <nav id="main-nav" class="navbar">
+            <ul class="nav-links">
+                <li>
+                    <a href="Profile.html">
+                        <i class="bi bi-person"></i>
+                        <span>My Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="jobs.html">
+                        <i class="bi bi-briefcase"></i>
+                        <span>Jobs</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="my-applications.html" class="active">
+                        <i class="bi bi-clipboard-check"></i>
+                        <span>My Applications</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="Dashboard.html">
+                        <i class="bi bi-house"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="bi bi-gear"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="logout-link">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <section>
+            <span class="header">
+                <p><b>My Applications</b></p>
+            </span>
+            <p>Track the status of each job you have applied to.</p>
+            <div id="applications-list" class="page-width job-list"></div>
+            <p id="applications-message" class="page-message page-width" hidden></p>
+        </section>
+
+        <script src="applications-common.js"></script>
+        <script src="my-applications.js"></script>
+    </body>
+</html>
