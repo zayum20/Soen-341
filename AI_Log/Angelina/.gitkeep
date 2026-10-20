@@ -357,3 +357,270 @@ Ai helped formatting the issues using the structure required
 
 **Repository:** CareerConnect / Soen-341
 **Related Document:** `User Stories`
+
+## Entry 4  — Set up local MySQL databases for team development
+
+**Task ID/Title:** Implementation of databases for the team
+
+**Date:** October 20, 2026  
+
+**Responsible Person:** Angelina Yajaira Montano  
+
+**AI Tool:** Codex  
+
+**Purpose of AI Use:** Database setup research, connection configuration, troubleshooting, and teammate documentation.
+
+**Prompt/Response:** How do I implement a joined database using mysql to share with my teammates in an agile project for the soen341 course at concordia to create a website based on the sprint 2 document I joined to the prompt and the link to our repository: https://github.com/zayum20/Soen-341. I need it to be simple and not cause issues for our repository
+
+**AI-Suggested Content:** Using Codex, the content generated is brainstorming on how to implement a database for the team development, Codex also generated code/configuration channges, setup documentation and research.
+
+**Chat Response:** Selected excerpts of Codex assistance in VS Code
+
+(For your team, use **one shared database structure, a local MySQL database for each teammate, and one shared database for the demo**. This keeps daily development simple and prevents someone’s testing from deleting another person’s work.
+
+If by “joined database” you mean **everyone seeing the same live records**, that requires a MySQL server accessible to everyone. GitHub shares your SQL files; it does not host or synchronize the running database.
+
+I reviewed your Sprint 2 document, local files, and [repository](https://github.com/zayum20/Soen-341). I haven’t changed any files.
+
+**Your database structure already covers the main Sprint 2 features.**
+
+| Feature | Existing tables |
+|---|---|
+| Profiles and resume information | `users`, `job_seeker_profiles`, `job_seeker_skills` |
+| Recruiter profiles and job listings | `employer_profiles`, `jobs` |
+| Applications and all five required statuses | `applications` |
+
+You don’t need to redesign it to collaborate.
+
+**1. Keep the database setup in GitHub, with credentials outside GitHub.**
+
+Your [server.js](new_code/server/server.js) currently connects to `localhost` as `root` with an empty password. Replace that connection configuration with:
+
+```js
+const db = mysql.createConnection({
+    host: process.env.DB_HOST || "localhost",
+    port: Number(process.env.DB_PORT || 3306),
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME || "recruiting_website"
+});
+```
+
+Commit a `new_code/.env.example` containing placeholders:
+
+```dotenv
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=careerconnect_app
+DB_PASSWORD=replace_with_your_local_password
+DB_NAME=recruiting_website
+```
+
+Each teammate copies it to `.env` and supplies their own credentials. Add these entries to a root `.gitignore`:
+
+```gitignore
+node_modules/
+.env
+.env.*
+!.env.example
+new_code/public/uploads/
+.DS_Store
+```
+
+With Node.js 22, launch from `new_code` using:
+
+```bash
+node --env-file=.env server/server.js
+```
+
+Node’s built-in flag loads those values into `process.env`. [Node.js documentation](https://nodejs.org/download/release/latest-jod/docs/api/cli.html#--env-filefile)
+
+**2. Initialize each local database once.**
+
+From `new_code`, on a **new, empty local installation**:
+
+```bash
+mysql -u root -p < database.sql
+```
+
+**Your current `database.sql` drops the existing tables. Running it again deletes accounts, profiles, jobs, and applications.** Treat it as an initial setup/reset script.
+
+After initialization, an administrator can create an application account:
+
+```sql
+CREATE USER 'careerconnect_app'@'localhost'
+IDENTIFIED BY 'choose_a_password';
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON recruiting_website.*
+TO 'careerconnect_app'@'localhost';
+```
+
+Use this account in `.env`. Keep schema changes under an administrator account. MySQL supports assigning these privileges separately. [MySQL documentation](https://dev.mysql.com/doc/refman/8.0/en/grant.html)
+
+**3. Share future schema changes through small migration files.**
+
+Use a structure such as:
+
+```text
+new_code/
+  database.sql
+  migrations/
+    001_describe_change.sql
+  .env.example
+```
+
+When a feature needs a new column or table:
+
+- Add a numbered SQL migration that preserves existing data.
+- Include it in the same pull request as the feature.
+- Document how to apply it and apply each migration once.
+- Have one teammate coordinate numbering and shared database updates.
+
+Your existing `add_jobs_and_applications.sql` partly follows this approach: it preserves accounts, creates the applications table if missing, and inserts sample jobs. It assumes the `jobs` table already exists.
+
+**4. For shared live data, use one shared application instance for the demo.**
+
+The simplest complete arrangement is:
+
+```text
+Teammates’ browsers → Shared Express server → MySQL
+```
+
+Have one person administer the demo database and apply migrations. Teammates use the website to create test accounts, postings, and applications.
+
+This also matters for resumes: **your app saves uploaded files in `public/uploads/`; MySQL stores only their paths.** If everyone runs a separate Express server against one shared MySQL database, a resume uploaded on one laptop will be missing on another. A shared Express instance keeps those uploads together.
+
+If you choose hosted MySQL, configure its required TLS settings and restrict access to approved hosts. Keep connection details in private configuration.
+
+For your agile workflow, make this one database setup task with a small PR, have a teammate verify setup from a fresh clone, and use a separate disposable database for CI. The Sprint 2 document also requires an AI usage log, so record this assistance and your validation there.
+
+**My recommendation:** start with local databases and shared SQL migrations; use one shared Express/MySQL environment for integration and the demonstration. That gives your team collaboration without making every developer depend on the same live database.)
+
+(Then use **cloud hosting** so the website and database run independently of your Mac.
+
+For your existing Express/MySQL project, **Railway is a straightforward option**: it supports deploying Express from GitHub and adding MySQL in the same project. [Express guide](https://docs.railway.com/guides/express), [MySQL guide](https://docs.railway.com/databases/mysql)
+
+Your setup would be:
+
+```text
+Everyone’s browser → Hosted CareerConnect website → Hosted MySQL
+```
+
+Everyone uses one website URL and sees the same records—even when your Mac is off.
+
+The setup involves:
+
+1. Connect your GitHub repository to Railway.
+2. Deploy the website with `new_code` as its root directory.
+3. Add a MySQL service and configure the website’s database variables.
+4. Import your SQL structure once into the empty hosted database.
+5. Add persistent storage for uploaded resumes.
+
+Before deployment, your code also needs a small change to use the hosting provider’s `PORT` value.
+
+**Railway has trial limits and usage-based pricing**, so check the [current plans](https://railway.com/pricing) before committing your team to it.
+
+**Your first step:** create an account at [Railway](https://railway.com/) using GitHub. Keep your local MySQL installation—it remains useful for testing changes before deploying them.)
+
+(Follow-up prompt:“What if I dont want to use a hosting service because of limits and pricing?” 
+-> Response: **Then use local MySQL databases on each teammate’s computer and share the database structure through GitHub.** This avoids hosting costs and keeps development independent.
+
+Everyone has the same tables, but their own test records:
+
+```text
+Your website → Your local MySQL
+Teammate’s website → Their local MySQL
+             ↑
+    Same SQL files from GitHub
+```
+
+For your team:
+
+1. Each teammate installs MySQL and imports `database.sql` **once**.
+2. Each creates their own private `.env`.
+3. Share sample data through a seed SQL file so everyone can test similar scenarios.
+4. Share future database changes through numbered migration files that preserve existing records.
+5. Demonstrate the integrated project from one laptop during your assessment.
+
+**The tradeoff:** an account or job created on your laptop won’t appear on theirs. GitHub synchronizes SQL files, not live database records.
+
+If everyone must see the same live records, a database must run somewhere accessible—on a team computer, a university server if Concordia provides one, or a hosting service.
+
+For your current sprint, **local databases plus shared SQL files are the simplest approach without hosting costs**, unless your instructor specifically requires an online deployment.)
+
+(Follow-up prompt:"So do I need to change anything in the current code we have?”
+-> Response:**No major code changes are needed for each teammate to use local MySQL.** Your website already connects successfully.
+
+Keep the changes we made:
+
+- `server.js` reads database settings from environment variables.
+- `package.json` loads `.env` when starting the app.
+- `.env.example` gives teammates a configuration template.
+- `.gitignore` excludes each person’s private `.env`.
+
+Commit those shared files, **but never `.env`**.
+
+Each teammate then installs MySQL, imports `database.sql` **once into an empty database**, copies `.env.example` to `.env`, fills in their credentials, and runs `npm start` from `new_code`.
+
+Everyone will have the same table structure, with **separate local records**. Future table changes should use migration files instead of rerunning `database.sql`.)
+
+(Follow-up prompt:“How do I implement this and structure it in the github repository?” 
+-> Response:I added the structure to your repository:
+
+```text
+new_code/
+├── database.sql          # Initial setup; deletes existing tables
+├── DATABASE_SETUP.md     # Teammate setup instructions
+├── .env.example          # Shared configuration template
+├── .env                  # Private; ignored by Git
+└── migrations/
+    └── README.md         # How to write and apply future changes
+```
+
+The main README now links to these instructions. No database changes were run, and your `.env` was untouched. Syntax and whitespace checks passed.
+
+**To share this on GitHub**, review the changes in VS Code’s Source Control panel, then commit the setup files and earlier connection changes. Don’t include `.env`.
+
+Use a commit message such as:
+
+```text
+Document local database setup and migration workflow
+```
+
+Push your working branch and open a pull request. Teammates can then follow `new_code/DATABASE_SETUP.md`.
+
+**No migration is needed now.** Add numbered migration files when a feature actually needs a table change.)
+
+### Validation
+
+I tested and validated what Codex generated using the VS Code terminal with commands:
+
+- Started the website with `npm start`.
+- Confirmed the terminal displayed “Connected to MySQL database!”
+- Created an employer account successfully.
+- Created a “software engineer” job posting successfully.
+- Confirmed six tables exist using `SHOW TABLES;`.
+- Verified that the submitted application appears on the employer’s
+Applicants page with the correct job title and initial “Applied” status.
+
+### Decision
+
+**Modified and Accepted**
+
+After researching cloud servers like Aiven and Railway and having limits on free trials with possible pricing charges, I chose to use separate local MySQL databases for the teamand won’t use migrations while the tables remain unchanged.
+
+### Reflection
+
+GitHub shares SQL files rather than live records
+
+
+**Responsible Person:** Angelina Yajaira Montano  
+
+**Repository:** CareerConnect / Soen-341
+
+
+
+
+
+

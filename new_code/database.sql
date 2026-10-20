@@ -1,4 +1,6 @@
 -- CareerConnect Database Setup
+-- WARNING: Initial setup or intentional reset only. This script deletes existing
+-- project tables and their data. Use migrations/ for updates to existing databases.
 -- Creates the database tables required for the CareerConnect recruiting website.
 -- This file contains the database structure only and does not include user data.
 
