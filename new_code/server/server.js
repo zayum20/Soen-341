@@ -634,7 +634,546 @@ app.put("/api/profile", (req, res) => {
     );
 });
  
+// ==========================================
+// RECRUITER JOB POSTING ENDPOINTS
+// ==========================================
 
+// Create a new job posting (Recruiter only!)
+app.post("/api/jobs", (req, res) => {
+    
+    //Authentification check
+    if (!req.session.userId) {
+        return res.status(401).json({
+            message: "You must be logged in to post a job offer."
+        });
+    }
+    if (req.session.role !== "employer") {
+        return res.status(403).json({
+            message: "Access denied. Only employers can create job postings."
+        });
+    }
+    
+    const{
+        title,
+        company,
+        location,
+        category,
+        job_type,
+        description
+    } =req.body;
+
+    //Validation check for required fields
+     if (!title || !company || !location || !category || !job_type || !description) {
+        return res.status(400).json({
+            message: "All fields are required."
+        });
+    }
+
+    const validJobTypes = ["Full-time", "Part-time", "Contract", "Internship"];
+    if (!validJobTypes.includes(job_type)) {
+        return res.status(400).json({
+            message: "Invalid job type. Must be one of: Full-time, Part-time, Contract, Internship."
+        });
+    }
+
+    //Insert into the jobs table for the database
+    const sql=`
+        INSERT INTO jobs (employer_id, title, company, location, category, job_type, description)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    db.query(
+        sql,
+        [
+            req.session.userId,
+            title.trim(),
+            company.trim(),
+            location.trim(),
+            category.trim(),
+            job_type,
+            description.trim()
+        ],
+
+    (error,result)=>{
+
+        if (error){
+
+        console.error("Error creating job posting:", error);
+                               
+                            return res.status(500).json({
+                                message: "Could not create job posting due to database error."
+                            });
+                        }
+
+    
+             else {
+                console.log("New job posting created!");
+                console.log("Job ID:", result.insertId);
+                console.log("Title:", title);
+
+                return res.status(201).json({
+                    message: "Job posting created successfully.",
+                    jobID: result.insertId
+                });
+            }
+        }
+    );
+});
+ 
+
+    
+
+const APPLICATION_STATUSES = [
+    "Applied",
+    "Under Review",
+    "Interview",
+    "Offered",
+    "Rejected"
+];
+
+app.get("/api/jobs", (req, res) => {
+
+    const search = typeof req.query.q === "string"
+        ? req.query.q.trim()
+        : "";
+    const like = `%${search.replace(/[%_]/g, "")}%`;
+
+    const sql = `
+        SELECT
+            jobs.id,
+            jobs.title,
+            jobs.location,
+            jobs.job_type,
+            jobs.description,
+            jobs.created_at,
+            jobs.company AS company_name
+        FROM jobs
+        WHERE (
+                ? = ''
+                OR jobs.title LIKE ?
+                OR jobs.location LIKE ?
+                OR jobs.job_type LIKE ?
+                OR jobs.description LIKE ?
+                OR jobs.company LIKE ?
+                OR jobs.category LIKE ?
+            )
+        ORDER BY jobs.created_at DESC
+    `;
+
+    db.query(
+        sql,
+        [search, like, like, like, like, like, like],
+        (error, results) => {
+
+            if (error) {
+                console.error("Job list error:", error);
+
+                return res.status(500).json({
+                    message: "Could not load jobs."
+                });
+            }
+
+            res.json(results);
+        }
+    );
+});
+
+app.get("/api/employer/jobs", (req, res) => {
+
+    if (!req.session.userId) {
+        return res.status(401).json({
+            message: "Not logged in."
+        });
+    }
+
+    if (req.session.role !== "employer") {
+        return res.status(403).json({
+            message: "Only employers can view their job postings."
+        });
+    }
+
+    const sql = `
+        SELECT id, title, location, job_type, description, 'open' AS status, created_at
+        FROM jobs
+        WHERE employer_id = ?
+        ORDER BY created_at DESC
+    `;
+
+    db.query(sql, [req.session.userId], (error, results) => {
+
+        if (error) {
+            console.error("Employer job list error:", error);
+
+            return res.status(500).json({
+                message: "Could not load your job postings."
+            });
+        }
+
+        res.json(results);
+    });
+});
+
+app.get("/api/jobs/:id", (req, res) => {
+
+    const jobId = Number(req.params.id);
+
+    if (!Number.isInteger(jobId) || jobId <= 0) {
+        return res.status(400).json({
+            message: "A valid job is required."
+        });
+    }
+
+    const sql = `
+        SELECT
+            jobs.id,
+            jobs.title,
+            jobs.location,
+            jobs.job_type,
+            jobs.description,
+            'open' AS status,
+            jobs.created_at,
+            jobs.company AS company_name
+        FROM jobs
+        WHERE jobs.id = ?
+    `;
+
+    db.query(sql, [jobId], (error, results) => {
+
+        if (error) {
+            console.error("Job detail error:", error);
+
+            return res.status(500).json({
+                message: "Could not load that job."
+            });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({
+                message: "That job posting could not be found."
+            });
+        }
+
+        const job = results[0];
+
+        if (req.session.role !== "job_seeker") {
+            return res.json({
+                ...job,
+                alreadyApplied: false,
+                applicationStatus: null
+            });
+        }
+
+        const applicationSql = `
+            SELECT id, status
+            FROM applications
+            WHERE job_id = ? AND job_seeker_id = ?
+        `;
+
+        db.query(
+            applicationSql,
+            [jobId, req.session.userId],
+            (applicationError, applications) => {
+
+                if (applicationError) {
+                    console.error(
+                        "Application lookup error:",
+                        applicationError
+                    );
+
+                    return res.status(500).json({
+                        message: "Could not load that job."
+                    });
+                }
+
+                const existingApplication = applications[0] || null;
+
+                res.json({
+                    ...job,
+                    alreadyApplied: Boolean(existingApplication),
+                    applicationStatus: existingApplication
+                        ? existingApplication.status
+                        : null
+                });
+            }
+        );
+    });
+});
+
+app.post("/api/applications", (req, res) => {
+
+    if (!req.session.userId) {
+        return res.status(401).json({
+            message: "Not logged in."
+        });
+    }
+
+    if (req.session.role !== "job_seeker") {
+        return res.status(403).json({
+            message: "Only job seekers can apply for jobs."
+        });
+    }
+
+    const jobId = Number(req.body.jobId);
+    const coverNote = typeof req.body.coverNote === "string"
+        ? req.body.coverNote.trim()
+        : "";
+
+    if (!Number.isInteger(jobId) || jobId <= 0) {
+        return res.status(400).json({
+            message: "A valid job is required."
+        });
+    }
+
+    if (coverNote.length > 2000) {
+        return res.status(400).json({
+            message: "The note must be 2000 characters or fewer."
+        });
+    }
+
+    const jobSql = `
+        SELECT id
+        FROM jobs
+        WHERE id = ?
+    `;
+
+    db.query(jobSql, [jobId], (jobError, jobs) => {
+
+        if (jobError) {
+            console.error("Job lookup error:", jobError);
+
+            return res.status(500).json({
+                message: "Could not submit application."
+            });
+        }
+
+        if (jobs.length === 0) {
+            return res.status(404).json({
+                message: "That job posting could not be found."
+            });
+        }
+
+        const insertSql = `
+            INSERT INTO applications (job_id, job_seeker_id, cover_note)
+            VALUES (?, ?, ?)
+        `;
+
+        db.query(
+            insertSql,
+            [jobId, req.session.userId, coverNote || null],
+            (insertError, result) => {
+
+                if (insertError) {
+
+                    if (insertError.code === "ER_DUP_ENTRY") {
+                        return res.status(409).json({
+                            message: "You have already applied to this job."
+                        });
+                    }
+
+                    console.error("Application insert error:", insertError);
+
+                    return res.status(500).json({
+                        message: "Could not submit application."
+                    });
+                }
+
+                res.status(201).json({
+                    message: "Application submitted successfully.",
+                    application: {
+                        id: result.insertId,
+                        jobId: jobId,
+                        status: "Applied",
+                        coverNote: coverNote || null
+                    }
+                });
+            }
+        );
+    });
+});
+
+app.get("/api/applications/mine", (req, res) => {
+
+    if (!req.session.userId) {
+        return res.status(401).json({
+            message: "Not logged in."
+        });
+    }
+
+    if (req.session.role !== "job_seeker") {
+        return res.status(403).json({
+            message: "Only job seekers can view their applications."
+        });
+    }
+
+    const sql = `
+        SELECT
+            applications.id,
+            applications.status,
+            applications.cover_note,
+            applications.applied_at,
+            applications.updated_at,
+            jobs.title,
+            jobs.location,
+            jobs.job_type,
+            jobs.company AS company_name
+        FROM applications
+        JOIN jobs
+            ON applications.job_id = jobs.id
+        WHERE applications.job_seeker_id = ?
+        ORDER BY applications.applied_at DESC
+    `;
+
+    db.query(sql, [req.session.userId], (error, results) => {
+
+        if (error) {
+            console.error("Application list error:", error);
+
+            return res.status(500).json({
+                message: "Could not load your applications."
+            });
+        }
+
+        res.json(results);
+    });
+});
+
+app.get("/api/employer/applications", (req, res) => {
+
+    if (!req.session.userId) {
+        return res.status(401).json({
+            message: "Not logged in."
+        });
+    }
+
+    if (req.session.role !== "employer") {
+        return res.status(403).json({
+            message: "Only employers can view applicants."
+        });
+    }
+
+    const sql = `
+        SELECT
+            applications.id,
+            applications.status,
+            applications.cover_note,
+            applications.applied_at,
+            jobs.title AS job_title,
+            users.email,
+            job_seeker_profiles.first_name,
+            job_seeker_profiles.last_name
+        FROM applications
+        JOIN jobs
+            ON applications.job_id = jobs.id
+        JOIN users
+            ON applications.job_seeker_id = users.id
+        LEFT JOIN job_seeker_profiles
+            ON users.id = job_seeker_profiles.user_id
+        WHERE jobs.employer_id = ?
+        ORDER BY applications.applied_at DESC
+    `;
+
+    db.query(sql, [req.session.userId], (error, results) => {
+
+        if (error) {
+            console.error("Employer application list error:", error);
+
+            return res.status(500).json({
+                message: "Could not load applicants."
+            });
+        }
+
+        res.json(results);
+    });
+});
+
+app.put("/api/employer/applications/:id", (req, res) => {
+
+    if (!req.session.userId) {
+        return res.status(401).json({
+            message: "Not logged in."
+        });
+    }
+
+    if (req.session.role !== "employer") {
+        return res.status(403).json({
+            message: "Only employers can update application status."
+        });
+    }
+
+    const applicationId = Number(req.params.id);
+    const status = req.body.status;
+
+    if (!Number.isInteger(applicationId) || applicationId <= 0) {
+        return res.status(400).json({
+            message: "A valid application is required."
+        });
+    }
+
+    if (!APPLICATION_STATUSES.includes(status)) {
+        return res.status(400).json({
+            message: "Status must be Applied, Under Review, Interview, Offered, or Rejected."
+        });
+    }
+
+    const ownershipSql = `
+        SELECT applications.id
+        FROM applications
+        JOIN jobs
+            ON applications.job_id = jobs.id
+        WHERE applications.id = ?
+            AND jobs.employer_id = ?
+    `;
+
+    db.query(
+        ownershipSql,
+        [applicationId, req.session.userId],
+        (ownershipError, owned) => {
+
+            if (ownershipError) {
+                console.error("Application ownership error:", ownershipError);
+
+                return res.status(500).json({
+                    message: "Could not update application status."
+                });
+            }
+
+            if (owned.length === 0) {
+                return res.status(404).json({
+                    message: "That application could not be found."
+                });
+            }
+
+            const updateSql = `
+                UPDATE applications
+                SET status = ?
+                WHERE id = ?
+            `;
+
+            db.query(
+                updateSql,
+                [status, applicationId],
+                (updateError) => {
+
+                    if (updateError) {
+                        console.error("Application status error:", updateError);
+
+                        return res.status(500).json({
+                            message: "Could not update application status."
+                        });
+                    }
+
+                    res.json({
+                        message: "Application status updated.",
+                        application: {
+                            id: applicationId,
+                            status: status
+                        }
+                    });
+                }
+            );
+        }
+    );
+});
 
 app.post("/api/logout", (req, res) => {
 

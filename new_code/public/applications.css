@@ -1,0 +1,257 @@
+.page-width {
+    width: 100%;
+    max-width: 760px;
+    box-sizing: border-box;
+}
+
+.job-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.job-card,
+.application-card {
+    display: block;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px 18px;
+    color: inherit;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(15, 23, 36, 0.06);
+}
+
+.job-card h2,
+.application-card h2,
+.job-detail h2 {
+    margin: 0 0 6px;
+    font-size: 1.2rem;
+}
+
+.job-meta,
+.application-meta {
+    margin: 0 0 6px;
+    color: #475569;
+}
+
+.job-excerpt,
+.job-description,
+.cover-note {
+    margin: 8px 0 0;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.job-detail {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(15, 23, 36, 0.06);
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: #7222ac;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.apply-form {
+    margin-top: 16px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+.apply-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.apply-form textarea,
+.status-row select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font: inherit;
+}
+
+.apply-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.apply-form input,
+.apply-form select {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 14px;
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font: inherit;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.search-form input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font: inherit;
+}
+
+.search-form button {
+    background: #7222ac;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.apply-button,
+.save-status {
+    margin-top: 12px;
+    background: #7222ac;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.apply-button:hover,
+.save-status:hover {
+    background: #5f1b93;
+}
+
+.apply-button:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
+
+.confirmation {
+    margin-top: 16px;
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 12px;
+    padding: 16px 18px;
+}
+
+.confirmation h2 {
+    margin: 0 0 8px;
+    color: #166534;
+    font-size: 1.15rem;
+}
+
+.confirmation a {
+    color: #7222ac;
+    font-weight: 600;
+}
+
+.form-error {
+    color: #b91c1c;
+    margin: 10px 0 0;
+}
+
+.page-message {
+    color: #475569;
+    margin: 0;
+}
+
+.status-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.status-row select {
+    width: auto;
+    min-width: 180px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.status-applied {
+    background: #e0e7ff;
+    color: #3730a3;
+}
+
+.status-under-review {
+    background: #f3e8ff;
+    color: #6b21a8;
+}
+
+.status-interview {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-offered {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-rejected {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.save-message {
+    margin: 8px 0 0;
+    font-weight: 600;
+}
+
+.save-message.success {
+    color: #166534;
+}
+
+.save-message.error {
+    color: #b91c1c;
+}
+
+.header-links {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.header-links a {
+    color: #7222ac;
+    font-weight: 600;
+    text-decoration: none;
+}

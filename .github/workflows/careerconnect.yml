@@ -1,0 +1,36 @@
+
+name: CareerConnect CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get repository code
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        working-directory: new_code
+        run: npm ci
+
+      - name: Check backend JavaScript
+        working-directory: new_code
+        run: node --check server/server.js
+
+      - name: Check frontend JavaScript
+        working-directory: new_code
+        run: |
+          for file in public/*.js; do
+            node --check "$file"
+          done
