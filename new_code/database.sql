@@ -67,3 +67,4 @@ CREATE TABLE `job_seeker_skills` (
     REFERENCES `users` (`id`)
     ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
