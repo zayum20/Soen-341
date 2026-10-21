@@ -233,11 +233,23 @@
                                 </button>
                             </div>
 
+                            <!-- Two Resume Options -->
+                            <div id="resume-choice-buttons" class="resume-choice-buttons">
+                                <label for="resume-file" class="resume-choice-btn">
+                                    <i class="bi bi-upload"></i> Upload Current Resume
+                                </label>
+                                <input type="file" id="resume-file" accept=".pdf,.doc" hidden />
+
+                                <a href="resume-builder/resume-builder.html" class="resume-choice-btn ai-btn">
+                                    <i class="bi bi-stars"></i> Create a New Resume
+                                </a>
+                            </div>
+
+                            <!-- Shows file name + Save button once selected -->
                             <div id="resume-box" class="resume-box" hidden>
-                                <p>Upload your resume</p>
-                                <input type="file" id="resume-file" accept=".pdf,.doc,.docx" />
+                                <span id="chosen-file-name" class="chosen-file-name"></span>
                                 <button type="button" class="resume-save">Save Resume</button>
-                            </div> 
+                            </div>
                             <div id="resume-preview" class="resume-preview" hidden>
                             <iframe id="resume-iframe" src=""></iframe>
                             <div class="resume-actions" id= "resume-actions" hidden>
