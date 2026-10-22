@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Seeker Dashboard | CareerConnect</title>
+    <link rel="icon" href="images/tab-logo.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="nav-bar.css">
+    <!-- Stage 2: Scope the new layout to this dashboard; reuse the existing navigation. -->
+    <link rel="stylesheet" href="Dashboard.css">
+</head>
+<body class="nav-collapsed seeker-dashboard">
+    <header class="top-header">
+        <button id="hamburger" class="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+            <span></span><span></span><span></span>
+        </button>
+        <img class="header-logo" src="images/careerconnect-logo.png" alt="CareerConnect Logo">
+    </header>
+    <nav id="main-nav" class="navbar" aria-label="Main navigation">
+        <ul class="nav-links">
+            <li><a href="Profile.html"><i class="bi bi-person" aria-hidden="true"></i><span>My Profile</span></a></li>
+            <li><a href="jobs.html"><i class="bi bi-briefcase" aria-hidden="true"></i><span>Jobs</span></a></li>
+            <li><a href="my-applications.html"><i class="bi bi-clipboard-check" aria-hidden="true"></i><span>My Applications</span></a></li>
+            <li><a href="Dashboard.html" class="active" aria-current="page"><i class="bi bi-house" aria-hidden="true"></i><span>Dashboard</span></a></li>
+            <li><a href="#" id="logout-link"><i class="bi bi-box-arrow-right" aria-hidden="true"></i><span>Logout</span></a></li>
+        </ul>
+    </nav>
+    <main class="seeker-main">
+        <header class="seeker-intro">
+            <h1>Job Seeker Dashboard</h1>
+            <p id="welcome-message">Track your applications and plan your next career move.</p>
+            <div class="quick-links"><a href="jobs.html">Find jobs</a><a href="my-applications.html">My applications</a><a href="Profile.html">My profile</a></div>
+        </header>
+        <!-- Account and application failures have separate retry controls and status messages. -->
+        <p id="account-message" role="status">Checking your account...</p>
+        <button id="retry-account" type="button" hidden>Retry account check</button>
+        <section aria-labelledby="overview-heading">
+            <h2 id="overview-heading">Application Overview</h2>
+            <!-- Counts stay unavailable on failure; zero is reserved for a successful empty response. -->
+            <dl class="seeker-counts" aria-live="polite">
+                <div><dt>Total Applications</dt><dd id="count-total">Loading...</dd></div>
+                <div><dt>Applied</dt><dd id="count-applied">Loading...</dd></div>
+                <div><dt>Under Review</dt><dd id="count-under-review">Loading...</dd></div>
+                <div><dt>Interview</dt><dd id="count-interview">Loading...</dd></div>
+                <div><dt>Offered</dt><dd id="count-offered">Loading...</dd></div>
+                <div><dt>Rejected</dt><dd id="count-rejected">Loading...</dd></div>
+            </dl>
+        </section>
+        <section aria-labelledby="recent-heading" id="application-section" aria-busy="true">
+            <h2 id="recent-heading">Recent Applications</h2>
+            <p id="applications-message" role="status">Waiting for account verification...</p>
+            <button id="retry-applications" type="button" hidden>Retry applications</button>
+            <div id="recent-applications" class="seeker-list"></div>
+            <a href="my-applications.html">View all applications</a>
+        </section>
+        <noscript>Enable JavaScript to load your dashboard.</noscript>
+    </main>
+    <!-- Reuse the existing sidebar, logout, date formatting, and account-check helpers. -->
+    <script src="applications-common.js"></script>
+    <script src="Dashboard.js"></script>
+</body>
+</html>

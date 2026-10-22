@@ -10,7 +10,8 @@ function showJobsMessage(message) {
     jobsMessage.textContent = message;
 }
 
-function renderJobs(jobs) {
+// Stage 3A: Pass the submitted query into the renderer for accurate empty-result feedback.
+function renderJobs(jobs, query = "") {
     if (jobs.length === 0) {
         jobsList.innerHTML = "";
         showJobsMessage(query
@@ -46,7 +47,7 @@ async function loadJobs(query) {
             return;
         }
 
-        renderJobs(data);
+        renderJobs(data, query);
     } catch (error) {
         console.error("Job list error:", error);
         showJobsMessage("Could not load jobs.");

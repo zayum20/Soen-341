@@ -1,0 +1,34 @@
+/* Stage 2: All rules are scoped to the job-seeker dashboard to preserve other pages. */
+.seeker-dashboard { color: #0f1724; }
+.seeker-dashboard .seeker-main { max-width: 1040px; margin: 0 auto; padding: 24px; }
+.seeker-dashboard .seeker-intro, .seeker-dashboard section { margin-bottom: 20px; padding: 24px; background: white; border: 1px solid #e5e7eb; border-radius: 12px; }
+.seeker-dashboard h1 { font-size: 2rem; }
+.seeker-dashboard h2 { font-size: 1.3rem; margin-bottom: 16px; }
+.seeker-dashboard h3 { font-size: 1.1rem; overflow-wrap: anywhere; }
+.seeker-dashboard p { line-height: 1.6; overflow-wrap: anywhere; }
+.seeker-dashboard .seeker-intro p { margin: 12px 0; }
+.seeker-dashboard .quick-links { display: flex; flex-wrap: wrap; gap: 16px; }
+.seeker-dashboard .seeker-main a { color: #7222ac; }
+/* Flexible counter cards stack automatically as the viewport narrows. */
+.seeker-dashboard .seeker-counts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.seeker-dashboard .seeker-counts > div { background: #f5effa; border-radius: 10px; padding: 20px; }
+.seeker-dashboard dt { font-weight: bold; }
+.seeker-dashboard dd { margin-top: 8px; color: #7222ac; font-size: 1.6rem; overflow-wrap: anywhere; }
+/* Recent cards use plain text details, with room for long job titles. */
+.seeker-dashboard .seeker-list { display: grid; gap: 12px; margin: 16px 0; }
+.seeker-dashboard article { padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; }
+.seeker-dashboard article p { color: #475569; margin-top: 6px; }
+.seeker-dashboard [role="status"] { margin: 12px 0; }
+.seeker-dashboard .seeker-main button { padding: 10px 16px; border: 0; border-radius: 6px; background: #7222ac; color: white; cursor: pointer; margin-bottom: 12px; }
+.seeker-dashboard .seeker-main button:disabled { opacity: .6; cursor: wait; }
+/* Respect hidden retry controls and make keyboard focus easy to see. */
+.seeker-dashboard [hidden] { display: none; }
+.seeker-dashboard :focus-visible { outline: 3px solid #a855f7; outline-offset: 3px; }
+@media (max-width: 800px) {
+    .seeker-dashboard .seeker-counts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+    .seeker-dashboard .seeker-main { padding: 12px; }
+    .seeker-dashboard .seeker-intro, .seeker-dashboard section { padding: 16px; }
+    .seeker-dashboard .seeker-counts { grid-template-columns: minmax(0, 1fr); }
+}

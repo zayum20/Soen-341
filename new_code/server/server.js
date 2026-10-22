@@ -32,13 +32,24 @@ app.use(session({
 // Serve frontend files
 app.use(express.static("public"));
 
-// MySQL connection
+
+ // MySQL connection
 const db = mysql.createConnection({
+
+    // The MySQL server is running on this computer.
     host: "localhost",
-    user: "root",
-    password: "",
+
+    // Read the database username from the environment.
+    user: process.env.DB_USER,
+
+    // Read the database password from the environment.
+    password: process.env.DB_PASSWORD,
+
+    // The database used by CareerConnect.
     database: "recruiting_website"
+
 });
+
 
 // Connect to MySQL
 db.connect((error) => {

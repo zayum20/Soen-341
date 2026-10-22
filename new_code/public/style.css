@@ -134,17 +134,44 @@ cursor: pointer;
     padding-left: 0;
 }
 
+
+/* Navigation links in the public homepage header */
 .site-nav {
     display: flex;
-    gap: 12px;
+    align-items: center;
+    gap: 16px;
     flex-wrap: wrap;
 }
 
+/* Default appearance of navigation links */
 .site-nav a {
     color: #ffffff;
-    font-weight: 700;
+    font-weight: 600;
     text-decoration: none;
+    font-size: 15px;
+    transition: opacity 0.2s ease;
 }
+
+/* Subtle hover effect for Log In */
+.site-nav #account-link:hover {
+    opacity: 0.75;
+}
+
+/* Make Create an Account stand out as a button */
+.site-nav #register-link {
+    background-color: #ffffff;
+    color: #7222ac;
+    padding: 11px 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    transition: background-color 0.2s ease;
+}
+
+/* Button hover effect */
+.site-nav #register-link:hover {
+    background-color: #f1e9fb;
+}
+
 
 .job-board {
     width: min(760px, calc(100% - 32px));
@@ -188,4 +215,65 @@ cursor: pointer;
 
 .board-message {
     color: #475569;
+}
+
+
+/*CareerConnect homepage, welcome section*/
+
+/* main welcome card */
+.home-hero {
+    background: linear-gradient(
+        135deg,
+        #ffffff 0%,
+        #f1e9fb 100%
+    );
+
+    padding: 50px 45px;
+    border-radius: 16px;
+
+    border: 1px solid #e8ddf5;
+
+    box-shadow: 0 8px 25px rgba(70, 35, 120, 0.06);
+
+    margin-bottom: 40px;
+}
+
+/* welcome heading */
+.home-hero h1 {
+    font-size: clamp(30px, 4vw, 42px);
+    font-weight: 800;
+    color: #281a40;
+    line-height: 1.2;
+    letter-spacing: -1px;
+
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+
+/* welcome description */
+.home-hero .intro {
+    font-size: 17px;
+    color: #625875;
+    line-height: 1.7;
+    max-width: 650px;
+    margin-bottom: 0;
+}
+
+/* Better spacing for job-search heading */
+.job-board > h2 {
+    font-size: 25px;
+    font-weight: 700;
+    color: #281a40;
+    margin-bottom: 18px;
+}
+
+/* Make welcome section adapt to smaller screens */
+@media (max-width: 600px) {
+    .home-hero {
+        padding: 30px 22px;
+    }
+
+    .home-hero .intro {
+        font-size: 15px;
+    }
 }
