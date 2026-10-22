@@ -41,7 +41,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="Dashboard.html">
+                    <a href="Employer_Dashboard.html">
                         <i class="bi bi-house"></i>
                         <span>Dashboard</span>
                     </a>
@@ -66,8 +66,14 @@
                 <p><b>Applicants</b></p>
             </span>
             <p>Update the status of people who applied to your jobs.</p>
-            <div id="applicants-list" class="page-width job-list"></div>
-            <p id="applicants-message" class="page-message page-width" hidden></p>
+            <!-- Stage 3B: Filter loaded records locally; retry only reloads data, never submits it. -->
+            <div class="status-row page-width">
+                <label for="status-filter">Filter by status</label>
+                <select id="status-filter" disabled><option value="">All statuses</option><option value="Applied">Applied</option><option value="Under Review">Under Review</option><option value="Interview">Interview</option><option value="Offered">Offered</option><option value="Rejected">Rejected</option></select>
+                <button id="retry-applicants" class="save-status" type="button" hidden>Retry loading</button>
+            </div>
+            <div id="applicants-list" aria-busy="false" class="page-width job-list"></div>
+            <p id="applicants-message" class="page-message page-width" role="status" hidden></p>
         </section>
 
         <script src="applications-common.js"></script>

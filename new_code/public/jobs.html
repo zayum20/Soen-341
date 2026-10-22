@@ -71,8 +71,10 @@
                 <input id="search-input" type="search" placeholder="Search by title, company, or location">
                 <button type="submit">Search</button>
             </form>
-            <div id="jobs-list" class="page-width job-list"></div>
-            <p id="jobs-message" class="page-message page-width" hidden></p>
+            <!-- Stage 3A: Announce loading and allow retrying the last submitted search. -->
+            <div id="jobs-list" class="page-width job-list" aria-busy="false"></div>
+            <p id="jobs-message" class="page-message page-width" role="status" hidden></p>
+            <button id="retry-jobs" type="button" class="apply-button" hidden>Retry search</button>
         </section>
 
         <script src="applications-common.js"></script>
