@@ -619,6 +619,73 @@ GitHub shares SQL files rather than live records
 
 **Repository:** CareerConnect / Soen-341
 
+## Entry 5 — Update older local database schemas
+
+**Date:** October 22, 2026
+
+**Responsible Person:** Angelina Yajaira Montano
+
+**AI Tool:** Codex in VS Code
+
+**Purpose of AI Use:** Generate an SQL update script for teammates
+whose existing local databases are missing the applications table
+or the resume_path column.
+
+### Prompt and context
+
+I shared my teammate’s report that her local database was missing
+the applications table and resume_path column. She requested an
+update consistent with the repository schema that preserves data.
+
+My prompt: “ok can you generate the sql file?”
+
+### AI-generated content
+
+Codex generated:
+new_code/migrations/001_add_applications_and_resume_path.sql
+
+The script:
+- Adds resume_path only when the column is absent.
+- Creates applications only when the table is absent.
+- Uses the applications definition from database.sql.
+- Leaves existing objects unchanged.
+- Displays the resulting definitions for verification.
+- Does not delete records or insert sample data.
+
+### Validation
+
+I ran the script against my local MySQL database using:
+
+SOURCE new_code/migrations/001_add_applications_and_resume_path.sql;
+
+The script completed without errors.
+- resume_path already existed and was left unchanged.
+- Its definition was VARCHAR(255), nullable, default NULL.
+- applications contained the five expected statuses, the unique
+  job_id/job_seeker_id pair, and foreign keys to jobs and users.
+
+The output included one warning whose exact message was not captured.
+
+This test covered an already updated database. Testing on a database
+missing the objects and teammate verification are still pending.
+
+### Decision
+
+Accepted for team review and further testing.
+
+The script updates older installations without requiring teammates
+to rerun database.sql, which drops existing tables.
+
+### Reflection
+
+Although we are not redesigning the tables, teammates may have older
+local schemas. Pulling code from GitHub does not automatically update
+MySQL. A shared SQL update helps keep installations consistent.
+
+The script does not correct existing objects with different
+definitions; those require separate review.
+
+**Related pull request:** https://github.com/zayum20/Soen-341/pull/66
 
 
 
