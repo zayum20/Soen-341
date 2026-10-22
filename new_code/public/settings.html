@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | CareerConnect</title>
+
+    <link rel="icon" type="image/png" href="images/tab-logo.png">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="nav-bar.css">
+    <link rel="stylesheet" href="settings.css">
+</head>
+
+<body class="nav-collapsed">
+    <header class="top-header">
+        <button id="hamburger" class="hamburger"
+                aria-label="Toggle navigation"
+                aria-expanded="false"
+                aria-controls="main-nav">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <img class="header-logo"
+             src="images/careerconnect-logo.png"
+             alt="CareerConnect Logo">
+    </header>
+
+    <nav id="main-nav" class="navbar">
+        <ul class="nav-links" id="nav-links">
+            <!-- Navigation links are populated by settings.js -->
+        </ul>
+    </nav>
+
+    <main class="settings-main">
+        <div class="page-heading">
+            <div>
+                <h1>Settings</h1>
+                <p>Manage your account security and email preferences.</p>
+            </div>
+        </div>
+
+        <p id="page-message" class="message" role="status" aria-live="polite"></p>
+
+        <section class="settings-card">
+            <div class="card-heading">
+                <i class="bi bi-envelope"></i>
+                <div>
+                    <h2>Change Email</h2>
+                    <p>Update the email address associated with your account.</p>
+                </div>
+            </div>
+
+            <form id="email-form">
+                <label for="new-email">New email address</label>
+                <input type="email" id="new-email" name="email"
+                       autocomplete="email" required>
+
+                <label for="email-current-password">Current password</label>
+                <input type="password" id="email-current-password"
+                       name="currentPassword"
+                       autocomplete="current-password" required>
+
+                <button type="submit" class="primary-button">
+                    Update Email
+                </button>
+                <p id="email-message" class="message"
+                   role="status" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section class="settings-card">
+            <div class="card-heading">
+                <i class="bi bi-shield-lock"></i>
+                <div>
+                    <h2>Change Password</h2>
+                    <p>Choose a strong password with at least 8 characters.</p>
+                </div>
+            </div>
+
+            <form id="password-form">
+                <label for="current-password">Current password</label>
+                <input type="password" id="current-password"
+                       name="currentPassword"
+                       autocomplete="current-password" required>
+
+                <label for="new-password">New password</label>
+                <input type="password" id="new-password"
+                       name="newPassword" minlength="8"
+                       autocomplete="new-password" required>
+
+                <label for="confirm-password">Confirm new password</label>
+                <input type="password" id="confirm-password"
+                       name="confirmPassword" minlength="8"
+                       autocomplete="new-password" required>
+
+                <button type="submit" class="primary-button">
+                    Update Password
+                </button>
+                <p id="password-message" class="message"
+                   role="status" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section class="settings-card danger-card">
+            <div class="card-heading">
+                <i class="bi bi-exclamation-triangle"></i>
+                <div>
+                    <h2>Delete Account</h2>
+                    <p>
+                        This permanently deletes your account and associated
+                        records, including related job postings and applications.
+                        This action cannot be undone.
+                    </p>
+                </div>
+            </div>
+
+            <form id="delete-form">
+                <label for="delete-current-password">Current password</label>
+                <input type="password" id="delete-current-password"
+                       name="currentPassword"
+                       autocomplete="current-password" required>
+
+                <label for="delete-confirmation">
+                    Type DELETE to confirm
+                </label>
+                <input type="text" id="delete-confirmation"
+                       name="confirmation" autocomplete="off"
+                       required pattern="DELETE"
+                       title="Type DELETE in capital letters">
+
+                <button type="submit" class="danger-button">
+                    Delete My Account
+                </button>
+                <p id="delete-message" class="message"
+                   role="status" aria-live="polite"></p>
+            </form>
+        </section>
+    </main>
+
+    <script src="settings.js"></script>
+</body>
+</html>
