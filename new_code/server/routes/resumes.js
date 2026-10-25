@@ -1,9 +1,6 @@
 const router = require('express').Router();
-const multer = require('multer');
-const pdfParse = require('pdf-parse');
-const mammoth = require('mammoth');
 const { pool } = require('../db');
-const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
+
 
 const blank = () => ({ personal: { name: '', title: '', email: '', phone: '', location: '', links: [] },
   summary: '', experience: [], education: [], projects: [], volunteer: [], skills: [], certifications: [] });
@@ -31,49 +28,8 @@ function normalize(d = {}) {
   };
 }
 
-const SYSTEM = `You convert resume text into JSON. Reply with ONLY valid JSON, no markdown, matching exactly:
-{"personal":{"name":"","title":"","email":"","phone":"","location":"","links":[]},"summary":"",
-"experience":[{"title":"","company":"","location":"","start":"","end":"","current":false,"bullets":[]}],
-"education":[{"degree":"","school":"","location":"","start":"","end":"","current":false,"grade":"","details":""}],
-"projects":[{"title":"","link":"","description":"","date":""}],
-"volunteer":[{"position":"","organisation":"","location":"","start":"","end":"","current":false,"description":""}],
-"skills":[],"certifications":[{"name":"","issuer":"","year":""}]}
-Dates must be "YYYY-MM"; if only a year is stated use "YYYY". For ongoing roles/studies set "current" to true and "end" to "".
-Put volunteer work in "volunteer" (not "experience") and personal/side projects in "projects".
-Use only information present in the text. Use "" or [] when something is missing. Never invent content.`;
-
-async function aiParse(text) {
-  if (!process.env.ANTHROPIC_API_KEY) throw Object.assign(new Error('ANTHROPIC_API_KEY is not set'), { status: 500 });
-  const r = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json', 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
-    body: JSON.stringify({ model: process.env.AI_MODEL || 'claude-sonnet-5-5', max_tokens: 4000, system: SYSTEM,
-      messages: [{ role: 'user', content: text.slice(0, 20000) }] })
-  });
-  if (!r.ok) throw Object.assign(new Error('AI parsing failed (' + r.status + ')'), { status: 502 });
-  const j = await r.json();
-  const raw = j.content.filter(b => b.type === 'text').map(b => b.text).join('').replace(/^```(json)?|```$/gm, '').trim();
-  return normalize(JSON.parse(raw));
-}
-
-async function extractText(f) {
-  const n = f.originalname.toLowerCase();
-  if (n.endsWith('.pdf')) return (await pdfParse(f.buffer)).text;
-  if (n.endsWith('.docx')) return (await mammoth.extractRawText({ buffer: f.buffer })).value;
-  throw Object.assign(new Error('Only PDF and DOCX files are supported'), { status: 400 });
-}
 const parseRow = r => ({ id: r.id, template: r.template, title: r.title, data: typeof r.data === 'string' ? JSON.parse(r.data) : r.data });
 const wrap = fn => (req, res, next) => fn(req, res).catch(next);
-
-router.post('/upload', upload.single('resume'), wrap(async (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-  const text = await extractText(req.file);
-  if (text.trim().length < 50) return res.status(422).json({ error: 'No readable text found (scanned PDF?)' });
-  const data = await aiParse(text);
-  const [r] = await pool.query('INSERT INTO resumes (title, data, original_filename) VALUES (?,?,?)',
-    [data.personal.name || req.file.originalname, JSON.stringify(data), req.file.originalname]);
-  res.json({ id: r.insertId, template: 'modern', data });
-}));
 
 router.get('/', wrap(async (req, res) => {
   const [rows] = await pool.query('SELECT id, title, template, updated_at FROM resumes ORDER BY updated_at DESC LIMIT 50');

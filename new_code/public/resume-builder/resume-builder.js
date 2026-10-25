@@ -119,14 +119,6 @@ function init() {
   function load(j) { R = { ...blank(), ...j.data }; tpl = TEMPLATES[j.template] ? j.template : 'modern'; id = j.id;
     history.replaceState(null, '', '?id=' + id); renderEditor(); renderPreview(); renderGallery(); }
 
-  $('#upload').onclick = () => $('#file').click();
-  $('#file').onchange = async e => {
-    const f = e.target.files[0]; if (!f) return;
-    const t = toast('Parsing resume with AI…', '', 60000);
-    try { const fd = new FormData(); fd.append('resume', f);
-      load(await api('/api/resumes/upload', { method: 'POST', body: fd })); toast('Resume parsed — review and edit below', 'ok');
-    } catch (err) { toast(err.message, 'err', 5000); } finally { t.remove(); e.target.value = ''; }
-  };
   $('#save').onclick = async () => {
     try { const body = JSON.stringify({ data: R, template: tpl }), h = { 'Content-Type': 'application/json' };
       if (id) await api('/api/resumes/' + id, { method: 'PUT', headers: h, body });
