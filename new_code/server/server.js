@@ -22,6 +22,7 @@ const PORT = 3000;
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use('/api/resumes', require('./routes/resumes'));
 
 app.use(session({
     secret: "careerconnect-secret",
