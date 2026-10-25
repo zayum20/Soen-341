@@ -29,11 +29,11 @@ loginForm.addEventListener("submit", async (event) => {
 
             alert("Login successful!");
 
-            // Go to the profile page
+            // Stage 3A: Open the dashboard belonging to the authenticated role.
             if (data.role === "job_seeker") {
-                window.location.href = "Profile.html";
+                window.location.href = "Dashboard.html";
             } else if (data.role === "employer") {
-                window.location.href = "Employer_Profile.html";
+                window.location.href = "Employer_Dashboard.html";
             }
 
         } else {

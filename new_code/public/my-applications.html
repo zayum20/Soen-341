@@ -47,7 +47,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="settings.html" >
                         <i class="bi bi-gear"></i>
                         <span>Settings</span>
                     </a>
@@ -66,8 +66,14 @@
                 <p><b>My Applications</b></p>
             </span>
             <p>Track the status of each job you have applied to.</p>
-            <div id="applications-list" class="page-width job-list"></div>
-            <p id="applications-message" class="page-message page-width" hidden></p>
+            <!-- Stage 3B: Filter loaded records locally; retry only reloads data, never submits it. -->
+            <div class="status-row page-width">
+                <label for="status-filter">Filter by status</label>
+                <select id="status-filter" disabled><option value="">All statuses</option><option value="Applied">Applied</option><option value="Under Review">Under Review</option><option value="Interview">Interview</option><option value="Offered">Offered</option><option value="Rejected">Rejected</option></select>
+                <button id="retry-applications" class="save-status" type="button" hidden>Retry loading</button>
+            </div>
+            <div id="applications-list" aria-busy="false" class="page-width job-list"></div>
+            <p id="applications-message" class="page-message page-width" role="status" hidden></p>
         </section>
 
         <script src="applications-common.js"></script>

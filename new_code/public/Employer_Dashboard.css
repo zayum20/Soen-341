@@ -1,0 +1,38 @@
+/* Stage 1: Scope every rule to this dashboard to protect the other pages. */
+/* Constrain page width and space the introduction, activity sections, and posting form. */
+.recruiter-dashboard .dashboard-main { max-width: 1040px; margin: 0 auto; padding: 24px; }
+.recruiter-dashboard .dashboard-main section { align-items: stretch; padding: 24px; margin-bottom: 20px; border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; gap: 16px; }
+.recruiter-dashboard .dashboard-intro { border: 0; }
+.recruiter-dashboard h1 { font-size: 2rem; }
+.recruiter-dashboard h2 { font-size: 1.3rem; }
+.recruiter-dashboard h3 { font-size: 1.05rem; overflow-wrap: anywhere; }
+.recruiter-dashboard p { line-height: 1.6; overflow-wrap: anywhere; }
+/* Show the two overview counters side by side on larger screens. */
+.recruiter-dashboard .dashboard-overview { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.recruiter-dashboard .dashboard-overview h2 { grid-column: 1 / -1; }
+.recruiter-dashboard .dashboard-overview > div { padding: 20px; background: #f5effa; border-radius: 10px; }
+.recruiter-dashboard .dashboard-overview > div p { font-size: 1.6rem; color: #7222ac; }
+/* Separate recent activity into readable cards, including long names and titles. */
+.recruiter-dashboard .dashboard-list { display: grid; gap: 12px; }
+.recruiter-dashboard .dashboard-list article { border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; }
+.recruiter-dashboard .dashboard-list article p { color: #475569; margin-top: 6px; }
+.recruiter-dashboard .dashboard-main a { color: #7222ac; }
+/* Match existing purple controls; keep disabled, hidden, and focus states visible. */
+.recruiter-dashboard .dashboard-main button { background: #7222ac; color: white; border: 0; border-radius: 6px; padding: 10px 16px; cursor: pointer; align-self: flex-start; }
+.recruiter-dashboard .dashboard-main button:disabled { opacity: .6; cursor: wait; }
+.recruiter-dashboard .dashboard-main [hidden] { display: none; }
+.recruiter-dashboard .dashboard-main :focus-visible { outline: 3px solid #a855f7; outline-offset: 3px; }
+.recruiter-dashboard .dashboard-posting .header { padding: 0; display: block; }
+.recruiter-dashboard .dashboard-posting .header p { font-size: 1.3rem; }
+.recruiter-dashboard [role="status"] { margin: 8px 0; }
+/* Stack form fields and keep inputs within the available page width. */
+.recruiter-dashboard #job-fields { border: 0; display: grid; gap: 16px; min-width: 0; }
+.recruiter-dashboard #job-fields > div { display: grid; gap: 6px; }
+.recruiter-dashboard input, .recruiter-dashboard select, .recruiter-dashboard textarea { width: 100%; min-width: 0; padding: 10px; font: inherit; border: 1px solid #94a3b8; border-radius: 6px; }
+.recruiter-dashboard textarea { resize: vertical; }
+/* Use one counter column and smaller spacing on phone screens. */
+@media (max-width: 600px) {
+ .recruiter-dashboard .dashboard-main { padding: 12px; }
+ .recruiter-dashboard .dashboard-main section { padding: 16px; }
+ .recruiter-dashboard .dashboard-overview { grid-template-columns: minmax(0, 1fr); }
+}

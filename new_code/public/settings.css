@@ -1,0 +1,182 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f7f7fb;
+    color: #0f1724;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.settings-main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 50px;
+    position: relative;
+    z-index: 1;
+}
+
+
+
+.page-heading {
+    margin-top: 12px;
+    margin-bottom: 24px;
+    padding-top: 8px;
+}
+
+
+.page-heading h1 {
+    margin: 0 0 8px;
+    font-size: 30px;
+}
+
+.page-heading p,
+.card-heading p {
+    margin: 0;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+.settings-card {
+    margin-bottom: 22px;
+    padding: 26px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+}
+
+.card-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.card-heading > i {
+    color: #7222ac;
+    font-size: 25px;
+    margin-top: 2px;
+}
+
+.card-heading h2 {
+    margin: 0 0 7px;
+    font-size: 20px;
+}
+
+.settings-card form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.settings-card label {
+    margin: 14px 0 7px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.settings-card input {
+    width: 100%;
+    max-width: 520px;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: #fff;
+    color: #0f1724;
+    font: inherit;
+}
+
+.settings-card input:focus {
+    outline: 2px solid #7222ac;
+    outline-offset: 1px;
+}
+
+.primary-button,
+.danger-button {
+    margin-top: 20px;
+    padding: 11px 17px;
+    border: none;
+    border-radius: 7px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.primary-button {
+    background: #7222ac;
+}
+
+.primary-button:hover {
+    background: #5f1b93;
+}
+
+
+.danger-card {
+    border: 1px solid #d8b4fe;
+    background: #fdfaff;
+}
+
+.danger-card .card-heading > i,
+.danger-card h2 {
+    color: #7222ac;
+}
+
+.danger-button {
+    background:#7222ac;
+}
+
+.danger-button:hover {
+    background: #7222ac;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.message {
+    min-height: 0;
+    margin: 10px 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.message:empty {
+    display: none;
+}
+
+.message.success {
+    color: #166534;
+}
+
+.message.error {
+    color: #b91c1c;
+}
+
+@media (max-width: 600px) {
+    .settings-main {
+        padding: 20px 14px 35px;
+    }
+
+    .settings-card {
+        padding: 20px 16px;
+    }
+
+    .page-heading h1 {
+        font-size: 26px;
+    }
+
+    .card-heading h2 {
+        font-size: 18px;
+    }
+
+    .primary-button,
+    .danger-button {
+        width: 100%;
+    }
+}

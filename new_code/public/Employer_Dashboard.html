@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Employer Dashboard</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -10,15 +11,22 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="nav-bar.css">
         <link rel="stylesheet" href="profile.css">
+        <!-- Stage 1: Load dashboard-only styling after the existing shared styles. -->
+        <link rel="stylesheet" href="Employer_Dashboard.css">
     </head>
-    <body class="nav-collapsed">
+    <body class="nav-collapsed recruiter-dashboard">
         <header class="top-header">
             <button id="hamburger" class="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            <img class="header-logo" src="careerconnect-logo.png" alt="CareerConnect Logo">
+            
+<!-- Display the CareerConnect logo from the images folder. -->
+<img class="header-logo"
+     src="images/careerconnect-logo.png"
+     alt="CareerConnect Logo">
+
         </header>
 
         <nav id="main-nav" class="navbar">
@@ -36,6 +44,29 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
+
+<!-- Link to the existing job posting page. -->
+<li>
+    <a href="employer-post-job.html">
+        <!-- Icon representing creating a new posting. -->
+        <i class="bi bi-plus-circle"></i>
+
+        <!-- Navigation label. -->
+        <span>Post a Job</span>
+    </a>
+</li>
+
+<!-- Link to the existing applicant management page. -->
+<li>
+    <a href="employer-applicants.html">
+        <!-- Icon representing applicants. -->
+        <i class="bi bi-people"></i>
+
+        <!-- Navigation label. -->
+        <span>Applicants</span>
+    </a>
+</li>
+
                 <li>
                     <a href="#" >
                         <i class="bi bi-gear"></i>
@@ -52,13 +83,69 @@
                 
             </ul>
         </nav>
-        <section>
+
+<!-- Stage 1: Status areas and retry controls let users recover from failed requests. -->
+<main class="dashboard-main">
+<p id="dashboard-message" role="status" hidden></p>
+<button id="retry-profile" type="button" hidden>Retry account check</button>
+<!-- Main introduction for the recruiter dashboard -->
+<section class="dashboard-intro">
+
+    <!-- Main heading of the dashboard -->
+    <h1>Recruiter Dashboard</h1>
+
+    <!-- Brief explanation of the dashboard's purpose -->
+    <p>
+        Manage your job postings and review applications
+        all in one place.
+    </p>
+
+</section>
+
+<!-- Overview of the recruiter's activity -->
+<section class="dashboard-overview">
+
+    <h2>Recruitment Overview</h2>
+
+    <!-- Number of jobs posted by this employer -->
+    <div>
+        <h3>Jobs Posted</h3>
+        <p id="total-jobs" aria-live="polite">Loading...</p>
+    </div>
+
+    <!-- Number of applications received -->
+    <div>
+        <h3>Applications Received</h3>
+        <p id="total-applications" aria-live="polite">Loading...</p>
+    </div>
+
+</section>
+
+        <!-- JavaScript displays up to five newest jobs; the counter includes all returned jobs. -->
+        <section class="dashboard-activity" aria-labelledby="recent-jobs-heading">
+            <h2 id="recent-jobs-heading">Recent Jobs</h2>
+            <p id="jobs-message" role="status">Loading jobs...</p>
+            <button id="retry-jobs" type="button" hidden>Retry jobs</button>
+            <div id="recent-jobs" class="dashboard-list"></div>
+            <a href="employer-post-job.html">View all your jobs</a>
+        </section>
+        <!-- Applications load independently, so a database error does not hide working jobs. -->
+        <section class="dashboard-activity" aria-labelledby="recent-applications-heading">
+            <h2 id="recent-applications-heading">Recent Applications</h2>
+            <p id="applications-message" role="status">Loading applications...</p>
+            <button id="retry-applications" type="button" hidden>Retry applications</button>
+            <div id="recent-applications" class="dashboard-list"></div>
+            <a href="employer-applicants.html">View all applicants</a>
+        </section>
+        <section class="dashboard-posting">
             <span class="header">
                 <p><b>Post a New Job Opportunity</b></p>
-                <div id="message-container"></div> <!--for Javascript to display messages to the user. -->
+                <div id="message-container" role="status" hidden></div> <!--for Javascript to display messages to the user. -->
             </span>
             
     <form id="create-job-form">
+<!-- Enable posting only after JavaScript verifies the employer account. -->
+<fieldset id="job-fields" disabled>
 
   <!-- Job Title -->
   <div>
@@ -79,7 +166,7 @@
 <!-- Category -->
   <div>
     <label for="category">Category:</label>
-<select name="category" id="category">
+<select name="category" id="category" required>
   <option value="">--Please choose a category--</option>
   <option value="Technology">Technology</option>
   <option value="Marketing">Marketing</option>
@@ -92,7 +179,7 @@
   <!-- Job Type -->
   <div>
     <label for="jobType">Job Type:</label>
-<select name="jobType" id="jobType">
+<select name="jobType" id="jobType" required>
   <option value="">--Please choose a job type--</option>
   <option value="Full-time">Full-Time</option>
   <option value="Part-time">Part-Time</option>
@@ -109,9 +196,11 @@
   </div>
 <!-- Submit button -->
   <button type="submit">Submit Form</button>
+</fieldset>
         </form>
         </section>
    
+</main>
         <script src="Employer_Dashboard.js"></script>
     </body>
 </html>
