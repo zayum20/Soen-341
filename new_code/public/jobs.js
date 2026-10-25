@@ -6,16 +6,40 @@ function showJobsMessage(message) {
     jobsMessage.textContent = message;
 }
 
-async function loadJobs(query = "") {
-    try {
-        const profile = await requireRole("job_seeker", "Employer_Profile.html");
+// Stage 3A: Only the latest search may update the page, even if responses arrive out of order.
+let jobsRequestVersion = 0;
+let lastJobsQuery = '';
+const retryJobs = document.getElementById('retry-jobs');
 
-        if (!profile) {
+async function loadJobs(query = "") {
+    const version = ++jobsRequestVersion;
+    lastJobsQuery = query;
+    jobsList.innerHTML = '';
+    jobsList.setAttribute('aria-busy', 'true');
+    retryJobs.hidden = true;
+    showJobsMessage('Loading jobs...');
+    try {
+        // Check the version before redirects as well as before rendering results.
+        const profileResponse = await fetch('/api/profile');
+        if (version !== jobsRequestVersion) return;
+        if (profileResponse.status === 401) {
+            window.location.href = 'login.html';
+            return;
+        }
+        if (!profileResponse.ok) throw new Error('Could not verify your account. Please retry.');
+        const profile = await profileResponse.json();
+        if (version !== jobsRequestVersion) return;
+        if (!profile || !['job_seeker', 'employer'].includes(profile.role)) {
+            throw new Error('Could not verify your account. Please retry.');
+        }
+        if (profile.role !== 'job_seeker') {
+            window.location.href = 'Employer_Dashboard.html';
             return;
         }
 
         const response = await fetch(`/api/jobs?q=${encodeURIComponent(query)}`);
 
+        if (version !== jobsRequestVersion) return;
         if (response.status === 401) {
             window.location.href = "login.html";
             return;
@@ -23,9 +47,10 @@ async function loadJobs(query = "") {
 
         const data = await response.json();
 
-        if (!response.ok) {
-            showJobsMessage(data.message || "Could not load jobs.");
-            return;
+        if (version !== jobsRequestVersion) return;
+        if (!response.ok) throw new Error(data.message || 'Could not load jobs.');
+        if (!Array.isArray(data) || data.some(job => !job || typeof job !== 'object' || Array.isArray(job))) {
+            throw new Error('Could not read the job results. Please retry.');
         }
 
         if (data.length === 0) {
@@ -39,7 +64,7 @@ async function loadJobs(query = "") {
         jobsMessage.hidden = true;
         jobsList.innerHTML = data.map((job) => {
             const excerpt = job.description
-                ? escapeHtml(job.description.slice(0, 140))
+                ? escapeHtml(String(job.description).slice(0, 140))
                 : "";
 
             return `
@@ -52,8 +77,12 @@ async function loadJobs(query = "") {
             `;
         }).join("");
     } catch (error) {
+        if (version !== jobsRequestVersion) return;
         console.error("Job list error:", error);
-        showJobsMessage("Could not load jobs.");
+        showJobsMessage(error.message || 'Could not load jobs. Please retry.');
+        retryJobs.hidden = false;
+    } finally {
+        if (version === jobsRequestVersion) jobsList.setAttribute('aria-busy', 'false');
     }
 }
 
@@ -67,4 +96,6 @@ if (searchForm && searchInput) {
     });
 }
 
+// Retry the submitted query rather than any unsent text currently in the input.
+retryJobs.addEventListener('click', () => loadJobs(lastJobsQuery));
 loadJobs();

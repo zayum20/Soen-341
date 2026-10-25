@@ -33,13 +33,24 @@ app.use(session({
 // Serve frontend files
 app.use(express.static("public"));
 
-// MySQL connection
+
+ // MySQL connection
 const db = mysql.createConnection({
+
+    // The MySQL server is running on this computer.
     host: "localhost",
-    user: "root",
-    password: "",
+
+    // Read the database username from the environment.
+    user: process.env.DB_USER,
+
+    // Read the database password from the environment.
+    password: process.env.DB_PASSWORD,
+
+    // The database used by CareerConnect.
     database: "recruiting_website"
+
 });
+
 
 // Connect to MySQL
 db.connect((error) => {
@@ -634,6 +645,284 @@ app.put("/api/profile", (req, res) => {
     );
 });
  
+
+
+ // ==========================================
+ // SETTINGS: CHANGE EMAIL
+ // ==========================================
+
+app.post("/api/settings/email", (req, res) => {
+    const userId = req.session.userId;
+
+    if (!userId) {
+        return res.status(401).json({ message: "Not logged in." });
+    }
+
+    const { email, currentPassword } = req.body;
+
+    if (
+        typeof email !== "string" ||
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) ||
+        typeof currentPassword !== "string" ||
+        !currentPassword
+    ) {
+        return res.status(400).json({
+            message: "Enter a valid email and your current password."
+        });
+    }
+
+    db.query(
+        "SELECT password FROM users WHERE id = ?",
+        [userId],
+        async (error, results) => {
+            if (error) {
+                return res.status(500).json({
+                    message: "Could not verify your account."
+                });
+            }
+
+            if (results.length === 0) {
+                return res.status(404).json({
+                    message: "Account not found."
+                });
+            }
+
+            try {
+                const matches = await bcrypt.compare(
+                    currentPassword,
+                    results[0].password
+                );
+
+                if (!matches) {
+                    return res.status(401).json({
+                        message: "Current password is incorrect."
+                    });
+                }
+
+                db.query(
+                    "UPDATE users SET email = ? WHERE id = ?",
+                    [email.trim(), userId],
+                    (updateError) => {
+                        if (updateError?.code === "ER_DUP_ENTRY") {
+                            return res.status(409).json({
+                                message: "That email is already in use."
+                            });
+                        }
+
+                        if (updateError) {
+                            return res.status(500).json({
+                                message: "Could not update email."
+                            });
+                        }
+
+                        return res.json({
+                            message: "Email updated successfully."
+                        });
+                    }
+                );
+            } catch (error) {
+                return res.status(500).json({
+                    message: "Could not verify your password."
+                });
+            }
+        }
+    );
+});
+
+
+// ==========================================
+// SETTINGS: CHANGE PASSWORD
+// ==========================================
+
+app.post("/api/settings/password", (req, res) => {
+    const userId = req.session.userId;
+
+    if (!userId) {
+        return res.status(401).json({ message: "Not logged in." });
+    }
+
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    if (
+        typeof currentPassword !== "string" ||
+        typeof newPassword !== "string" ||
+        typeof confirmPassword !== "string" ||
+        !currentPassword ||
+        newPassword.length < 8 ||
+        newPassword !== confirmPassword
+    ) {
+        return res.status(400).json({
+            message: "Use a new password of at least 8 characters and make sure both entries match."
+        });
+    }
+
+    db.query(
+        "SELECT password FROM users WHERE id = ?",
+        [userId],
+        async (error, results) => {
+            if (error) {
+                return res.status(500).json({
+                    message: "Could not verify your account."
+                });
+            }
+
+            if (results.length === 0) {
+                return res.status(404).json({
+                    message: "Account not found."
+                });
+            }
+
+            try {
+                const matches = await bcrypt.compare(
+                    currentPassword,
+                    results[0].password
+                );
+
+                if (!matches) {
+                    return res.status(401).json({
+                        message: "Current password is incorrect."
+                    });
+                }
+
+                const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+                db.query(
+                    "UPDATE users SET password = ? WHERE id = ?",
+                    [hashedPassword, userId],
+                    (updateError) => {
+                        if (updateError) {
+                            return res.status(500).json({
+                                message: "Could not update password."
+                            });
+                        }
+
+                        // Require the user to log in again.
+                        req.session.destroy((sessionError) => {
+                            if (sessionError) {
+                                console.error("Session destruction error:", sessionError);
+                            }
+
+                            return res.json({
+                                message: "Password updated. Please log in again."
+                            });
+                        });
+                    }
+                );
+            } catch (error) {
+                console.error("Password update error:", error);
+
+                return res.status(500).json({
+                    message: "Could not update password."
+                });
+            }
+        }
+    );
+});
+
+
+
+// ==========================================
+// SETTINGS: DELETE ACCOUNT
+// ==========================================
+
+app.delete("/api/settings/account", (req, res) => {
+    const userId = req.session.userId;
+
+    if (!userId) {
+        return res.status(401).json({ message: "Not logged in." });
+    }
+
+    const { currentPassword, confirmation } = req.body;
+
+    if (
+        typeof currentPassword !== "string" ||
+        !currentPassword ||
+        confirmation !== "DELETE"
+    ) {
+        return res.status(400).json({
+            message: 'Enter your current password and type "DELETE" to confirm.'
+        });
+    }
+
+    db.query(
+        "SELECT password FROM users WHERE id = ?",
+        [userId],
+        async (error, results) => {
+            if (error) {
+                return res.status(500).json({
+                    message: "Could not verify your account."
+                });
+            }
+
+            if (results.length === 0) {
+                return res.status(404).json({
+                    message: "Account not found."
+                });
+            }
+
+            try {
+                const matches = await bcrypt.compare(
+                    currentPassword,
+                    results[0].password
+                );
+
+                if (!matches) {
+                    return res.status(401).json({
+                        message: "Current password is incorrect."
+                    });
+                }
+
+                // Related records are removed by the database's
+                // existing ON DELETE CASCADE foreign keys.
+                db.query(
+                    "DELETE FROM users WHERE id = ?",
+                    [userId],
+                    (deleteError, result) => {
+                        if (deleteError) {
+                            console.error("Account deletion error:", deleteError);
+
+                            return res.status(500).json({
+                                message: "Could not delete account."
+                            });
+                        }
+
+                        if (result.affectedRows === 0) {
+                            return res.status(404).json({
+                                message: "Account not found."
+                            });
+                        }
+
+                        req.session.destroy((sessionError) => {
+                            if (sessionError) {
+                                console.error("Session destruction error:", sessionError);
+                            }
+
+                            return res.json({
+                                message: "Account deleted successfully."
+                            });
+                        });
+                    }
+                );
+            } catch (error) {
+                console.error("Account verification error:", error);
+
+                return res.status(500).json({
+                    message: "Could not verify your password."
+                });
+            }
+        }
+    );
+});
+
+
+
+
+
+
+
+
+
+
 // ==========================================
 // RECRUITER JOB POSTING ENDPOINTS
 // ==========================================

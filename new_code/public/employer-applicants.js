@@ -1,78 +1,26 @@
-const applicantsList = document.getElementById("applicants-list");
-const applicantsMessage = document.getElementById("applicants-message");
+// Stage 3B: Keep a local copy for status filtering; no extra database requests on filter changes.
+const applicantsList = document.getElementById('applicants-list');
+const applicantsMessage = document.getElementById('applicants-message');
+const statusFilter = document.getElementById('status-filter');
+const retryList = document.getElementById('retry-applicants');
+let records = [];
+let listLoading = false;
+let statusSaving = false;
 
-function showApplicantsMessage(message) {
-    applicantsMessage.hidden = false;
-    applicantsMessage.textContent = message;
+function showApplicantsMessage(text) {
+    applicantsMessage.textContent = text;
+    applicantsMessage.hidden = !text;
 }
 
-function statusOptions(currentStatus) {
-    return APPLICATION_STATUSES.map((status) => `
-        <option value="${escapeHtml(status)}" ${status === currentStatus ? "selected" : ""}>
-            ${escapeHtml(status)}
-        </option>
-    `).join("");
-}
-
-async function saveStatus(applicationId, status, messageElement, button) {
-    messageElement.hidden = true;
-    button.disabled = true;
-
-    try {
-        const response = await fetch(`/api/employer/applications/${applicationId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                status: status
-            })
-        });
-
-        const data = await response.json();
-        messageElement.hidden = false;
-        messageElement.textContent = data.message || "Could not update application status.";
-        messageElement.className = response.ok
-            ? "save-message success"
-            : "save-message error";
-    } catch (error) {
-        console.error("Status update error:", error);
-        messageElement.hidden = false;
-        messageElement.textContent = "Could not connect to the server.";
-        messageElement.className = "save-message error";
-    } finally {
-        button.disabled = false;
+function renderApplicants() {
+    const visible = records.filter(record => !statusFilter.value || record.status === statusFilter.value);
+    applicantsList.innerHTML = '';
+    if (!visible.length) {
+        showApplicantsMessage(records.length ? 'No applications match this status.' : 'No one has applied to your jobs yet.');
+        return;
     }
-}
-
-async function loadApplicants() {
-    try {
-        const profile = await requireRole("employer", "Profile.html");
-
-        if (!profile) {
-            return;
-        }
-
-        const response = await fetch("/api/employer/applications");
-
-        if (response.status === 401) {
-            window.location.href = "login.html";
-            return;
-        }
-
-        const applicants = await response.json();
-
-        if (!response.ok) {
-            showApplicantsMessage(applicants.message || "Could not load applicants.");
-            return;
-        }
-
-        if (applicants.length === 0) {
-            showApplicantsMessage("No one has applied to your jobs yet.");
-            return;
-        }
-
-        applicantsList.innerHTML = applicants.map((applicant) => {
+    showApplicantsMessage('');
+        applicantsList.innerHTML = visible.map((applicant) => {
             const name = `${applicant.first_name || ""} ${applicant.last_name || ""}`.trim();
 
             return `
@@ -89,7 +37,7 @@ async function loadApplicants() {
                         </select>
                         <button type="button" class="save-status">Save status</button>
                     </div>
-                    <p class="save-message" hidden></p>
+                    <p class="save-message" role="status" hidden></p>
                 </article>
             `;
         }).join("");
@@ -104,14 +52,104 @@ async function loadApplicants() {
                     card.dataset.applicationId,
                     select.value,
                     messageElement,
-                    button
+                    button,
+                    select
                 );
             });
         });
+}
+
+function statusOptions(currentStatus) {
+    // Preserve unknown future statuses until the recruiter deliberately selects a supported one.
+    const unknown = APPLICATION_STATUSES.includes(currentStatus) ? ''
+        : `<option value="" selected disabled>${escapeHtml(currentStatus || 'Select a status')}</option>`;
+    return unknown + APPLICATION_STATUSES.map((status) => `
+        <option value="${escapeHtml(status)}" ${status === currentStatus ? "selected" : ""}>
+            ${escapeHtml(status)}
+        </option>
+    `).join("");
+}
+
+// Lock the affected controls while saving and update the cached status only on success.
+async function saveStatus(applicationId, status, messageElement, button, select) {
+    if (statusSaving || listLoading) return;
+    const record = records.find(item => String(item.id) === String(applicationId));
+    if (!record || !APPLICATION_STATUSES.includes(status)) return;
+    if (record.status === status) {
+        messageElement.hidden = false;
+        messageElement.textContent = 'This status is already saved.';
+        return;
+    }
+    statusSaving = true;
+    statusFilter.disabled = true;
+    button.disabled = true;
+    select.disabled = true;
+    button.textContent = 'Saving...';
+    messageElement.hidden = false;
+    messageElement.textContent = 'Saving status...';
+    try {
+        const response = await fetch(`/api/employer/applications/${encodeURIComponent(applicationId)}`, {
+            method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status })
+        });
+        if (response.status === 401 || response.status === 403) {
+            window.location.href = response.status === 401 ? 'login.html' : 'Dashboard.html';
+            return;
+        }
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Could not save the status.');
+        record.status = status;
+        // Reapply the filter so a card moves out of its old status immediately after a successful save.
+        renderApplicants();
+        showApplicantsMessage('Application status saved as ' + status + '.');
     } catch (error) {
-        console.error("Applicants error:", error);
-        showApplicantsMessage("Could not load applicants.");
+        select.value = APPLICATION_STATUSES.includes(record.status) ? record.status : '';
+        messageElement.textContent = error.message || 'Could not save the status. Please try again.';
+        messageElement.className = 'save-message error';
+    } finally {
+        statusSaving = false;
+        statusFilter.disabled = false;
+        button.disabled = false;
+        select.disabled = false;
+        button.textContent = 'Save status';
     }
 }
 
+async function loadApplicants() {
+    if (listLoading || statusSaving) return;
+    listLoading = true;
+    statusFilter.disabled = true;
+    retryList.hidden = true;
+    retryList.disabled = true;
+    records = [];
+    applicantsList.innerHTML = '';
+    applicantsList.setAttribute('aria-busy', 'true');
+    showApplicantsMessage('Checking your account and loading applications...');
+    try {
+        const profile = await requireRole('employer', 'Dashboard.html');
+        if (!profile) return;
+        const response = await fetch('/api/employer/applications');
+        if (response.status === 401 || response.status === 403) {
+            window.location.href = response.status === 401 ? 'login.html' : 'Dashboard.html';
+            return;
+        }
+        if (!response.ok) throw new Error('Could not load applications. Please try again.');
+        const data = await response.json();
+        if (!Array.isArray(data) || data.some(item => !item || typeof item !== 'object' || Array.isArray(item))) {
+            throw new Error('Could not read the applications. Please try again.');
+        }
+        records = data;
+        statusFilter.disabled = false;
+        renderApplicants();
+    } catch (error) {
+        // Database or profile failures stay visible instead of pretending the account has no applications.
+        showApplicantsMessage(error.message || 'Could not load applications. Please try again.');
+        retryList.hidden = false;
+    } finally {
+        listLoading = false;
+        retryList.disabled = false;
+        applicantsList.setAttribute('aria-busy', 'false');
+    }
+}
+statusFilter.addEventListener('change', renderApplicants);
+retryList.addEventListener('click', loadApplicants);
 loadApplicants();

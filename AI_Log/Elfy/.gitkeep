@@ -44,3 +44,29 @@ Validation: Applied the suggested code and opened the page in the browser to see
 Decision: Accepted and used all CSS code suggestions.
 Reflection: AI worked well for a standard form layout like this one. Since the design image was clear, the generated CSS worked without changes.
 Responsible person: Ariane
+
+--> Task 2.1: Changing UI design
+Purpose of AI: Change the UI design of the whole project
+Chat Link or Prompt/Response: 
+Prompt: change every blue colour to this #7222ac
+Response: ✅ Updated to the new purple shade
+I applied the requested color #7222ac across the app’s main UI styles, including:
+buttons
+links
+focus borders
+profile actions
+navigation/header accents
+skill tags
+Verified by searching the CSS files for #7222ac, which now appears consistently in the relevant styling definitions.
+AI-Suggested Content: Change all lines of code in css which had blue to #7222ac (purple).
+Decision: Accepted and used all CSS code suggestions.
+Reflection: changed the UI design from #2563eb to #7222ac.
+
+--> Task 2.2: Changing logo colour from blue to purple
+Purpose of AI: Change the UI design of the logo
+Chat Link or Prompt/Response: https://claude.ai/share/cf8136a1-8db8-4c41-a577-0877ccec31e5
+AI-Suggested Content: Changed the color of the logo to purple
+Decision: Asked it to make changes in the shade (put a lighter or darker shade.
+Reflection: changed the UI design from #2563eb to #7222ac.
+
+
