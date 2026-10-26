@@ -87,3 +87,46 @@ Links and the workflow-history verification were added retrospectively. Feature 
 
 ### Next meeting
 October 19, 2026.
+
+
+## Meeting 3 — October 19, 2026
+
+### Meeting details
+- **Format:** Online, Discord
+- **Time:** 9:15–9:45 PM (30 minutes)
+- **Present:** Sara, Angelina, Ayza, Tasneem, Elfy
+- **Absent:** Aminatta
+
+### Purpose
+Review feature progress and identify the remaining implementation and integration work.
+
+### Progress reported
+
+| Member | Update |
+| --- | --- |
+| Sara | Reported completing the dashboard work presented at this meeting. |
+| Tasneem | Presented the job-posting details page. The frontend was complete; backend and database integration remained to be worked out. |
+| Angelina | Proposed investigating a free cloud-hosted MySQL database to provide shared, live updates for teammates. |
+| Elfy | Reported developing the AI resume builder. Merging it into the main code, changing the UI design, and adding functionality remained outstanding. |
+| Ayza | No new progress update. |
+
+### Follow-up actions
+
+| Owner | Action |
+| --- | --- |
+| Tasneem | Continue backend and database integration for the job-posting details page. |
+| Angelina | Investigate database setup and hosting options. |
+| Elfy | Integrate the AI resume builder, update its UI, and complete the remaining functionality. |
+| All members | Push their presented work to GitHub before the agreed October 26 midnight deadline. |
+
+The exact deadline time will be clarified before finalizing this record.
+
+### Related work
+- [US-05 — Job Posting Management (#13)](https://github.com/zayum20/Soen-341/issues/13)
+- [US-06 — Job Search and Filtering (#14)](https://github.com/zayum20/Soen-341/issues/14)
+- [US-10 — AI-Assisted Resume Feedback (#18)](https://github.com/zayum20/Soen-341/issues/18): related AI resume work; the reported builder scope differs from the story’s feedback wording.
+
+Links were added retrospectively. Progress statements reflect what members reported at the meeting.
+
+### Next meeting
+October 22, 2026, in person before the lab.
