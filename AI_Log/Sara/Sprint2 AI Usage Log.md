@@ -200,7 +200,7 @@ Sara Azmoon
 
 **Chat Links:**
 - **Chat #4:** https://chatgpt.com/share/6adfbec6-6370-83ea-bf3c-8bc45f534fc8
-- **Chat #5:** https://chatgpt.com/s/cx_6adfbedc16308191a07128ff0b635ddb
+- **Chat #5:** https://chatgpt.com/share/6adfc55a-f138-83ea-bc5c-4e294b3b1a5b
 
 **Purpose of AI Use:**  
 Organize Sprint 2 meeting minutes, improve documentation based on Sprint 1 feedback, and prepare a one-page Sprint 2 Summary Report with an editable version.
