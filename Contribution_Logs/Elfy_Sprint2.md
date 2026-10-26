@@ -1,0 +1,3 @@
+- I changed the ui design to purple including the career connect logo
+- Built the front end, back end and data base of the resume feature 
+- built the ai resume builder using Claude and merged it’s front and back end with the main  project , changed its ui design to match the main project.
