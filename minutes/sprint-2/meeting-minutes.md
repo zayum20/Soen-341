@@ -117,7 +117,7 @@ Review feature progress and identify the remaining implementation and integratio
 | Tasneem | Continue backend and database integration for the job-posting details page. |
 | Angelina | Investigate database setup and hosting options. |
 | Elfy | Integrate the AI resume builder, update its UI, and complete the remaining functionality. |
-| All members | Push their presented work to GitHub before the agreed October 26 midnight deadline. |
+| All members | Push their presented work to GitHub by **Monday, October 26, 2026, at 11:59 PM (Toronto time)**. |
 
 The exact deadline time will be clarified before finalizing this record.
 
@@ -130,3 +130,26 @@ Links were added retrospectively. Progress statements reflect what members repor
 
 ### Next meeting
 October 22, 2026, in person before the lab.
+
+
+## Meeting 4 — October 22, 2026
+
+### Meeting details
+- **Format:** In person, before the lab
+- **Time:** 6:30–6:45 PM (15 minutes)
+- **Present:** Sara, Angelina, Ayza, Tasneem, Elfy, Aminatta
+- **Absent:** None
+
+### Discussion
+The team reviewed the database deployment approach. Angelina initially planned to use a local database.
+
+### Related TA feedback and decision
+Following discussion with the TA, the team decided to pursue online deployment in Sprint 3. The local database approach would support the current sprint.
+
+### Follow-up action
+
+| Owner(s) | Action | Target |
+| --- | --- | --- |
+| Angelina and team | Investigate online deployment and plan the required setup and integration. | Sprint 3 |
+
+No additional discussion topics were reported.
