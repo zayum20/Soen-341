@@ -1024,6 +1024,7 @@ app.get("/api/jobs", (req, res) => {
             jobs.id,
             jobs.title,
             jobs.location,
+            jobs.category,
             jobs.job_type,
             jobs.description,
             jobs.created_at,

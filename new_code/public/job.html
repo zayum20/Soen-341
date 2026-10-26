@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="nav-bar.css">
         <link rel="stylesheet" href="profile.css">
         <link rel="stylesheet" href="applications.css">
+        <link rel="stylesheet" href="job.css">
     </head>
     <body class="nav-collapsed">
         <header class="top-header">
@@ -61,20 +62,59 @@
             </ul>
         </nav>
 
-        <section>
-            <div class="page-width">
-                <a class="back-link" href="jobs.html">Back to jobs</a>
+        <section class="job-page-section">
+            <div class="job-page-container">
+                <nav class="job-back-nav" aria-label="Breadcrumb">
+                    <a class="job-back-link" href="jobs.html">
+                        <i class="bi bi-arrow-left"></i>
+                        <span>Back to jobs</span>
+                    </a>
+                </nav>
+
                 <!-- Stage 3A: Keep verification failures distinct from a logged-out account. -->
                 <p id="page-message" class="page-message" role="status" hidden></p>
                 <button id="retry-job" type="button" class="apply-button" hidden>Retry loading job</button>
-                <article id="job-detail" class="job-detail" aria-busy="false" hidden></article>
                 <div id="confirmation" class="confirmation" role="status" hidden></div>
-                <form id="apply-form" class="apply-form" hidden>
-                    <label for="cover-note">Note to the employer (optional)</label>
-                    <textarea id="cover-note" name="coverNote" maxlength="2000" placeholder="Share a short note with your application."></textarea>
-                    <p id="apply-error" class="form-error" role="status" hidden></p>
-                    <button type="submit" id="apply-button" class="apply-button">Apply</button>
-                </form>
+
+                <article id="job-detail" class="job-detail-wrapper" aria-busy="false" hidden>
+                    <header class="job-page-header">
+                        <h1 id="job-title" class="job-page-title"></h1>
+                    </header>
+
+                    <div class="job-layout-grid">
+                        <aside class="job-sidebar" aria-label="Job details">
+                            <div class="job-meta-item">
+                                <span class="job-meta-label">Company</span>
+                                <span id="job-company" class="job-meta-value"></span>
+                            </div>
+                            <div class="job-meta-item">
+                                <span class="job-meta-label">Location</span>
+                                <span id="job-location" class="job-meta-value"></span>
+                            </div>
+                            <div class="job-meta-item">
+                                <span class="job-meta-label">Type</span>
+                                <span id="job-type" class="job-meta-value"></span>
+                            </div>
+                        </aside>
+
+                        <main class="job-main-content">
+                            <div class="job-tabs" role="tablist">
+                                <button class="job-tab-btn active" role="tab" aria-selected="true" type="button">Overview</button>
+                            </div>
+                            <div class="job-overview-section" role="tabpanel">
+                                <div id="job-description" class="job-overview-text"></div>
+                            </div>
+
+                            <form id="apply-form" class="apply-form" hidden>
+                                <h3>Apply for this position</h3>
+                                <label for="cover-note">Note to the employer (optional)</label>
+                                <textarea id="cover-note" name="coverNote" maxlength="2000" placeholder="Share a short note with your application."></textarea>
+                                <p id="apply-error" class="form-error" role="status" hidden></p>
+                                <button type="submit" id="apply-button" class="apply-button">Submit Application</button>
+                            </form>
+                        </main>
+                    </div>
+                </article>
             </div>
         </section>
 
