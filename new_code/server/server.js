@@ -22,6 +22,7 @@ const PORT = 3000;
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use('/api/resumes', require('./routes/resumes'));
 
 app.use(session({
     secret: "careerconnect-secret",
@@ -35,19 +36,11 @@ app.use(express.static("public"));
 
  // MySQL connection
 const db = mysql.createConnection({
-
-    // The MySQL server is running on this computer.
-    host: "localhost",
-
-    // Read the database username from the environment.
+    host: process.env.DB_HOST || "localhost",
+    port: Number(process.env.DB_PORT || 3306),
     user: process.env.DB_USER,
-
-    // Read the database password from the environment.
     password: process.env.DB_PASSWORD,
-
-    // The database used by CareerConnect.
-    database: "recruiting_website"
-
+    database: process.env.DB_NAME || "recruiting_website"
 });
 
 
