@@ -1,4 +1,4 @@
-# Sprint 2 Contribution Log — Ariane Elfy Madjofo Sofouet
+# Sprint 2 Contribution Log — Ariane Madjofo Sofouet
 
 **Project:** CareerConnect  
 **GitHub username:** Mesa237  
