@@ -46,7 +46,7 @@ Reflection: AI worked well for a standard form layout like this one. Since the d
 Responsible person: Ariane
 
 --> Task 2.1: Changing UI design
-Purpose of AI: Change the UI design of the whole project
+Purpose of AI Use: Change the UI design of the whole project.
 Chat Link or Prompt/Response: 
 Prompt: change every blue colour to this #7222ac
 Response: ✅ Updated to the new purple shade
@@ -58,15 +58,50 @@ profile actions
 navigation/header accents
 skill tags
 Verified by searching the CSS files for #7222ac, which now appears consistently in the relevant styling definitions.
-AI-Suggested Content: Change all lines of code in css which had blue to #7222ac (purple).
-Decision: Accepted and used all CSS code suggestions.
-Reflection: changed the UI design from #2563eb to #7222ac.
+AI-Suggested Content: Change every line of CSS that used blue to #7222ac (purple).
+Validation: Opened the page in the browser to check that all required colour changes were applied.
+Decision: Accepted and used all the CSS suggestions.
+Reflection: Changed the UI colour from #2563eb to #7222ac.
+Responsible person: Ariane
 
 --> Task 2.2: Changing logo colour from blue to purple
-Purpose of AI: Change the UI design of the logo
+Purpose of AI Use: Change the colour of the logo.
 Chat Link or Prompt/Response: https://claude.ai/share/cf8136a1-8db8-4c41-a577-0877ccec31e5
-AI-Suggested Content: Changed the color of the logo to purple
-Decision: Asked it to make changes in the shade (put a lighter or darker shade.
-Reflection: changed the UI design from #2563eb to #7222ac.
+AI-Suggested Content: Changed the colour of the logo to purple.
+Validation: Applied it to the main code to check that the shade matched the one on the main page.
+Decision: Asked the AI to adjust the shade (lighter or darker) to match.
+Reflection: The AI changed the colour of the logo without altering the logo itself.
+Responsible person: Ariane
 
+--> Task 2.3: Generating the AI Resume Builder
+Purpose of AI Use: Generate an AI Resume Builder.
+Chat Link or Prompt/Response: https://claude.ai/share/53f80ae3-b7ee-4f76-8601-3b26324d13fc
+AI-Suggested Content: Generated a zip file with the necessary backend and frontend files.
+Validation: Applied the suggested code, made changes where necessary, checked the page in the browser from time to time to see the changes, and asked the AI whenever I was confused about the code.
+Decision: Made changes to the UI design, removed the upload button, and added some functionalities.
+Reflection: The AI did a great job using the template I sent and produced well-organised code.
+Responsible person: Ariane
 
+--> Task 2.4: Saving the generated resume to the profile iframe
+Purpose of AI Use: Make the builder’s Save button store a PDF copy in the profile’s Resume iframe.
+Chat Link or Prompt/Response: **Prompt:** “Why does the Save button not work?”
+
+**Response:** The Save button sends a request to `/api/resumes`, which requires the Express server and MySQL database. 
+              If the page is opened directly or through a static server like VS Code Live Server, the API request won’t be handled. 
+              Start the app with `npm start` from `new_code/public/resume-builder` and ensure MySQL is running with the expected database settings. 
+              The page should show an error message if the request fails.
+AI-Suggested Content: Generate a PDF blob without downloading it, then upload that PDF through the profile resume endpoint when Save is clicked.
+Validation: JavaScript syntax and diff checks passed; the full flow was not tested against the running server and database.
+Decision: Updated resume-builder.js and templates.js to save the profile PDF.
+Reflection: The implementation was syntax-checked but still needs an end-to-end test: save in the builder, return to the profile, and confirm the iframe shows the PDF.
+Responsible person: Ariane
+
+--> Task 2.5: Debugging MySQL Access Denied error after merge
+Purpose of AI Use: Diagnose and fix a server crash caused by `ER_ACCESS_DENIED_ERROR: Access denied for user ''@'localhost'` after merging team changes into my branch.
+Chat Link or Prompt/Response:
+Prompt: "MySQL connection failed: Error: Access denied for user ''@'localhost' (using password: YES) ... what's the issue with my code?"
+AI-Suggested Content: Identified that recent team commits replaced hardcoded credentials with `process.env.DB_USER` without default fallbacks or dotenv loaded. Suggested adding `dotenv` and fallback values (`|| "root"` and `|| ""`) in server.js, and ensuring the `resumes` table exists in db.js.
+Validation: Restarted the Node server and verified that it connected successfully to `recruiting_website` on localhost.
+Decision: Accepted the changes to server.js and db.js so the project works locally without breaking environment variable support for teammates.
+Reflection: The AI helped trace back the git history to find where the breaking change came from and quickly provided safe, backward-compatible fallbacks.
+Responsible person: Ariane
