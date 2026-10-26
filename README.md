@@ -60,3 +60,56 @@ AI-based features:
 - AI-assisted resume feedback (suggestion)
 - Job matching suggestions (suggestion)
 
+## Project Directory Tree
+
+## Project Structure
+```text
+CareerConnect/
+│
+├── AI_Log/                           # Team AI usage records per sprint
+│   ├── Angelina/
+│   ├── Ayza/
+│   ├── Elfy/
+│   ├── Minatta/
+│   ├── Sara/
+│   └── Tasneem/
+│
+├── new_code/                         # Main application source code
+│   │
+│   ├── public/                       # Frontend client-side files
+│   │   ├── index.html                # Welcome / landing page
+│   │   ├── login.html & login.js     # User authentication
+│   │   ├── register.html             # Role selection (Seeker vs Employer)
+│   │   │
+│   │   │── [ Job Seeker Pages ]
+│   │   ├── Dashboard.html & .js      # Applications overview & status counts
+│   │   ├── jobs.html & jobs.js       # Browse & filter open roles
+│   │   ├── job.html & job.js         # Job details & application form
+│   │   ├── my-applications.html      # Application tracker
+│   │   ├── Profile.html              # Seeker profile & resume
+│   │   │
+│   │   │── [ Employer Pages ]
+│   │   ├── Employer_Dashboard.html   # Employer overview
+│   │   ├── employer-post-job.html    # Create job postings
+│   │   ├── employer-applicants.html  # Review candidate submissions
+│   │   ├── Employer_Profile.html     # Company profile
+│   │   │
+│   │   └── [ Stylesheets ]
+│   │       ├── nav-bar.css           # Navigation & header layout
+│   │       ├── job.css               # Ashby two-column layout
+│   │       ├── jobs-filter.css       # Dynamic search & filter chips
+│   │       └── style.css             # Global base styling
+│   │
+│   ├── server/                       # Backend Node.js / Express application
+│   │   ├── server.js                 # API endpoints & authentication sessions
+│   │   ├── db.js                     # MySQL connection setup
+│   │   └── routes/                   # Modular API route controllers
+│   │
+│   ├── database.sql                  # MySQL database schema & tables
+│   ├── package.json                  # Node dependencies (express, mysql2, bcrypt)
+│   └── DATABASE_SETUP.md             # Local environment instructions
+│
+├── README.md                         # Project overview and setup guide
+├── Sprint planning.md                # Sprint backlog and deliverables
+└── Team Process.md                   # Agile team conventions
+```
