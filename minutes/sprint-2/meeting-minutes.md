@@ -43,3 +43,47 @@ The recruiter dashboard is distinct from [US-11 — Application Dashboard (#26)]
 
 ### Next meeting
 The next meeting was held on October 16, 2026. It was arranged after this meeting.
+
+
+## Meeting 2 — October 16, 2026
+
+### Meeting details
+- **Format:** Online, Discord
+- **Time:** 8:15–9:00 PM (45 minutes)
+- **Present:** Sara, Angelina, Ayza, Elfy, Aminatta
+- **Absent:** Tasneem
+
+### Purpose
+Review progress on the October 8 assignments and identify remaining work before the next meeting.
+
+### Progress reviewed
+
+| Member(s) | Progress |
+| --- | --- |
+| Sara and Angelina | Both demonstrated and reported progress on their assigned work. Dashboard and database work remained outstanding. |
+| Elfy | Reported completing the non-AI resume functionality. The AI resume feature remained unfinished. |
+| Ayza | Application submission and tracking features were reported complete. |
+| Aminatta | GitHub Actions configuration was completed before this meeting, as verified retrospectively through the October 13 workflow commit. |
+| Tasneem | Absent; her progress update was awaited for the next meeting. |
+
+### Follow-up actions
+
+| Owner(s) | Action | Target |
+| --- | --- | --- |
+| Sara and Angelina | Complete the remaining dashboard and database work within their respective responsibilities. | October 19 progress review |
+| Elfy | Complete the remaining AI resume work. | October 19 progress review |
+| Tasneem | Present an update on search/filtering and job-details work. | Next meeting, October 19 |
+
+### Related work
+- [US-04 — Resume Upload (#12)](https://github.com/zayum20/Soen-341/issues/12)
+- [US-05 — Job Posting Management (#13)](https://github.com/zayum20/Soen-341/issues/13)
+- [US-06 — Job Search and Filtering (#14)](https://github.com/zayum20/Soen-341/issues/14)
+- [US-07 — Job Application Submission (#15)](https://github.com/zayum20/Soen-341/issues/15)
+- [US-08 — Application Status Tracking (#16)](https://github.com/zayum20/Soen-341/issues/16)
+- [US-10 — AI-Assisted Resume Feedback (#18)](https://github.com/zayum20/Soen-341/issues/18): related AI resume work; builder versus feedback scope requires clarification.
+- [GitHub Actions configuration — October 13 commit](https://github.com/zayum20/Soen-341/commit/74c343e0d03ac19bb98221627ec6cac1e2c5955b)
+
+Links and the workflow-history verification were added retrospectively. Feature completion above reflects meeting reports, not independent acceptance-test results.
+
+### Next meeting
+October 19, 2026.
