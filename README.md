@@ -62,6 +62,8 @@ AI-based features:
 
 ## Project Directory Tree
 
+## Project Structure
+```text
 CareerConnect/
 │
 ├── AI_Log/                           # Team AI usage records per sprint
@@ -94,7 +96,7 @@ CareerConnect/
 │   │   │
 │   │   └── [ Stylesheets ]
 │   │       ├── nav-bar.css           # Navigation & header layout
-│   │       ├── job.css               # Two-column layout
+│   │       ├── job.css               # Ashby two-column layout
 │   │       ├── jobs-filter.css       # Dynamic search & filter chips
 │   │       └── style.css             # Global base styling
 │   │
@@ -110,3 +112,4 @@ CareerConnect/
 ├── README.md                         # Project overview and setup guide
 ├── Sprint planning.md                # Sprint backlog and deliverables
 └── Team Process.md                   # Agile team conventions
+```
