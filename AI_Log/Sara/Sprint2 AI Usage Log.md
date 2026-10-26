@@ -143,3 +143,27 @@ The AI assistance reduced the time required to investigate unfamiliar technical 
 
 Overall, AI was useful for implementation guidance, debugging, documentation, and improving my understanding of the application.
 Validation evidence included local browser testing, server terminal messages, and screenshots shared during the conversation.
+
+
+## AI Chat 3 — CareerConnect Dashboards and Application Flow
+
+**Purpose of AI Use:**  
+Coding, debugging, testing, GitHub workflow support, and demo preparation.
+
+**Chat Link:**  
+https://chatgpt.com/s/cx_6adf8a2958f08191b4af3473af31d907
+
+**AI-Suggested Content:**  
+AI helped implement recruiter and job seeker dashboards, improve application status tracking and navigation, troubleshoot local MySQL issues, and prepare a demo guide. It also helped review and test Angelina’s database migration.
+
+**Validation:**  
+I reviewed the changes and tested the website step by step. Posting a job, applying, updating application statuses, and dashboard counts worked. JavaScript syntax checks passed. The migration and combined application flow were also tested using a separate disposable database.
+
+**Decision:**  
+Modified before use and accepted after review and testing. Changes were adapted to the existing project, and remaining profile/resume work was left to the team. Dashboard and application changes were merged through PR #75.
+
+**Reflection:**  
+AI helped me debug issues and connect the dashboards to application data. I learned to verify changes through both recruiter and job seeker workflows and coordinate database changes with my team.
+
+**Responsible Person:**  
+Sara Azmoon
