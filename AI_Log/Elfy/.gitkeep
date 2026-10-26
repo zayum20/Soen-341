@@ -59,14 +59,39 @@ navigation/header accents
 skill tags
 Verified by searching the CSS files for #7222ac, which now appears consistently in the relevant styling definitions.
 AI-Suggested Content: Change all lines of code in css which had blue to #7222ac (purple).
+Validation: Opened the page in the browser to see if all required color changes were made.
 Decision: Accepted and used all CSS code suggestions.
 Reflection: changed the UI design from #2563eb to #7222ac.
+Responsible: Ariane
 
 --> Task 2.2: Changing logo colour from blue to purple
 Purpose of AI: Change the UI design of the logo
 Chat Link or Prompt/Response: https://claude.ai/share/cf8136a1-8db8-4c41-a577-0877ccec31e5
 AI-Suggested Content: Changed the color of the logo to purple
-Decision: Asked it to make changes in the shade (put a lighter or darker shade.
-Reflection: changed the UI design from #2563eb to #7222ac.
+Validation: Applied it to the main code to see if the colour shade match the one in the main page.
+Decision: Asked it to make changes in the shade that is use a lighter or darker shade.
+Reflection: AI changed the colour of the logo without changing the logo itself.
+Responsible: Ariane
+
+--> Task 2.3: 
+Purpose of AI Use: Generating AI Resume builder
+Chat Link or Prompt/Response: https://claude.ai/share/53f80ae3-b7ee-4f76-8601-3b26324d13fc
+AI-Suggested Content: Generated a zip file with the necessary backend and front files.
+Validation: Applied suggested code, made changes where necessary and checked pae in browser from time to time to see changes and asked it when I was confused about the code.
+Decision: I made changes in UI design, removed the upload button and added some functionalities to it. 
+Reflection: AI did a great job using the template I sent and gave a very organised code.
+Responsible person: Ariane
+
+--> Task 2.4: Debugging MySQL Access Denied Error after Merge
+Purpose of AI Use: Diagnose and fix a server crash caused by `ER_ACCESS_DENIED_ERROR: Access denied for user ''@'localhost'` after merging team changes into my branch.
+Chat Link or Prompt/Response:
+Prompt: "MySQL connection failed: Error: Access denied for user ''@'localhost' (using password: YES) ... what's the issue with my code?"
+AI-Suggested Content: Identified that recent team commits replaced hardcoded credentials with `process.env.DB_USER` without default fallbacks or dotenv loaded. Suggested adding `dotenv` and fallback values (`|| "root"` and `|| ""`) in server.js and ensuring the `resumes` table exists in db.js.
+Validation: Restarted the node server and verified that the database connected successfully to `recruiting_website` on localhost.
+Decision: Accepted the changes to server.js and db.js so the project works locally without breaking environment variable support for teammates.
+Reflection: Using AI helped trace back git history to identify where the breaking change came from and quickly provide safe backward-compatible fallbacks.
+Responsible person: Ariane
+
+
 
 
