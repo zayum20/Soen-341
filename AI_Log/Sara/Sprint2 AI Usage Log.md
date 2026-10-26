@@ -65,8 +65,8 @@ The interaction also helped organize the next development steps and clarify indi
 **Sprint:** Sprint 2  
 **Responsible Person:** Sara  
 **AI Tool:** ChatGPT (OpenAI)  
-**Conversation Period:** October 18–20, 2026  
-**Chat Link:** https://chatgpt.com/share/6adf883e-8ff0-83e9-9e73-2d734fd09295
+**Conversation Period:** October 18–26, 2026  
+**Chat Link:** https://chatgpt.com/share/6adfc64b-785c-83ea-acf0-4259d922355c
 
 ## Task ID/Title
 **AI-02: CareerConnect Frontend Development, Recruiter Dashboard Implementation, Debugging, and Database Integration Planning**
