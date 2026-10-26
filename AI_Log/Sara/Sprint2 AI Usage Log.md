@@ -167,3 +167,26 @@ AI helped me debug issues and connect the dashboards to application data. I lear
 
 **Responsible Person:**  
 Sara Azmoon
+
+## AI Chat 4 — Sprint 2 Documentation Review
+
+**Purpose of AI Use:**  
+Review user stories, organize meeting minutes, and draft my contributions log.
+
+**Chat Link:**  
+https://chatgpt.com/s/cx_6adfb93082308191af1b628d9b621734
+
+**AI-Suggested Content:**  
+AI reviewed repository documents, issues, code, and available project chats. It suggested improvements to acceptance criteria and tracking, drafted minutes for October 8, 16, 19, and 22, and summarized my Sprint 2 contributions.
+
+**Validation:**  
+I confirmed attendance, meeting times, responsibilities, deadlines, and decisions using my recollection and Discord messages. GitHub history confirmed the October 13 CI setup. Code and PR records were checked to distinguish implemented features from remaining work and to identify shared contributions.
+
+**Decision:**  
+Modified before use. I corrected missing meeting details, clarified task ownership and deployment plans, and kept unfinished documentation separate from completed work. GitHub changes were left for me to make manually.
+
+**Reflection:**  
+AI helped organize scattered information, but its initial assumptions needed correction. I learned to distinguish meeting reports from later implementation evidence and to verify completion claims before documenting them.
+
+**Responsible Person:**  
+Sara Azmoon
