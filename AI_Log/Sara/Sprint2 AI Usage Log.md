@@ -190,3 +190,28 @@ AI helped organize scattered information, but its initial assumptions needed cor
 
 **Responsible Person:**  
 Sara Azmoon
+
+
+### AI Chats #5 & #6 — Sprint 2 Documentation and Summary Report
+
+**Responsible Person:** Sara Azmoon  
+**AI Tool:** ChatGPT (OpenAI)  
+**Date:** October 22–26, 2026  
+
+**Chat Links:**
+- **Chat #4:** https://chatgpt.com/share/6adfbec6-6370-83ea-bf3c-8bc45f534fc8
+- **Chat #5:** https://chatgpt.com/s/cx_6adfbedc16308191a07128ff0b635ddb
+
+**Purpose of AI Use:**  
+Organize Sprint 2 meeting minutes, improve documentation based on Sprint 1 feedback, and prepare a one-page Sprint 2 Summary Report with an editable version.
+
+**AI-Suggested Content:**  
+AI structured the October 8, 16, and 19 meeting minutes and organized the report into the six required sections. It also suggested improvements to task tracking and documentation, distinguishing completed work from pending integration and testing.
+
+**Validation:**  
+I reviewed the meeting minutes against Discord discussions and corrected inaccurate details. AI compared the report with the official sprint instructions and checked the document layout. Final team verification remained necessary.
+
+**Decision:** Modified before use. I corrected meeting details, retained the report as an editable draft, and planned to add the cover page myself.
+
+**Reflection:**  
+AI saved time organizing meeting records and preparing the report. It helped improve documentation clarity while highlighting the importance of verifying information and tracking incomplete work accurately.
