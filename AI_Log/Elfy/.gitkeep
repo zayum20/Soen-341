@@ -105,3 +105,13 @@ Validation: Restarted the Node server and verified that it connected successfull
 Decision: Accepted the changes to server.js and db.js so the project works locally without breaking environment variable support for teammates.
 Reflection: The AI helped trace back the git history to find where the breaking change came from and quickly provided safe, backward-compatible fallbacks.
 Responsible person: Ariane
+
+--> Task 2.6: Sprint 2 Contribution Summary & Time Estimation
+Purpose of AI Use: Synthesize git history, commits, and pull requests into a chronological contribution log with retrospective time estimates for the Sprint 2 delivery requirements.
+Chat Link or Prompt/Response: 
+Prompt: "Summarize my contributions to sprint 2 and estimated time taken to do each activity"
+AI-Suggested Content: Generated a structured markdown table summarizing my Sprint 2 activities (UI theme redesign, profile photo upload/delete, resume upload and inline preview, AI resume builder integration, database stability fixes, and team meetings) with estimated hours and supporting links to commits and PRs.
+Validation: Cross-checked the proposed commit hashes, pull request numbers, and work dates against my GitHub activity and branch history to verify that all logged tasks and hour estimates accurately reflected my contributions.
+Decision: Accepted the structured table and added it directly into `Contribution_Logs/Elfy_Sprint2.md`.
+Reflection: AI was very effective at turning multiple scattered commits and merges into a clear, cohesive retrospective report that aligned with the course grading rubric.
+Responsible person: Ariane
