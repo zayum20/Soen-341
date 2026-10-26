@@ -27,14 +27,20 @@ function showConfirmation(heading, status) {
 }
 
 function renderJob(job) {
-    document.title = job.title;
+    document.title = `${job.title} | CareerConnect`;
     jobDetail.hidden = false;
-    jobDetail.innerHTML = `
-        <h2>${escapeHtml(job.title)}</h2>
-        <p class="job-meta">${escapeHtml(job.company_name || "Company")}</p>
-        <p class="job-meta">${escapeHtml(job.location || "Location not listed")} · ${escapeHtml(job.job_type || "Job type not listed")}</p>
-        <p class="job-description">${escapeHtml(job.description || "No description provided.")}</p>
-    `;
+
+    const jobTitleEl = document.getElementById("job-title");
+    const jobLocationEl = document.getElementById("job-location");
+    const jobTypeEl = document.getElementById("job-type");
+    const jobCompanyEl = document.getElementById("job-company");
+    const jobDescEl = document.getElementById("job-description");
+
+    if (jobTitleEl) jobTitleEl.textContent = job.title;
+    if (jobLocationEl) jobLocationEl.textContent = job.location || "Location not listed";
+    if (jobTypeEl) jobTypeEl.textContent = job.job_type || "Job type not listed";
+    if (jobCompanyEl) jobCompanyEl.textContent = job.company_name || "Company";
+    if (jobDescEl) jobDescEl.textContent = job.description || "No description provided.";
 }
 
 // Stage 3A: Retry loading without submitting an application or altering the note.
