@@ -5,7 +5,7 @@
 **Sprint:** Sprint 2  
 **Responsible Person:** Sara Azmoon  
 **AI Tool Used:** ChatGPT (OpenAI)  
-**Chat Link:** [Insert shared ChatGPT conversation link]
+**Chat Link:** https://chatgpt.com/share/6adf846f-a454-83ea-8749-d5174ea5ec80 
 
 ### Task ID/Title
 AI-01: Development Environment Setup, Database Troubleshooting, and Sprint 2 Planning
