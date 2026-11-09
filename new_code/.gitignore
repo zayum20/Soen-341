@@ -2,3 +2,5 @@ node_modules/
 .DS_Store
 .env
 uploads/
+private/application-resumes/*
+!private/application-resumes/.gitkeep

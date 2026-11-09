@@ -3,6 +3,8 @@
 `database.sql` is the starting schema. The migration
 `001_add_applications_and_resume_path.sql` updates older local databases
 that are missing the applications table or the resume_path column.
+`002_link_submitted_application_resumes.sql` adds nullable columns that
+store the private file name of the resume submitted with an application.
 Each teammate maintains their own local database; GitHub shares schema changes,
 not live records or credentials.
 
@@ -34,10 +36,11 @@ At the `mysql>` prompt, apply pending numbered SQL files in ascending order:
 
 ```sql
 SOURCE new_code/migrations/001_add_applications_and_resume_path.sql;
+SOURCE new_code/migrations/002_link_submitted_application_resumes.sql;
 ```
 
-The command above applies the applications/resume-path migration. Run each file once on
-each database. Keep a private checklist of successfully applied filenames;
+Run each pending file once, in order, on each database. `001` adds the applications table and
+profile `resume_path` column. `002` adds the submitted-resume columns. Keep a private checklist of successfully applied filenames;
 there is no automatic migration runner or history table in this setup.
 If any statement fails, stop and inspect the database before retrying. MySQL
 schema changes can remain applied even when a later statement fails.

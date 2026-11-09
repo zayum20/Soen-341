@@ -98,6 +98,8 @@ CREATE TABLE `applications` (
   `job_seeker_id` int NOT NULL,
   `status` enum('Applied','Under Review','Interview','Offered','Rejected') NOT NULL DEFAULT 'Applied',
   `cover_note` text,
+  `submitted_resume_file` varchar(255) DEFAULT NULL,
+  `submitted_resume_original_name` varchar(255) DEFAULT NULL,
   `applied_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),

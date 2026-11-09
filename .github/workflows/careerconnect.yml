@@ -26,7 +26,14 @@ jobs:
 
       - name: Check backend JavaScript
         working-directory: new_code
-        run: node --check server/server.js
+        run: |
+          node --check server/server.js
+          node --check server/application-metrics.js
+          node --check server/application-resumes.js
+
+      - name: Run tests
+        working-directory: new_code
+        run: npm test
 
       - name: Check frontend JavaScript
         working-directory: new_code

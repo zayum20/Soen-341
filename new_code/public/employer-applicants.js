@@ -30,6 +30,9 @@ function renderApplicants() {
                     <p class="application-meta">${escapeHtml(applicant.job_title)}</p>
                     <p class="application-meta">Applied ${escapeHtml(formatDate(applicant.applied_at))}</p>
                     ${applicant.cover_note ? `<p class="cover-note">${escapeHtml(applicant.cover_note)}</p>` : ""}
+                    ${applicant.has_submitted_resume
+                        ? `<p><a href="/api/employer/applications/${encodeURIComponent(applicant.id)}/resume">View submitted resume</a></p>`
+                        : `<p class="application-meta">No resume was submitted with this application.</p>`}
                     <div class="status-row">
                         <label for="status-${escapeHtml(applicant.id)}">Status</label>
                         <select id="status-${escapeHtml(applicant.id)}">

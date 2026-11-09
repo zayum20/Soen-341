@@ -17,11 +17,12 @@ function showApplyError(message) {
     applyError.textContent = message;
 }
 
-function showConfirmation(heading, status) {
+function showConfirmation(heading, status, resumeNote) {
     confirmation.hidden = false;
     confirmation.innerHTML = `
         <h2>${escapeHtml(heading)}</h2>
         <p>Status: ${statusBadge(status)}</p>
+        ${resumeNote ? `<p>${escapeHtml(resumeNote)}</p>` : ""}
         <p><a href="my-applications.html">View my applications</a></p>
     `;
 }
@@ -153,9 +154,14 @@ applyForm.addEventListener("submit", async (event) => {
 
         if (response.ok) {
             applyForm.hidden = true;
+            const attached = data.application?.hasSubmittedResume;
+            const resumeNote = attached
+                ? "Submitted resume: " + (data.application.submittedResumeName || "attached resume")
+                : "No profile resume was attached. This application is still saved.";
             showConfirmation(
                 data.message || "Application submitted successfully.",
-                data.application?.status || "Applied"
+                data.application?.status || "Applied",
+                resumeNote
             );
             return;
         }
