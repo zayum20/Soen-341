@@ -1,0 +1,21 @@
+.resume{width:816px;min-height:1056px;background:#fff;color:#222;padding:52px 56px;box-sizing:border-box;font:13px/1.45 Helvetica,Arial,sans-serif}
+.resume h1{margin:0;font-size:30px;line-height:1.1}
+.resume h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin:20px 0 8px}
+.resume p{margin:0}.resume ul{margin:4px 0 0;padding-left:18px}
+.resume .row{display:flex;justify-content:space-between;gap:12px}.resume .row span{color:#666;font-size:12px}
+.resume .sub{font-style:italic;color:#444}.resume .item{margin-bottom:10px}
+.resume .c{font-size:12px;color:#555;margin-top:4px}.resume .t{margin-top:4px;font-size:15px}
+.tpl-modern header{background:#5b3fe0;color:#fff;margin:-52px -56px 8px;padding:40px 56px 24px}
+.tpl-modern header .c{color:#e6e0ff}
+.tpl-modern h2{color:#5b3fe0;border-bottom:2px solid #5b3fe0;padding-bottom:3px}
+.tpl-professional{font-family:Georgia,'Times New Roman',serif}
+.tpl-professional header{text-align:center}
+.tpl-professional h2{color:#111;border-bottom:1px solid #222;padding-bottom:2px}
+.tpl-minimal h1{font-weight:300;letter-spacing:.02em}.tpl-minimal h2{color:#777;font-size:11px}
+.tpl-creative{display:grid;grid-template-columns:240px 1fr;padding:0}
+.tpl-creative aside{background:#e1583c;color:#fff;padding:44px 24px}
+.tpl-creative aside .c{color:#fff;line-height:1.7}.tpl-creative aside h2{color:#fff;border-bottom:1px solid #ffffff88}
+.tpl-creative aside .row span,.tpl-creative aside .sub{color:#ffe}
+.tpl-creative main{padding:44px 36px}.tpl-creative main h2{color:#e1583c}
+.tpl-healthcare header{text-align:center}.tpl-healthcare h1,.tpl-healthcare h2{color:#008080}
+.tpl-healthcare h2{border-bottom:1px solid #008080;padding-bottom:2px}

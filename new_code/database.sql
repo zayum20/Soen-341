@@ -1,4 +1,6 @@
 -- CareerConnect Database Setup
+-- WARNING: Initial setup or intentional reset only. This script deletes existing
+-- project tables and their data. Use migrations/ for updates to existing databases.
 -- Creates the database tables required for the CareerConnect recruiting website.
 -- This file contains the database structure only and does not include user data.
 
@@ -96,6 +98,8 @@ CREATE TABLE `applications` (
   `job_seeker_id` int NOT NULL,
   `status` enum('Applied','Under Review','Interview','Offered','Rejected') NOT NULL DEFAULT 'Applied',
   `cover_note` text,
+  `submitted_resume_file` varchar(255) DEFAULT NULL,
+  `submitted_resume_original_name` varchar(255) DEFAULT NULL,
   `applied_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),

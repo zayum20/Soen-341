@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mysql = require("mysql2");
 
@@ -16,12 +17,36 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage });
+const {
+    PUBLIC_DIR,
+    APPLICATION_RESUME_DIR,
+    snapshotProfileResume,
+    resolveStoredResume,
+    removeStoredResume,
+    unlinkPublicUpload
+} = require("./application-resumes");
+const {
+    authorizeSeeker,
+    authorizeEmployer,
+    selectVisibleApplications,
+    selectVisibleApplication,
+    canDownloadSubmittedResume,
+    summarizeApplications,
+    applicationInsert,
+    presentEmployerApplication,
+    SEEKER_LIST_SQL,
+    SEEKER_DETAIL_SQL,
+    SEEKER_RESUME_SQL,
+    EMPLOYER_LIST_SQL,
+    EMPLOYER_RESUME_SQL
+} = require("./application-metrics");
 const app = express();
 const PORT = 3000;
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use('/api/resumes', require('./routes/resumes'));
 
 app.use(session({
     secret: "careerconnect-secret",
@@ -35,19 +60,11 @@ app.use(express.static("public"));
 
  // MySQL connection
 const db = mysql.createConnection({
-
-    // The MySQL server is running on this computer.
-    host: "localhost",
-
-    // Read the database username from the environment.
-    user: process.env.DB_USER,
-
-    // Read the database password from the environment.
-    password: process.env.DB_PASSWORD,
-
-    // The database used by CareerConnect.
-    database: "recruiting_website"
-
+    host: process.env.DB_HOST || "localhost",
+    port: Number(process.env.DB_PORT || 3306),
+    user: process.env.DB_USER || "root",
+    password: process.env.DB_PASSWORD || "",
+    database: process.env.DB_NAME || "recruiting_website"
 });
 
 
@@ -1020,6 +1037,7 @@ app.get("/api/jobs", (req, res) => {
             jobs.id,
             jobs.title,
             jobs.location,
+            jobs.category,
             jobs.job_type,
             jobs.description,
             jobs.created_at,
@@ -1229,39 +1247,77 @@ app.post("/api/applications", (req, res) => {
             });
         }
 
-        const insertSql = `
-            INSERT INTO applications (job_id, job_seeker_id, cover_note)
-            VALUES (?, ?, ?)
-        `;
-
         db.query(
-            insertSql,
-            [jobId, req.session.userId, coverNote || null],
-            (insertError, result) => {
+            "SELECT resume_path FROM job_seeker_profiles WHERE user_id = ?",
+            [req.session.userId],
+            (resumeError, profiles) => {
 
-                if (insertError) {
-
-                    if (insertError.code === "ER_DUP_ENTRY") {
-                        return res.status(409).json({
-                            message: "You have already applied to this job."
-                        });
-                    }
-
-                    console.error("Application insert error:", insertError);
+                if (resumeError) {
+                    console.error("Resume lookup error:", resumeError);
 
                     return res.status(500).json({
                         message: "Could not submit application."
                     });
                 }
 
-                res.status(201).json({
-                    message: "Application submitted successfully.",
-                    application: {
-                        id: result.insertId,
-                        jobId: jobId,
-                        status: "Applied",
-                        coverNote: coverNote || null
+                let snapshot;
+
+                try {
+                    snapshot = snapshotProfileResume({
+                        sourceRelativePath: profiles[0] && profiles[0].resume_path,
+                        sourceRoot: PUBLIC_DIR,
+                        destinationRoot: APPLICATION_RESUME_DIR
+                    });
+                } catch (snapshotError) {
+                    console.error("Resume snapshot error:", snapshotError);
+
+                    return res.status(500).json({
+                        message: "Could not submit application."
+                    });
+                }
+
+                const insert = applicationInsert(
+                    jobId,
+                    req.session.userId,
+                    coverNote,
+                    snapshot
+                );
+
+                db.query(insert.sql, insert.params, (insertError, result) => {
+
+                    if (insertError) {
+                        if (snapshot.file) {
+                            try {
+                                removeStoredResume(snapshot.file, APPLICATION_RESUME_DIR);
+                            } catch (cleanupError) {
+                                console.error("Resume snapshot cleanup error:", cleanupError);
+                            }
+                        }
+
+                        if (insertError.code === "ER_DUP_ENTRY") {
+                            return res.status(409).json({
+                                message: "You have already applied to this job."
+                            });
+                        }
+
+                        console.error("Application insert error:", insertError);
+
+                        return res.status(500).json({
+                            message: "Could not submit application."
+                        });
                     }
+
+                    res.status(201).json({
+                        message: "Application submitted successfully.",
+                        application: {
+                            id: result.insertId,
+                            jobId: jobId,
+                            status: "Applied",
+                            coverNote: coverNote || null,
+                            hasSubmittedResume: Boolean(snapshot.file),
+                            submittedResumeName: snapshot.originalName
+                        }
+                    });
                 });
             }
         );
@@ -1270,37 +1326,15 @@ app.post("/api/applications", (req, res) => {
 
 app.get("/api/applications/mine", (req, res) => {
 
-    if (!req.session.userId) {
-        return res.status(401).json({
-            message: "Not logged in."
+    const denied = authorizeSeeker(req.session);
+
+    if (denied) {
+        return res.status(denied.status).json({
+            message: denied.message
         });
     }
 
-    if (req.session.role !== "job_seeker") {
-        return res.status(403).json({
-            message: "Only job seekers can view their applications."
-        });
-    }
-
-    const sql = `
-        SELECT
-            applications.id,
-            applications.status,
-            applications.cover_note,
-            applications.applied_at,
-            applications.updated_at,
-            jobs.title,
-            jobs.location,
-            jobs.job_type,
-            jobs.company AS company_name
-        FROM applications
-        JOIN jobs
-            ON applications.job_id = jobs.id
-        WHERE applications.job_seeker_id = ?
-        ORDER BY applications.applied_at DESC
-    `;
-
-    db.query(sql, [req.session.userId], (error, results) => {
+    db.query(SEEKER_LIST_SQL, [req.session.userId], (error, results) => {
 
         if (error) {
             console.error("Application list error:", error);
@@ -1310,8 +1344,152 @@ app.get("/api/applications/mine", (req, res) => {
             });
         }
 
-        res.json(results);
+        const visible = selectVisibleApplications(req.session, results);
+
+        if (visible.error) {
+            return res.status(visible.error.status).json({
+                message: visible.error.message
+            });
+        }
+
+        res.json(visible.applications);
     });
+});
+
+app.get("/api/applications/mine/analytics", (req, res) => {
+
+    const denied = authorizeSeeker(req.session);
+
+    if (denied) {
+        return res.status(denied.status).json({
+            message: denied.message
+        });
+    }
+
+    db.query(SEEKER_LIST_SQL, [req.session.userId], (error, results) => {
+
+        if (error) {
+            console.error("Application analytics error:", error);
+
+            return res.status(500).json({
+                message: "Could not load your applications."
+            });
+        }
+
+        const visible = selectVisibleApplications(req.session, results);
+
+        if (visible.error) {
+            return res.status(visible.error.status).json({
+                message: visible.error.message
+            });
+        }
+
+        res.json(summarizeApplications(visible.applications));
+    });
+});
+
+app.get("/api/applications/:id", (req, res) => {
+
+    const denied = authorizeSeeker(req.session);
+
+    if (denied) {
+        return res.status(denied.status).json({
+            message: denied.message
+        });
+    }
+
+    const applicationId = Number(req.params.id);
+
+    if (!Number.isInteger(applicationId) || applicationId <= 0) {
+        return res.status(400).json({
+            message: "A valid application is required."
+        });
+    }
+
+    db.query(
+        SEEKER_DETAIL_SQL,
+        [applicationId, req.session.userId],
+        (error, results) => {
+
+            if (error) {
+                console.error("Application detail error:", error);
+
+                return res.status(500).json({
+                    message: "Could not load that application."
+                });
+            }
+
+            const visible = selectVisibleApplication(req.session, results[0] || null);
+
+            if (visible.error) {
+                return res.status(visible.error.status).json({
+                    message: visible.error.message
+                });
+            }
+
+            res.json(visible.application);
+        }
+    );
+});
+
+function sendSubmittedResume(req, res, sql, params, audience) {
+    db.query(sql, params, (error, results) => {
+
+        if (error) {
+            console.error("Submitted resume lookup error:", error);
+
+            return res.status(500).json({
+                message: "Could not open that resume."
+            });
+        }
+
+        const row = results[0] || null;
+        const denied = canDownloadSubmittedResume(req.session, row, audience);
+
+        if (denied) {
+            return res.status(denied.status).json({
+                message: denied.message
+            });
+        }
+
+        const filePath = resolveStoredResume(row.submitted_resume_file, APPLICATION_RESUME_DIR);
+
+        if (!filePath) {
+            return res.status(404).json({
+                message: "The submitted resume file is no longer available."
+            });
+        }
+
+        res.set("Cache-Control", "private, no-store");
+        res.download(filePath, row.submitted_resume_original_name || "resume");
+    });
+}
+
+app.get("/api/applications/:id/resume", (req, res) => {
+
+    const denied = authorizeSeeker(req.session);
+
+    if (denied) {
+        return res.status(denied.status).json({
+            message: denied.message
+        });
+    }
+
+    const applicationId = Number(req.params.id);
+
+    if (!Number.isInteger(applicationId) || applicationId <= 0) {
+        return res.status(400).json({
+            message: "A valid application is required."
+        });
+    }
+
+    sendSubmittedResume(
+        req,
+        res,
+        SEEKER_RESUME_SQL,
+        [applicationId, req.session.userId],
+        "seeker"
+    );
 });
 
 app.get("/api/employer/applications", (req, res) => {
@@ -1328,28 +1506,7 @@ app.get("/api/employer/applications", (req, res) => {
         });
     }
 
-    const sql = `
-        SELECT
-            applications.id,
-            applications.status,
-            applications.cover_note,
-            applications.applied_at,
-            jobs.title AS job_title,
-            users.email,
-            job_seeker_profiles.first_name,
-            job_seeker_profiles.last_name
-        FROM applications
-        JOIN jobs
-            ON applications.job_id = jobs.id
-        JOIN users
-            ON applications.job_seeker_id = users.id
-        LEFT JOIN job_seeker_profiles
-            ON users.id = job_seeker_profiles.user_id
-        WHERE jobs.employer_id = ?
-        ORDER BY applications.applied_at DESC
-    `;
-
-    db.query(sql, [req.session.userId], (error, results) => {
+    db.query(EMPLOYER_LIST_SQL, [req.session.userId], (error, results) => {
 
         if (error) {
             console.error("Employer application list error:", error);
@@ -1359,8 +1516,37 @@ app.get("/api/employer/applications", (req, res) => {
             });
         }
 
-        res.json(results);
+        // Resume file keys stay on the server. Angelina's review page can use
+        // has_submitted_resume and GET /api/employer/applications/:id/resume.
+        res.json(results.map(presentEmployerApplication));
     });
+});
+
+app.get("/api/employer/applications/:id/resume", (req, res) => {
+
+    const denied = authorizeEmployer(req.session);
+
+    if (denied) {
+        return res.status(denied.status).json({
+            message: denied.message
+        });
+    }
+
+    const applicationId = Number(req.params.id);
+
+    if (!Number.isInteger(applicationId) || applicationId <= 0) {
+        return res.status(400).json({
+            message: "A valid application is required."
+        });
+    }
+
+    sendSubmittedResume(
+        req,
+        res,
+        EMPLOYER_RESUME_SQL,
+        [applicationId, req.session.userId],
+        "employer"
+    );
 });
 
 app.put("/api/employer/applications/:id", (req, res) => {
@@ -1519,8 +1705,9 @@ app.post('/api/profile/resume', upload.single('resume'), (req, res) => {
     // Delete old resume file if one exists
     db.query('SELECT resume_path FROM job_seeker_profiles WHERE user_id = ?', [req.session.userId], (err, rows) => {
         const oldResume = rows[0]?.resume_path;
+        // Remove only the profile file. Submitted application copies live outside public/.
         if (oldResume) {
-            fs.unlink(path.join('public', oldResume), () => {});
+            unlinkPublicUpload(oldResume, PUBLIC_DIR);
         }
 
         // Save new resume path to MySQL
@@ -1543,7 +1730,7 @@ app.delete('/api/profile/resume', (req, res) => {
     db.query('SELECT resume_path FROM job_seeker_profiles WHERE user_id = ?', [req.session.userId], (err, rows) => {
         const resumePath = rows[0]?.resume_path;
         if (resumePath) {
-            fs.unlink(path.join('public', resumePath), () => {});
+            unlinkPublicUpload(resumePath, PUBLIC_DIR);
         }
 
         db.query('UPDATE job_seeker_profiles SET resume_path = NULL WHERE user_id = ?', [req.session.userId], (err) => {

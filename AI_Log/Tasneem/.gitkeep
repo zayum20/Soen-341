@@ -1,1 +1,62 @@
+# AI Usage Log - Sprint 2
+
+Task 1: Local Environment and MySQL Database Verification
+Purpose of AI Use: Project setup assistance (Homebrew download, MySQL server initialization, running Node.js server)
+Conversation ID (Antigravity - Google DeepMind): 5b928df4-8a80-4f48-ac58-09c06a6db2a3
+AI-Suggested Content: 
+- Commands to install and start MySQL via Homebrew.
+- Instructions to supply database credentials via terminal environment variables without altering teammates files.
+Validation: Successfully downloaded Homebrew, verified the database connection, and loaded the server.
+Decision: Accepted
+Reflection: AI gave very detailed instructions for downloading Homebrew and starting MySQL. However, it initially changed documents without me realizing. So I told AI to always verify changes with me before implementation.
+Responsible Person: Tasneem Sultana Chowdhury
+
+Task 2: Elevate Existing Job Details Page
+
+Task 2.1: UI design suggestions for job details page
+Purpose of AI Use: UI/UX design suggestions to change current Job Postings Page.
+Chat Link (ChatGPT): https://chatgpt.com/share/6adf8914-8b00-83e9-8c01-8b7cfe70e7c6
+AI-Suggested Content: Suggested UI/UX changes to bring to the current Job Posting Page. Created a final version to implement to the page.
+Validation: I liked the ASHBY style in point "02 - Refine the application form". Successfully implemented an improved UI for the job postings page by taking inspiration from ChatGPT's suggestions.
+Decision: Modified before use (Modified using antigravity in task 2.2).
+Reflection: ChatGPT gave many good UI/UX suggestions and examples. I like the Ashby style best because it utilizes more of the web page but keeps information organized. I did not implement the page exactly as shown because certain elements would become redundant, like the manual application.
+Responsible Person: Tasneem Sultana Chowdhury
+
+Task 2.2: Job Details Page Redesign
+Purpose of AI: Refactor job.html into a modern two-column layout with an active Overview tab, a prominent title, and a job-metadata sidebar.
+Conversation ID (Antigravity - Google DeepMind): 5b928df4-8a80-4f48-ac58-09c06a6db2a3
+AI-Suggested Content:
+- A Two-column grid structure in job.html and isolated stylesheet job.css.
+- DOM population updates in job.js preserving all existing application forms and IDs.
+Validation: Tested changes on http://localhost:3000/job.html?id=1. Requested adjustments to sidebar ordering (Location, Type, Company --> Company, Location, Type), removed a form border, and darkened description text.
+Decision: Modified before use (adjusted order of metadata, deleted unnecessary borders, and increased text contrast).
+Reflection: Antigravity implemented the job details page whilst keeping me up to date with the changes it was making. Some modifications had to be made to keep the page similar to the rest of the project's styling. 
+Responsible Person: Tasneem Sultana Chowdhury
+
+Task 3: Job Filtering System
+
+Task 3.1: UI Design and Implementation Suggestions for Job Filtering Section
+Purpose of AI: UI/UX design and implementation suggestions.
+Chat Link (ChatGPT): https://chatgpt.com/share/6adf8914-8b00-83e9-8c01-8b7cfe70e7c6
+AI-Suggested Content: 
+- Recommended to combine keyword search + dropdown filters + clickable filter chips.
+- Gave three example UIs to take inspiration from
+- Created its own UI for the job listing page for the Job Filtering section
+- Gave suggestions for the implementation of the filtering system, including frontend filtering, connecting the backend, and polishing. 
+Validation: I liked the job filtering section from the UI ChatGPT created itself. Successfully implemented an improved UI for the Filter jobs section by taking inspiration from ChatGPT's suggestion.
+Decision: Modified before use (Modified using antigravity in task 3.2).
+Reflection: ChatGPT gave interesting UI suggestions for the filtering section, but I like its own version of the filtering system. It also suggested changes to be made to the job cards but I did not want to change any other part of the job listings page.
+Responsible Person: Tasneem Sultana Chowdhury
+
+Task 3.2: Implementing Dynamic job Search & Filter Chips
+Purpose of AI: Implement a chip or pill filtering interface for jobs based on ChatGPT's reference design, with Location, Job Type, Job Category, Company, and Date Posted.
+Conversation ID (Antigravity - Google DeepMind): 5b928df4-8a80-4f48-ac58-09c06a6db2a3
+AI-Suggested Content: 
+- Pill dropdown filter options and action bar in jobs.html and jobs-filter.css.
+- Dynamic filtering option population and filtering logic in jobs.js.
+- A "Clear filter" button to reset filters
+- Addition of jobs.category to the backend query in server/server.js.
+Validation: Testes filters and filtering combinations on http://localhost:3000/jobs.html and verified reset button.
+Decision: Accepted with modifications. Instead of having the filters be applied immeadiately after clicking on them, I wanted the user to be able to select all of their filters and then applying them together at once. So I added a "Apply Filters" button, that applies all of the suggested filters at once. 
+Reflection: Antigravity implemented the job details page whilst keeping me up to date with the changes it was making, as it did during implementation of the job description page. I made some modifications were made, like adding the "Apply filters" button and rejecting the idea to add a filter chip for Job Mode (On-site, Hybrid, Remote).
 

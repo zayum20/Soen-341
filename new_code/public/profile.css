@@ -385,3 +385,63 @@ section .profile-info{
     cursor: pointer;
     font-weight: 600;
 }
+.resume-choice-buttons {
+    display: flex;
+    gap: 12px;
+    margin: 12px 0;
+    flex-wrap: wrap;
+}
+
+.resume-choice-buttons[hidden] {
+    display: none;
+}
+
+.resume-choice-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    border: 1.5px solid #7222ac;
+    background: #fff;
+    color: #7222ac;
+    transition: 0.2s;
+}
+
+.resume-choice-btn:hover {
+    background: #fdf8ff;
+}
+
+.resume-choice-btn.ai-btn {
+    background: #7222ac;
+    color: #fff;
+}
+
+.resume-choice-btn.ai-btn:hover {
+    opacity: 0.9;
+}
+
+.resume-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    width: fit-content;
+}
+
+.resume-box[hidden] {
+    display: none;
+}
+
+.chosen-file-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+}

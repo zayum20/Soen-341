@@ -126,13 +126,106 @@ Responsible Person: Aminata
 
 
 End AI Log Sprint 1 _ September 27th 2026 
-----------------------------
+------------------------------------------------------------------------------------
 
 
 
 
+# AI Usage Log – Sprint 2
+
+## --> Task 2.1: Code Verification and Debugging
+
+**Purpose of AI Use:** Technical guidance and debugging assistance.
+
+**Chat Link or Prompt/Response:**
+- https://chatgpt.com/c/6ace9cc8-2558-83e9-9996-c17d9cb54b2e?src=history_search
+- https://chatgpt.com/c/6ad8be41-a7b8-83e9-8678-44f810a52c25
+- https://chatgpt.com/c/6ad8c961-7d4c-83ea-a56d-697dc6df65d2
+
+**AI-Suggested Content:** AI provided explanations of code errors, debugging suggestions, and guidance for resolving issues encountered when checking code pushed to the main branch.
+
+**Validation:** Reviewed the suggestions and tested the relevant application features after making changes to check that they worked correctly.
+
+**Decision:** Partially accepted (Modified before use). AI suggestions were used as guidance, and proposed fixes were reviewed and tested before being applied.
+
+**Reflection:** AI helped me understand errors and troubleshoot problems more efficiently. However, manually reviewing code changes and testing the application remained important.
+
+**Responsible Person:** Aminata
+
+---
+
+## --> Task 2.2: Continuous Integration (CI) Pipeline Setup
+
+**Purpose of AI Use:** Technical guidance for setting up the project's Continuous Integration pipeline.
+
+**Chat Link or Prompt/Response:** https://chatgpt.com/c/6ace9cc8-2558-83e9-9996-c17d9cb54b2e?src=history_search
+
+**AI-Suggested Content:** AI provided guidance on configuring a GitHub Actions workflow to automatically run checks when code changes are pushed to the repository.
+
+**Validation:** Checked the workflow in GitHub Actions and reviewed its execution results to verify that it ran as expected.
+
+**Decision:** Partially accepted (Modified before use). AI guidance was adapted to the project's repository and workflow requirements.
+
+**Reflection:** AI helped me understand how to configure automated checks and how Continuous Integration can help maintain code quality throughout development.
+
+**Responsible Person:** Aminata
+
+---
+
+## --> Task 2.3: Acceptance Tests
+
+**Purpose of AI Use:** Assistance with creating at least two acceptance tests for each user story from Sprint 1 and Sprint 2.
+
+**Chat Link or Prompt/Response:** https://chatgpt.com/c/6ace9cc8-2558-83e9-9996-c17d9cb54b2e?src=history_search
+
+**AI-Suggested Content:** AI helped generate acceptance-test scenarios based on the expected behavior and requirements of the user stories.
+
+**Validation:** Compared the suggested scenarios with the user stories to ensure that the tests were relevant and covered the expected application behavior.
+
+**Decision:** Partially accepted (Modified before use). The suggested scenarios were reviewed and adapted before being added as GitHub issues with appropriate labels and links to the corresponding user stories and tasks.
+
+**Reflection:** AI helped speed up the creation of acceptance tests and provided ideas for validating different features. Reviewing the suggestions ensured that the tests matched the project's requirements.
+
+**Responsible Person:** Aminata
+
+---
+
+## --> Task 2.4: Account Settings Page – Frontend and Backend
+
+**Purpose of AI Use:** Technical guidance and implementation assistance for developing the Settings page and its frontend and backend functionality.
+
+**Chat Link or Prompt/Response:** https://chatgpt.com/c/6ad8c961-7d4c-83ea-a56d-697dc6df65d2
+
+**AI-Suggested Content:** AI provided code suggestions and technical guidance for implementing the Settings page, including its layout, styling, backend routes, and functionality for changing email addresses, updating passwords, and deleting accounts.
+
+**Validation:** Tested the Settings page and its account-management features. Checked the integration between the frontend, backend, and database and addressed technical issues encountered during implementation.
+
+**Decision:** Partially accepted (Modified before use). AI-generated suggestions were adapted to the existing project structure and reviewed before being integrated into the application.
+
+**Reflection:** AI helped accelerate development and provided guidance when connecting the frontend and backend. This task improved my understanding of integrating account-management features into an existing web application.
+
+**Responsible Person:** Aminata
+
+---
+
+## --> Task 2.5: GitHub Project Organization
+
+**Purpose of AI Use:** Technical guidance for creating and organizing a GitHub Project board.
+
+**Chat Link or Prompt/Response:** https://chatgpt.com/c/6ace9cc8-2558-83e9-9996-c17d9cb54b2e?src=history_search
+
+**AI-Suggested Content:** AI provided guidance on creating a GitHub Project board to organize tasks and track the team's progress during Sprint 2.
+
+**Validation:** Reviewed the created project board to ensure that it was accessible and suitable for organizing and tracking project tasks.
+
+**Decision:** Partially accepted (Modified before use). The AI guidance was used to support the project setup and adapted to the team's organizational needs.
+
+**Reflection:** AI helped clarify how GitHub Projects could be used to organize tasks and monitor progress. The project board provided a centralized place to manage Sprint 2 activities.
+
+**Responsible Person:** Aminata
 
 
 
 
-
+End AI Log Sprint 2 _ October 26th 2026 
+------------------------------------------------------------------------------------

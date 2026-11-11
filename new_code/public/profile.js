@@ -80,6 +80,7 @@ if (!response.ok) {
     const resumePreview = document.getElementById("resume-preview");
     const resumeIframe = document.getElementById("resume-iframe");
     const resumeBox = document.getElementById("resume-box");
+    const resumeChoices = document.getElementById("resume-choice-buttons");
     const resumeToggle = document.getElementById("resume-toggle");
 
             if (resumeToggle) resumeToggle.style.display = "flex";
@@ -88,13 +89,19 @@ if (!response.ok) {
     if (resumeActions) resumeActions.setAttribute("hidden", "hidden");
 
     if (profile.resume_path) {
-        resumeIframe.src = profile.resume_path;
+        const isDocx = profile.resume_path.toLowerCase().endsWith(".docx");
+        resumeIframe.src = isDocx ? "/api/profile/resume/preview" : profile.resume_path;
+        if (isDocx) resumeIframe.setAttribute("sandbox", "");
+        else resumeIframe.removeAttribute("sandbox");
         resumePreview.removeAttribute("hidden");
         resumeBox.setAttribute("hidden", "hidden");
+        resumeChoices.setAttribute("hidden", "hidden");
     } else {
         resumeIframe.src = "";
+        resumeIframe.removeAttribute("sandbox");
         resumePreview.setAttribute("hidden", "hidden");
         resumeBox.removeAttribute("hidden");
+        resumeChoices.removeAttribute("hidden");
     }
 
 } catch (error) {
@@ -378,3 +385,15 @@ if (deleteResumeBtn) {
         }
     });
 }
+
+document.getElementById("show-upload-btn")?.addEventListener("click", () => {
+    const box = document.getElementById("resume-box");
+    box.hidden = !box.hidden;
+});
+
+document.getElementById("resume-file")?.addEventListener("change", function () {
+    if (this.files[0]) {
+        document.getElementById("chosen-file-name").textContent = `📄 ${this.files[0].name}`;
+        document.getElementById("resume-box").removeAttribute("hidden");
+    }
+});

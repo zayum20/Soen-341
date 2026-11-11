@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="nav-bar.css">
         <link rel="stylesheet" href="profile.css">
         <link rel="stylesheet" href="applications.css">
+        <link rel="stylesheet" href="jobs-filter.css">
     </head>
     <body class="nav-collapsed">
         <header class="top-header">
@@ -65,12 +66,64 @@
             <span class="header">
                 <p><b>Jobs</b></p>
             </span>
-            <p>Open roles you can apply to.</p>
-            <form id="search-form" class="search-form page-width">
-                <label class="visually-hidden" for="search-input">Search jobs</label>
-                <input id="search-input" type="search" placeholder="Search by title, company, or location">
-                <button type="submit">Search</button>
-            </form>
+            <p>Find the right opportunity for you.</p>
+
+            <div class="filter-section-wrapper page-width">
+                <!-- Search Form -->
+                <form id="search-form" class="search-form">
+                    <label class="visually-hidden" for="search-input">Search jobs</label>
+                    <div class="search-input-wrapper">
+                        <i class="bi bi-search"></i>
+                        <input id="search-input" type="search" placeholder="Search by title, company, or location">
+                    </div>
+                </form>
+
+                <!-- Filter Chips Grid -->
+                <div class="filter-chips-grid">
+                    <!-- Location Filter -->
+                    <select id="filter-location" class="filter-chip-select" aria-label="Filter by location">
+                        <option value="">All locations</option>
+                    </select>
+
+                    <!-- Job Type Filter -->
+                    <select id="filter-type" class="filter-chip-select" aria-label="Filter by employment type">
+                        <option value="">All employment types</option>
+                        <option value="Full-time">Full-time</option>
+                        <option value="Part-time">Part-time</option>
+                        <option value="Contract">Contract</option>
+                        <option value="Internship">Internship</option>
+                    </select>
+
+                    <!-- Category Filter -->
+                    <select id="filter-category" class="filter-chip-select" aria-label="Filter by category">
+                        <option value="">All categories</option>
+                    </select>
+
+                    <!-- Company Filter -->
+                    <select id="filter-company" class="filter-chip-select" aria-label="Filter by company">
+                        <option value="">All companies</option>
+                    </select>
+
+                    <!-- Date Posted Filter -->
+                    <select id="filter-date" class="filter-chip-select" aria-label="Filter by date posted">
+                        <option value="">Any time</option>
+                        <option value="1">Past 24 hours</option>
+                        <option value="7">Past week</option>
+                        <option value="30">Past month</option>
+                    </select>
+                </div>
+
+                <!-- Filter Action & Status Bar -->
+                <div class="filter-actions-row">
+                    <button id="apply-filters-btn" type="button" class="apply-filters-btn">Apply filters</button>
+                </div>
+
+                <div class="filter-status-bar">
+                    <span id="matching-jobs-count" class="matching-jobs-count"></span>
+                    <button id="clear-filters-btn" type="button" class="clear-filters-btn" hidden>Clear filters</button>
+                </div>
+            </div>
+
             <!-- Stage 3A: Announce loading and allow retrying the last submitted search. -->
             <div id="jobs-list" class="page-width job-list" aria-busy="false"></div>
             <p id="jobs-message" class="page-message page-width" role="status" hidden></p>

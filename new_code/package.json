@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node server/server.js",
-    "dev": "node --watch server/server.js",
-    "test": "jest --runInBand"
+   "start": "node --env-file-if-exists=.env server/server.js",
+   "dev": "node --env-file-if-exists=.env --watch server/server.js",
+   "test": "jest --runInBand --forceExit tests && node --test ./test/*.test.js"
   },
   "keywords": [],
   "author": "",
@@ -13,13 +13,15 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "dotenv": "^18.0.8",
     "express": "^5.2.1",
     "express-session": "^1.19.0",
-    "multer": "^2.4.0",
-    "mysql2": "^3.24.4"
+   "multer": "^2.5.0",
+   "mysql2": "^3.24.6"
   },
   "devDependencies": {
     "jest": "^30.5.2",
     "supertest": "^7.3.2"
+
   }
 }

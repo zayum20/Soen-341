@@ -23,9 +23,12 @@ function renderApplications() {
             <article class="application-card">
                 <h2>${escapeHtml(application.title)}</h2>
                 <p class="application-meta">${escapeHtml(application.company_name || "Company")}</p>
+                ${application.recruiter_name ? `<p class="application-meta">Recruiter: ${escapeHtml(application.recruiter_name)}</p>` : ""}
                 <p class="application-meta">${escapeHtml(application.location || "Location not listed")}</p>
                 <p class="application-meta">Applied ${escapeHtml(formatDate(application.applied_at))}</p>
                 <p>${APPLICATION_STATUSES.includes(application.status) ? statusBadge(application.status) : escapeHtml(application.status || "Unavailable")}</p>
+                <p class="application-meta">${application.has_submitted_resume ? "Resume: " + escapeHtml(application.submitted_resume_original_name || "Submitted resume") : "No resume submitted"}</p>
+                <p><a href="application.html?id=${encodeURIComponent(application.id)}">View details</a></p>
             </article>
         `).join("");
 }

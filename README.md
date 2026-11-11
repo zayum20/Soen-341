@@ -37,82 +37,13 @@ MySQL
 
 ## Setup Instructions
 
-1. Define project structure
+Use the [local database setup guide](new_code/DATABASE_SETUP.md) to install
+existing dependencies, configure your private `.env`, and start CareerConnect.
+Each teammate runs their own local MySQL database; GitHub shares the schema.
 
-<img width="341" height="421" alt="Screenshot 2026-09-27 at 10 49 51 PM" src="https://github.com/user-attachments/assets/0710bef1-d8bb-4327-8da2-8a6f9d6d96ba" />
-
-2. Check that Node.js and npm are installed
-
-  In the project terminal, input:<br>
-  node -v<br>
-  npm -v
-  
-  If they are installed, the terminal will display your node and npm version number.
-
-3. Initialize the Node.js project
-
-  In the project terminal, input:<br>
-  npm init -y
-  
-  This will create a “package.json” file.
-
-4. Install Express.js
-
-  In the project terminal, input:<br>
-  npm install express
-  
-  Then, once MySQL is installed, input:<br>
-  npm install mysql2 bcrypt
-
-5. Install MySQL
-
-  In the project terminal, input:<br>
-  brew install MySQL
-  
-  Then, to start MySQL, input:<br>
-  brew services start MySQL
-  
-  To check that mySQL is running, input:<br>
-  brew services list
-  
-  If it is successfully installed, you should see mySQL running.
-
-6. Open MySQL
-
-  In the project terminal, input:<br>
-  MySQL -u root (There is no password as it is installed locally)
-
-7. Create the Database
-
-  In the project terminal, input:<br>
-  CREATE DATABASE recruiting_website<br>
-  USE recruiting_website
-
-8. Create the user table
-
-  In the project terminal, input:<br>
-  SHOW TABLES<br>
-  DESCRIBE users
-	
-  This will allow you to check and inspect the database.
-
-9. Connect Node.js to MySQL
-
-  In the project terminal, input:<br>
-	host: localhost<br>
-	user: root<br>
-	password: “”<br>
-	database: recruiting_website
-
-10. Start the server
-
-  In the main project terminal, input:<br>
-  node server/server.js
-  
-  After inputting, you should see the following in the terminal:<br>
-  Connected to MySQL database!<br>
-  Server running at http://localhost:3000<br>
-  Open the link http://localhost:3000
+For future table changes, follow the
+[migration workflow](new_code/migrations/README.md).
+Do not rerun `database.sql` on an existing database: it deletes project data.
 
 ## Proposed Features
 - User registration, authentication, and profile management
@@ -129,3 +60,56 @@ AI-based features:
 - AI-assisted resume feedback (suggestion)
 - Job matching suggestions (suggestion)
 
+## Project Directory Tree
+
+## Project Structure
+```text
+CareerConnect/
+│
+├── AI_Log/                           # Team AI usage records per sprint
+│   ├── Angelina/
+│   ├── Ayza/
+│   ├── Elfy/
+│   ├── Minatta/
+│   ├── Sara/
+│   └── Tasneem/
+│
+├── new_code/                         # Main application source code
+│   │
+│   ├── public/                       # Frontend client-side files
+│   │   ├── index.html                # Welcome / landing page
+│   │   ├── login.html & login.js     # User authentication
+│   │   ├── register.html             # Role selection (Seeker vs Employer)
+│   │   │
+│   │   │── [ Job Seeker Pages ]
+│   │   ├── Dashboard.html & .js      # Applications overview & status counts
+│   │   ├── jobs.html & jobs.js       # Browse & filter open roles
+│   │   ├── job.html & job.js         # Job details & application form
+│   │   ├── my-applications.html      # Application tracker
+│   │   ├── Profile.html              # Seeker profile & resume
+│   │   │
+│   │   │── [ Employer Pages ]
+│   │   ├── Employer_Dashboard.html   # Employer overview
+│   │   ├── employer-post-job.html    # Create job postings
+│   │   ├── employer-applicants.html  # Review candidate submissions
+│   │   ├── Employer_Profile.html     # Company profile
+│   │   │
+│   │   └── [ Stylesheets ]
+│   │       ├── nav-bar.css           # Navigation & header layout
+│   │       ├── job.css               # Ashby two-column layout
+│   │       ├── jobs-filter.css       # Dynamic search & filter chips
+│   │       └── style.css             # Global base styling
+│   │
+│   ├── server/                       # Backend Node.js / Express application
+│   │   ├── server.js                 # API endpoints & authentication sessions
+│   │   ├── db.js                     # MySQL connection setup
+│   │   └── routes/                   # Modular API route controllers
+│   │
+│   ├── database.sql                  # MySQL database schema & tables
+│   ├── package.json                  # Node dependencies (express, mysql2, bcrypt)
+│   └── DATABASE_SETUP.md             # Local environment instructions
+│
+├── README.md                         # Project overview and setup guide
+├── Sprint planning.md                # Sprint backlog and deliverables
+└── Team Process.md                   # Agile team conventions
+```

@@ -30,7 +30,82 @@ function renderSeekerApplication(application) {
         line.textContent = detail;
         card.append(line);
     });
+    if (application.recruiter_name) {
+        const recruiter = document.createElement('p');
+        recruiter.textContent = 'Recruiter: ' + application.recruiter_name;
+        card.append(recruiter);
+    }
+    const resume = document.createElement('p');
+    resume.textContent = application.has_submitted_resume
+        ? 'Resume: ' + (application.submitted_resume_original_name || 'Submitted resume')
+        : 'No resume submitted';
+    card.append(resume);
+    if (application.id) {
+        const detailsLink = document.createElement('a');
+        detailsLink.href = 'application.html?id=' + encodeURIComponent(application.id);
+        detailsLink.textContent = 'View details';
+        card.append(detailsLink);
+    }
     seekerElement('recent-applications').append(card);
+}
+
+function renderWeeklyAnalytics(analytics) {
+    const message = seekerElement('weekly-message');
+    const list = seekerElement('weekly-counts');
+    const older = seekerElement('weekly-older');
+    list.replaceChildren();
+    seekerElement('weekly-definition').textContent = analytics.weekDefinition || seekerElement('weekly-definition').textContent;
+    if (!analytics.total) {
+        message.hidden = false;
+        message.textContent = 'You have not applied to any jobs yet. Weekly counts stay at zero until you apply.';
+    } else {
+        message.textContent = '';
+        message.hidden = true;
+    }
+    analytics.weeks.forEach(week => {
+        const item = document.createElement('li');
+        const label = document.createElement('span');
+        label.textContent = week.label + ' (' + week.weekStart + ' to ' + week.weekEnd + ')';
+        const count = document.createElement('strong');
+        count.textContent = String(week.count);
+        item.append(label, count);
+        list.append(item);
+    });
+    if (analytics.applicationsOutsideWeekRange > 0) {
+        older.hidden = false;
+        older.textContent = analytics.applicationsOutsideWeekRange + ' application(s) were submitted outside this 8-week window. They still count in the totals above.';
+    } else {
+        older.textContent = '';
+        older.hidden = true;
+    }
+}
+
+async function loadWeeklyAnalytics() {
+    if (!seekerVerified) return;
+    const message = seekerElement('weekly-message');
+    const older = seekerElement('weekly-older');
+    seekerElement('weekly-counts').replaceChildren();
+    older.hidden = true;
+    message.hidden = false;
+    message.textContent = 'Loading weekly applications...';
+    try {
+        const response = await fetch('/api/applications/mine/analytics');
+        if (response.status === 401 || response.status === 403) {
+            seekerVerified = false;
+            window.location.href = response.status === 401 ? 'login.html' : 'Employer_Dashboard.html';
+            return;
+        }
+        if (!response.ok) throw new Error('Could not load analytics.');
+        const analytics = await response.json();
+        if (!analytics || !Array.isArray(analytics.weeks) || typeof analytics.byStatus !== 'object') {
+            throw new Error('Unexpected analytics response.');
+        }
+        renderWeeklyAnalytics(analytics);
+    } catch (error) {
+        message.hidden = false;
+        message.textContent = 'Could not load weekly applications. Please try again.';
+        console.error('Dashboard analytics:', error);
+    }
 }
 
 async function loadSeekerApplications() {
@@ -100,13 +175,15 @@ async function startSeekerDashboard() {
         seekerElement('welcome-message').textContent = name
             ? 'Welcome, ' + name + '. Track your applications and plan your next career move.'
             : 'Track your applications and plan your next career move.';
-        await loadSeekerApplications();
+        await Promise.all([loadSeekerApplications(), loadWeeklyAnalytics()]);
     } catch (error) {
         // A missing resume_path column currently makes /api/profile fail for job seekers.
         // Show the verification failure rather than bypassing account checks or editing the schema.
         setSeekerCounts('Unavailable');
         seekerMessage('account-message', 'Could not verify your account. Please try again.');
         seekerMessage('applications-message', 'Account verification is required to load applications.');
+        seekerMessage('weekly-message', 'Account verification is required to load analytics.');
+        seekerElement('weekly-counts').replaceChildren();
         seekerElement('application-section').setAttribute('aria-busy', 'false');
         retry.hidden = false;
         console.error('Dashboard account:', error);
@@ -117,5 +194,8 @@ async function startSeekerDashboard() {
 }
 
 seekerElement('retry-account').addEventListener('click', startSeekerDashboard);
-seekerElement('retry-applications').addEventListener('click', loadSeekerApplications);
+seekerElement('retry-applications').addEventListener('click', () => {
+    loadSeekerApplications();
+    loadWeeklyAnalytics();
+});
 startSeekerDashboard();
