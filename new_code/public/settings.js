@@ -16,6 +16,7 @@ function showMessage(elementId, message, isError = false) {
     element.className = `message ${isError ? "error" : "success"}`;
 }
 
+//send a request to the backend and return the response data or throw an error.
 async function sendRequest(url, method, body) {
     const response = await fetch(url, {
         method,

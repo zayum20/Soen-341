@@ -51,17 +51,6 @@ const db = mysql.createConnection({
 });
 
 
-// Connect to MySQL
-db.connect((error) => {
-
-    if (error) {
-        console.error("MySQL connection failed:", error);
-        return;
-    }
-
-    console.log("Connected to MySQL database!");
-});
-
 // Test route
 app.get("/api/test", (req, res) => {
 
@@ -1574,8 +1563,24 @@ app.get('/api/candidates/:id', (req, res) => {
     );
 });
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-});
+// Start MySQL and the server only when running the application directly
+if (require.main === module) {
+
+    db.connect((error) => {
+        if (error) {
+            console.error("MySQL connection failed:", error);
+            return;
+        }
+
+        console.log("Connected to MySQL database!");
+
+        app.listen(PORT, () => {
+            console.log(`Server running at http://localhost:${PORT}`);
+        });
+    });
+
+}
+
+// Export the Express app for Jest and Supertest
+module.exports = app;
 
