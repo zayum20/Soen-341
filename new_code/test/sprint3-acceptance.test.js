@@ -7,10 +7,12 @@ const { snapshotProfileResume } = require("../server/application-resumes");
 const {
     applicationInsert,
     presentSeekerApplication,
+    presentEmployerApplication,
     selectVisibleApplications,
-    summarizeApplications
+    summarizeApplications,
+    authorizeEmployer,
+    canDownloadSubmittedResume
 } = require("../server/application-metrics");
-
 const NOW = new Date("2026-11-11T15:00:00.000Z");
 
 test("US-07 acceptance: applying keeps Resume A after the profile resume becomes Resume B", () => {
@@ -119,4 +121,43 @@ test("US-11 acceptance: a seeker with no applications gets an empty analytics da
     assert.deepEqual(visible.applications, []);
     assert.equal(summary.total, 0);
     assert.equal(summary.weeks.every((week) => week.count === 0), true);
+});
+//Recruiter acceptance test
+test("Recruiter acceptance: recruiter can access applicant for their posting, while unauthorized access is denied", () => {
+    // 1. Logged out user gets 401
+    const loggedOut = authorizeEmployer(null);
+    assert.equal(loggedOut.status, 401);
+
+    // 2. Job seeker role gets 403
+    const seekerSession = authorizeEmployer({ userId: 5, role: "job_seeker" });
+    assert.equal(seekerSession.status, 403);
+
+    // 3. Recruiter A can download resume for their job, but Recruiter B cannot (403)
+    const recruiterASession = { userId: 10, role: "employer" };
+    const recruiterBSession = { userId: 99, role: "employer" };
+    const applicationRow = {
+        id: 1,
+        job_id: 42,
+        employer_id: 10,
+        submitted_resume_file: "1000-res.pdf"
+    };
+
+    assert.equal(canDownloadSubmittedResume(recruiterASession, applicationRow, "employer"), null); //when canDownloadSubmitterResume is permitted -> gives null (no error)
+    assert.equal(canDownloadSubmittedResume(recruiterBSession, applicationRow, "employer")?.status, 404); //when canDownloadSubmitterResume is permitted  -> returns an error object
+
+    // 4. Older application without resume loads cleanly with has_submitted_resume: false
+    const olderApp = presentEmployerApplication({
+        id: 2,
+        job_id: 42,
+        status: "Applied",
+        job_title: "Junior Dev",
+        email: "applicant@example.com",
+        first_name: "Jane",
+        last_name: "Doe",
+        applied_at: "2026-10-15T12:00:00.000Z",
+        has_submitted_resume: null
+    });
+    assert.equal(olderApp.has_submitted_resume, false);
+    assert.equal(olderApp.job_id, 42);
+    assert.equal(olderApp.status, "Applied");
 });

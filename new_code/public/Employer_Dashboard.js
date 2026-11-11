@@ -36,7 +36,7 @@ function dateLabel(value) {
 }
 
 // Use textContent for server-provided values so names and titles stay plain text.
-function addCard(list, heading, details) {
+function addCard(list, heading, details, actions = null) {
     const card = document.createElement('article');
     const title = document.createElement('h3');
     title.textContent = heading;
@@ -46,6 +46,9 @@ function addCard(list, heading, details) {
         line.textContent = detail;
         card.append(line);
     });
+    if (actions) {
+        card.append(actions); //new parameter to optionally attach an action link to card
+    }
     list.append(card);
 }
 
@@ -76,10 +79,18 @@ async function loadActivity(kind) {
         // Both existing endpoints return newest records first.
         items.slice(0, 5).forEach(item => {
             if (jobs) {
-                addCard(list, item.title || 'Untitled job', [
+                 // Create a link to view applicants specifically for this job posting
+                const link = document.createElement('a');
+                link.href = `employer-applicants.html?job_id=${encodeURIComponent(item.id)}`;
+                link.textContent = 'View Applicants';
+                link.className = 'btn-link'; // or styled link
+                const actionWrapper = document.createElement('p');
+                actionWrapper.append(link);
+
+               addCard(list, item.title || 'Untitled job', [
                     [item.location || 'Location not listed', item.job_type || 'Job type not listed'].join(' · '),
                     'Posted ' + dateLabel(item.created_at)
-                ]);
+                ], actionWrapper);
             } else {
                 const name = [item.first_name, item.last_name].filter(Boolean).join(' ');
                 addCard(list, name || 'Job seeker', [item.job_title || 'Job title unavailable',
