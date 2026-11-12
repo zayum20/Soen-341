@@ -1119,8 +1119,9 @@ app.get("/api/employer/jobs", (req, res) => {
         });
     }
 
+    // Include every editable field so the posting form can restore the saved values.
     const sql = `
-        SELECT id, title, location, job_type, description, 'open' AS status, created_at
+        SELECT id, title, company, location, category, job_type, description, 'open' AS status, created_at
         FROM jobs
         WHERE employer_id = ?
         ORDER BY created_at DESC

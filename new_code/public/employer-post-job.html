@@ -86,8 +86,11 @@
                 </select>
                 <label for="description">Description</label>
                 <textarea id="description" name="description" maxlength="5000" required></textarea>
-                <p id="post-message" class="save-message" hidden></p>
+                <!-- Announce save results to screen readers as well as displaying them. -->
+                <p id="post-message" class="save-message" role="status" hidden></p>
                 <button type="submit" class="apply-button">Publish job</button>
+                <!-- Cancel returns the shared form to creating a new posting. -->
+                <button id="cancel-edit" type="button" hidden>Cancel editing</button>
             </form>
             <div id="my-jobs" class="page-width job-list"></div>
         </section>

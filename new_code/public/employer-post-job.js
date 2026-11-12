@@ -1,7 +1,39 @@
 const postForm = document.getElementById("post-job-form");
 const postMessage = document.getElementById("post-message");
 const myJobs = document.getElementById("my-jobs");
-const publishButton = postForm.querySelector("button");
+const publishButton = postForm.querySelector("button[type=submit]");
+
+// A null ID means create mode; an ID means save changes to that existing job.
+let editingJobId = null;
+let saving = false;
+const cancelEdit = document.getElementById("cancel-edit");
+const fieldIds = { title: "title", company: "company", location: "location", category: "category", job_type: "job-type", description: "description" };
+
+// Reuse the same form for creating and editing so both flows collect the same fields.
+function beginEdit(job) {
+    if (saving) return;
+    editingJobId = job.id;
+    Object.entries(fieldIds).forEach(([field, id]) => {
+        document.getElementById(id).value = job[field] || "";
+    });
+    publishButton.textContent = "Save changes";
+    cancelEdit.hidden = false;
+    showPostMessage("Editing: " + job.title, true);
+    document.getElementById("title").focus();
+}
+
+function resetPostingForm() {
+    editingJobId = null;
+    postForm.reset();
+    publishButton.textContent = "Publish job";
+    cancelEdit.hidden = true;
+}
+
+cancelEdit.addEventListener("click", () => {
+    if (saving) return;
+    resetPostingForm();
+    postMessage.hidden = true;
+});
 
 function showPostMessage(message, success) {
     postMessage.hidden = false;
@@ -21,48 +53,56 @@ function renderMyJobs(jobs) {
         <article class="application-card">
             <h2>${escapeHtml(job.title)}</h2>
             <p class="application-meta">${escapeHtml(job.location || "Location not listed")} · ${escapeHtml(job.job_type || "Job type not listed")}</p>
-            <p class="application-meta">${escapeHtml(job.status === "open" ? "Open" : "Closed")}</p>
+            <p class="application-meta">${escapeHtml(job.archived_at ? "Archived" : "Open")}</p>
+            <button type="button" class="edit-posting">Edit posting</button>
         </article>
     `).join("");
+    // Bind each button to its own job object instead of putting posting data in HTML.
+    myJobs.querySelectorAll(".edit-posting").forEach((button, index) => {
+        button.disabled = saving;
+        button.addEventListener("click", () => beginEdit(jobs[index]));
+    });
 }
 
 async function loadMyJobs() {
-    const response = await fetch("/api/employer/jobs");
-
-    if (response.status === 401) {
-        window.location.href = "login.html";
-        return;
+    // A list refresh can fail after a successful save; report that separately.
+    try {
+        const response = await fetch("/api/employer/jobs");
+        if (response.status === 401) {
+            window.location.href = "login.html";
+            return;
+        }
+        const jobs = await response.json();
+        if (!response.ok || !Array.isArray(jobs)) throw new Error("Could not load your job postings.");
+        renderMyJobs(jobs);
+    } catch (error) {
+        myJobs.textContent = "Could not refresh your postings. Refresh the page to try again.";
     }
-
-    const jobs = await response.json();
-
-    if (!response.ok) {
-        showPostMessage(jobs.message || "Could not load your job postings.", false);
-        return;
-    }
-
-    renderMyJobs(jobs);
 }
 
 postForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (saving || !postForm.reportValidity()) return;
+    const jobData = Object.fromEntries(Object.entries(fieldIds).map(([field, id]) =>
+        [field, document.getElementById(id).value.trim()]));
+    if (Object.values(jobData).some(value => !value)) {
+        showPostMessage("Please complete every field. Text cannot contain only spaces.", false);
+        return;
+    }
+    const wasEditing = editingJobId !== null;
+    saving = true;
     postMessage.hidden = true;
-    publishButton.disabled = true;
+    // Lock controls while saving so switching jobs cannot change the request's target.
+    postForm.querySelectorAll("input, select, textarea, button").forEach(control => control.disabled = true);
+    myJobs.querySelectorAll(".edit-posting").forEach(button => button.disabled = true);
 
     try {
-        const response = await fetch("/api/jobs", {
-            method: "POST",
+        const response = await fetch(wasEditing ? "/api/jobs/" + encodeURIComponent(editingJobId) : "/api/jobs", {
+            method: wasEditing ? "PUT" : "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                title: document.getElementById("title").value,
-                company: document.getElementById("company").value,
-                location: document.getElementById("location").value,
-                category: document.getElementById("category").value,
-                job_type: document.getElementById("job-type").value,
-                description: document.getElementById("description").value
-            })
+            body: JSON.stringify(jobData)
         });
 
         const data = await response.json();
@@ -73,14 +113,17 @@ postForm.addEventListener("submit", async (event) => {
             return;
         }
 
-        postForm.reset();
-        showPostMessage("Job posting published. It is now on the main jobs page.", true);
+        // Clear the form only after the server confirms the database write succeeded.
+        resetPostingForm();
+        showPostMessage(wasEditing ? "Posting changes saved." : "Job posting published. It is now on the main jobs page.", true);
         await loadMyJobs();
     } catch (error) {
         console.error("Post job error:", error);
         showPostMessage("Could not connect to the server.", false);
     } finally {
-        publishButton.disabled = false;
+        saving = false;
+        postForm.querySelectorAll("input, select, textarea, button").forEach(control => control.disabled = false);
+        myJobs.querySelectorAll(".edit-posting").forEach(button => button.disabled = false);
     }
 });
 
