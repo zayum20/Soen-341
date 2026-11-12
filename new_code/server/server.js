@@ -1017,6 +1017,23 @@ app.post("/api/jobs", (req, res) => {
 
     
 
+// Archiving preserves the job row and its applications. Only its owner may archive it.
+app.put("/api/jobs/:id/archive", (req, res) => {
+    if (!req.session.userId) return res.status(401).json({ message: "Not logged in." });
+    if (req.session.role !== "employer") return res.status(403).json({ message: "Only employers can archive postings." });
+    const id = Number(req.params.id);
+    if (!/^[1-9]\d*$/.test(req.params.id) || !Number.isSafeInteger(id)) {
+        return res.status(400).json({ message: "Invalid posting ID." });
+    }
+    // COALESCE keeps the original archive date when the same request is repeated.
+    db.query(`UPDATE jobs SET archived_at = COALESCE(archived_at, CURRENT_TIMESTAMP)
+        WHERE id = ? AND employer_id = ?`, [id, req.session.userId], (error, result) => {
+        if (error) return res.status(500).json({ message: "Could not archive posting." });
+        if (!result.affectedRows) return res.status(404).json({ message: "Posting not found." });
+        return res.json({ message: "Posting archived successfully.", jobID: id });
+    });
+});
+
 // Update only editable posting fields; ownership is enforced in both queries.
 app.put("/api/jobs/:id", (req, res) => {
     if (!req.session.userId) return res.status(401).json({ message: "Not logged in." });
@@ -1075,7 +1092,8 @@ app.get("/api/jobs", (req, res) => {
             jobs.created_at,
             jobs.company AS company_name
         FROM jobs
-        WHERE (
+        -- Archived jobs stay in the database but disappear from seeker search.
+        WHERE jobs.archived_at IS NULL AND (
                 ? = ''
                 OR jobs.title LIKE ?
                 OR jobs.location LIKE ?
@@ -1121,7 +1139,8 @@ app.get("/api/employer/jobs", (req, res) => {
 
     // Include every editable field so the posting form can restore the saved values.
     const sql = `
-        SELECT id, title, company, location, category, job_type, description, 'open' AS status, created_at
+        SELECT id, title, company, location, category, job_type, description, archived_at,
+            CASE WHEN archived_at IS NULL THEN 'open' ELSE 'archived' END AS status, created_at
         FROM jobs
         WHERE employer_id = ?
         ORDER BY created_at DESC
@@ -1158,7 +1177,7 @@ app.get("/api/jobs/:id", (req, res) => {
             jobs.location,
             jobs.job_type,
             jobs.description,
-            'open' AS status,
+            CASE WHEN jobs.archived_at IS NULL THEN 'open' ELSE 'archived' END AS status,
             jobs.created_at,
             jobs.company AS company_name
         FROM jobs
@@ -1258,8 +1277,9 @@ app.post("/api/applications", (req, res) => {
         });
     }
 
+    // Check availability on the server even if the seeker still has an old page open.
     const jobSql = `
-        SELECT id
+        SELECT id, archived_at
         FROM jobs
         WHERE id = ?
     `;
@@ -1278,6 +1298,11 @@ app.post("/api/applications", (req, res) => {
             return res.status(404).json({
                 message: "That job posting could not be found."
             });
+        }
+
+        // Existing applications remain readable; only new submissions are blocked.
+        if (jobs[0].archived_at) {
+            return res.status(409).json({ message: "This posting is archived and no longer accepts applications." });
         }
 
         db.query(
