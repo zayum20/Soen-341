@@ -6,6 +6,9 @@ const retryList = document.getElementById('retry-applicants');
 let records = [];
 let listLoading = false;
 let statusSaving = false;
+//variable needed for the job_id
+const urlParams = new URLSearchParams(window.location.search);
+const selectedJobId = urlParams.get('job_id'); 
 
 function showApplicantsMessage(text) {
     applicantsMessage.textContent = text;
@@ -13,10 +16,15 @@ function showApplicantsMessage(text) {
 }
 
 function renderApplicants() {
-    const visible = records.filter(record => !statusFilter.value || record.status === statusFilter.value);
+    //renderApplicants checks both selectedJobId and statusFilter.value
+    const visible = records.filter(record => {
+    const matchesJob = !selectedJobId || String(record.job_id) === String(selectedJobId);
+    const matchesStatus =  !statusFilter.value || record.status === statusFilter.value;
+        return matchesJob && matchesStatus;
+    });
     applicantsList.innerHTML = '';
     if (!visible.length) {
-        showApplicantsMessage(records.length ? 'No applications match this status.' : 'No one has applied to your jobs yet.');
+        showApplicantsMessage(records.length ?(selectedJobId ? 'No applications match this job and status filter.' : 'No applications match this status.'): 'No one has applied to your jobs yet.');
         return;
     }
     showApplicantsMessage('');
