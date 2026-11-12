@@ -36,7 +36,7 @@ function dateLabel(value) {
 }
 
 // Use textContent for server-provided values so names and titles stay plain text.
-function addCard(list, heading, details) {
+function addCard(list, heading, details, actions = null) {
     const card = document.createElement('article');
     const title = document.createElement('h3');
     title.textContent = heading;
@@ -46,6 +46,9 @@ function addCard(list, heading, details) {
         line.textContent = detail;
         card.append(line);
     });
+    if (actions) {
+        card.append(actions); // Attach optional actions without changing application cards.
+    }
     list.append(card);
 }
 
@@ -87,15 +90,23 @@ async function loadActivity(kind) {
         // Both existing endpoints return newest records first.
         items.slice(0, 5).forEach(item => {
             if (jobs) {
+                // Pass this posting ID to the applicant page, including for archived postings.
+                const link = document.createElement('a');
+                link.href = `employer-applicants.html?job_id=${encodeURIComponent(item.id)}`;
+                link.textContent = 'View Applicants';
+                link.className = 'btn-link';
+                const actionWrapper = document.createElement('p');
+                actionWrapper.append(link);
+
                 addCard(list, item.title || 'Untitled job', [
                     [item.location || 'Location not listed', item.job_type || 'Job type not listed'].join(' · '),
                     'Posted ' + dateLabel(item.created_at),
-                    // Show availability beside each posting, including archived jobs with applicants.
+                    // Keep availability visible while preserving the posting-specific applicant link.
                     item.archived_at || item.status === 'archived' ? 'Archived' : 'Active'
-                ]);
+                ], actionWrapper);
             } else {
                 const name = [item.first_name, item.last_name].filter(Boolean).join(' ');
-                addCard(list, name || 'Job seeker', [item.job_title || 'Job title unavailable',
+                 addCard(list, name || 'Job seeker', [item.job_title || 'Job title unavailable',
                     'Status: ' + (item.status || 'Unavailable'), 'Applied ' + dateLabel(item.applied_at)]);
             }
         });

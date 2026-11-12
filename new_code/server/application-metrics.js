@@ -75,6 +75,7 @@ const SEEKER_RESUME_SQL = `
 const EMPLOYER_LIST_SQL = `
     SELECT
         applications.id,
+        applications.job_id,
         applications.status,
         applications.cover_note,
         applications.applied_at,
@@ -170,6 +171,7 @@ function presentSeekerApplication(row) {
 function presentEmployerApplication(row) {
     return {
         id: row.id,
+        job_id: row.job_id,
         status: row.status,
         cover_note: row.cover_note ?? null,
         applied_at: row.applied_at,
