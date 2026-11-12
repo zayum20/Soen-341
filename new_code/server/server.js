@@ -1017,6 +1017,38 @@ app.post("/api/jobs", (req, res) => {
 
     
 
+// Update only editable posting fields; ownership is enforced in both queries.
+app.put("/api/jobs/:id", (req, res) => {
+    if (!req.session.userId) return res.status(401).json({ message: "Not logged in." });
+    if (req.session.role !== "employer") return res.status(403).json({ message: "Only employers can edit postings." });
+    const id = Number(req.params.id);
+    if (!/^[1-9]\d*$/.test(req.params.id) || !Number.isSafeInteger(id)) {
+        return res.status(400).json({ message: "Invalid posting ID." });
+    }
+    const fields = ["title", "company", "location", "category", "job_type", "description"];
+    const values = fields.map(field => req.body?.[field]);
+    if (values.some(value => typeof value !== "string" || !value.trim())) {
+        return res.status(400).json({ message: "All posting fields are required." });
+    }
+    const trimmed = values.map(value => value.trim());
+    if (trimmed.slice(0, 3).some(value => value.length > 255) || trimmed[3].length > 100 ||
+        Buffer.byteLength(trimmed[5], "utf8") > 65535 ||
+        !["Full-time", "Part-time", "Contract", "Internship"].includes(trimmed[4])) {
+        return res.status(400).json({ message: "Invalid posting fields or job type." });
+    }
+    const owner = req.session.userId;
+    db.query("SELECT id FROM jobs WHERE id = ? AND employer_id = ?", [id, owner], (error, rows) => {
+        if (error) return res.status(500).json({ message: "Could not load posting." });
+        if (!rows.length) return res.status(404).json({ message: "Posting not found." });
+        db.query(`UPDATE jobs SET title = ?, company = ?, location = ?, category = ?, job_type = ?, description = ?
+            WHERE id = ? AND employer_id = ?`, [...trimmed, id, owner], (updateError, result) => {
+            if (updateError) return res.status(500).json({ message: "Could not save posting." });
+            if (!result.affectedRows) return res.status(404).json({ message: "Posting not found." });
+            return res.json({ message: "Posting updated successfully.", jobID: id });
+        });
+    });
+});
+
 const APPLICATION_STATUSES = [
     "Applied",
     "Under Review",
