@@ -72,3 +72,28 @@ test("new applications to archived jobs are rejected before copying a resume", a
     expect((await agent.post("/api/applications").send({ jobId: 7 })).status).toBe(409);
     expect(db.query).toHaveBeenCalledTimes(1);
 });
+
+// Simulate a posting archived after the first lookup but before the actual insert.
+test("an archive during application submission cannot produce a successful application", async () => {
+    const agent = await login("job_seeker");
+    db.query.mockImplementationOnce((sql, params, cb) => cb(null, [{ id: 7, archived_at: null }]));
+    db.query.mockImplementationOnce((sql, params, cb) => cb(null, [{ resume_path: null }]));
+    db.query.mockImplementationOnce((sql, params, cb) => {
+        expect(sql).toContain("WHERE id = ? AND archived_at IS NULL");
+        expect(params[5]).toBe(7);
+        cb(null, { affectedRows: 0 });
+    });
+    const response = await agent.post("/api/applications").send({ jobId: 7 });
+    expect(response.status).toBe(409);
+    expect(response.body.code).toBe("POSTING_UNAVAILABLE");
+    expect(response.body.application).toBeUndefined();
+});
+test("an active posting can still accept an application through the guarded insert", async () => {
+    const agent = await login("job_seeker");
+    db.query.mockImplementationOnce((sql, params, cb) => cb(null, [{ id: 7, archived_at: null }]));
+    db.query.mockImplementationOnce((sql, params, cb) => cb(null, [{ resume_path: null }]));
+    db.query.mockImplementationOnce((sql, params, cb) => cb(null, { affectedRows: 1, insertId: 101 }));
+    const response = await agent.post("/api/applications").send({ jobId: 7 });
+    expect(response.status).toBe(201);
+    expect(response.body.application.id).toBe(101);
+});

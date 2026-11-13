@@ -1302,7 +1302,7 @@ app.post("/api/applications", (req, res) => {
 
         // Existing applications remain readable; only new submissions are blocked.
         if (jobs[0].archived_at) {
-            return res.status(409).json({ message: "This posting is archived and no longer accepts applications." });
+            return res.status(409).json({ code: "POSTING_UNAVAILABLE", message: "This posting is archived and no longer accepts applications." });
         }
 
         db.query(
@@ -1362,6 +1362,22 @@ app.post("/api/applications", (req, res) => {
 
                         return res.status(500).json({
                             message: "Could not submit application."
+                        });
+                    }
+
+                    // An archive may happen while the resume is being copied. A guarded
+                    // insert then writes zero rows; remove its unused private resume copy.
+                    if (!result.affectedRows) {
+                        if (snapshot.file) {
+                            try {
+                                removeStoredResume(snapshot.file, APPLICATION_RESUME_DIR);
+                            } catch (cleanupError) {
+                                console.error("Unused resume cleanup error:", cleanupError);
+                            }
+                        }
+                        return res.status(409).json({
+                            code: "POSTING_UNAVAILABLE",
+                            message: "This posting is no longer available for applications."
                         });
                     }
 
