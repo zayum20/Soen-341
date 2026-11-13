@@ -47,13 +47,13 @@ function addCard(list, heading, details, actions = null) {
         card.append(line);
     });
     if (actions) {
-        card.append(actions); //new parameter to optionally attach an action link to card
+        card.append(actions); // Attach optional actions without changing application cards.
     }
     list.append(card);
 }
 
-// Load either jobs or applications using the same rendering and retry flow.
-// Each call catches its own errors, so one failed section cannot block the other.
+// Load either jobs or applications using the same rendering and retry flow
+// Each call catches its own errors, so one failed section cannot block the other
 async function loadActivity(kind) {
     if (!employerVerified) return;
     const jobs = kind === 'jobs';
@@ -64,6 +64,11 @@ async function loadActivity(kind) {
     retry.disabled = true;
     list.replaceChildren();
     counter.textContent = 'Loading...';
+    // Clear availability counts while refreshing so old values are never shown as current.
+    if (jobs) {
+        byId('active-jobs').textContent = 'Loading...';
+        byId('archived-jobs').textContent = 'Loading...';
+    }
     message(kind + '-message', 'Loading ' + kind + '...');
     try {
         const response = await fetch('/api/employer/' + kind);
@@ -75,32 +80,44 @@ async function loadActivity(kind) {
         }
         // Count every returned record, but show only the five most recent below.
         counter.textContent = String(items.length);
+        // Archived jobs remain owned postings, but no longer count as active opportunities.
+        if (jobs) {
+            const archived = items.filter(item => item.archived_at || item.status === 'archived').length;
+            byId('active-jobs').textContent = String(items.length - archived);
+            byId('archived-jobs').textContent = String(archived);
+        }
         message(kind + '-message', items.length ? '' : (jobs ? 'You have not posted any jobs yet.' : 'No applications have been received yet.'));
         // Both existing endpoints return newest records first.
         items.slice(0, 5).forEach(item => {
             if (jobs) {
-                 // Create a link to view applicants specifically for this job posting
+                // Pass this posting ID to the applicant page, including for archived postings.
                 const link = document.createElement('a');
                 link.href = `employer-applicants.html?job_id=${encodeURIComponent(item.id)}`;
                 link.textContent = 'View Applicants';
-                link.className = 'btn-link'; // or styled link
+                link.className = 'btn-link';
                 const actionWrapper = document.createElement('p');
                 actionWrapper.append(link);
 
-               addCard(list, item.title || 'Untitled job', [
+                addCard(list, item.title || 'Untitled job', [
                     [item.location || 'Location not listed', item.job_type || 'Job type not listed'].join(' · '),
-                    'Posted ' + dateLabel(item.created_at)
+                    'Posted ' + dateLabel(item.created_at),
+                    // Keep availability visible while preserving the posting-specific applicant link.
+                    item.archived_at || item.status === 'archived' ? 'Archived' : 'Active'
                 ], actionWrapper);
             } else {
                 const name = [item.first_name, item.last_name].filter(Boolean).join(' ');
-                addCard(list, name || 'Job seeker', [item.job_title || 'Job title unavailable',
+                 addCard(list, name || 'Job seeker', [item.job_title || 'Job title unavailable',
                     'Status: ' + (item.status || 'Unavailable'), 'Applied ' + dateLabel(item.applied_at)]);
             }
         });
     } catch (error) {
-        // A failed request is not an empty list. Never display a misleading zero.
-        // This also handles the missing applications table without changing the database.
+        // A failed request is not an empty list. Never display a misleading zero
+        // This also handles the missing applications table without changing the database
         counter.textContent = 'Unavailable';
+        if (jobs) {
+            byId('active-jobs').textContent = 'Unavailable';
+            byId('archived-jobs').textContent = 'Unavailable';
+        }
         message(kind + '-message', 'Could not load ' + kind + '. Please try again.');
         retry.hidden = false;
         console.error('Dashboard activity:', error);
@@ -131,6 +148,9 @@ async function loadProfile() {
         await Promise.all([loadActivity('jobs'), loadActivity('applications')]);
     } catch (error) {
         message('dashboard-message', 'Could not verify your account. Please try again.');
+        // Availability counts also require a verified employer account.
+        byId('active-jobs').textContent = 'Unavailable';
+        byId('archived-jobs').textContent = 'Unavailable';
         byId('retry-profile').hidden = false;
         ['jobs', 'applications'].forEach(kind => {
             byId(kind === 'jobs' ? 'total-jobs' : 'total-applications').textContent = 'Unavailable';

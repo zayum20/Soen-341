@@ -255,14 +255,17 @@ function applicationInsert(jobId, seekerId, coverNote, snapshot) {
                 submitted_resume_file,
                 submitted_resume_original_name
             )
-            VALUES (?, ?, ?, ?, ?)
+            -- Check availability in the write itself, closing the gap after the earlier lookup.
+            SELECT ?, ?, ?, ?, ? FROM jobs
+            WHERE id = ? AND archived_at IS NULL
         `,
         params: [
             jobId,
             seekerId,
             coverNote || null,
             snapshot && snapshot.file ? snapshot.file : null,
-            snapshot && snapshot.originalName ? snapshot.originalName : null
+            snapshot && snapshot.originalName ? snapshot.originalName : null,
+            jobId
         ]
     };
 }

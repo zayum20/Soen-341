@@ -36,7 +36,7 @@ test("application insert keeps the submitted resume file name", () => {
     });
 
     assert.match(insert.sql, /submitted_resume_file/);
-    assert.deepEqual(insert.params, [4, 7, "Hello", "1000-aaaa.pdf", "resume-a.pdf"]);
+    assert.deepEqual(insert.params, [4, 7, "Hello", "1000-aaaa.pdf", "resume-a.pdf", 4]);
 });
 
 test("an application without a resume inserts null resume columns", () => {

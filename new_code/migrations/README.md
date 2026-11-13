@@ -49,3 +49,17 @@ Never use `database.sql` to update a database containing records you need.
 For now, keep it as the starting schema; new installations import it once and
 then apply all numbered migrations. Keep optional fictional sample data in a
 separate seed script, not mixed with schema migrations.
+
+## Posting archiving (003)
+
+Apply `003_archive_job_postings.sql` once before running the archive-enabled server.
+It adds a nullable `jobs.archived_at` timestamp and preserves existing jobs and applications.
+Do not rerun the starting schema on an existing database.
+
+```sql
+SOURCE new_code/migrations/003_archive_job_postings.sql;
+```
+
+Archived postings remain in the employer list and existing application views. Seeker
+search excludes them, and the application endpoint rejects new submissions. Direct
+job details report `status: archived` so a saved link can explain availability.

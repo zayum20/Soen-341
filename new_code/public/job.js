@@ -168,8 +168,11 @@ applyForm.addEventListener("submit", async (event) => {
 
         if (response.status === 409) {
             applyForm.hidden = true;
-            // A conflict means an application exists, but does not tell us its current status.
-            showPageMessage('You have already applied. Check My Applications for its current status.');
+            // A conflict can mean the posting was archived after this page loaded.
+            // Use the server's code so an unavailable posting is not mistaken for a duplicate.
+            showPageMessage(data.code === 'POSTING_UNAVAILABLE'
+                ? data.message
+                : 'You have already applied. Check My Applications for its current status.');
             retryJob.hidden = false;
             return;
         }
