@@ -43,3 +43,15 @@ Do not include passwords, session cookies, real resumes, or database backups in 
 ## Fresh creation and seeker archive checks
 
 A separate fictional employer created posting #4, and a fictional seeker found it in search and applied. The owner then archived it. A new search request excluded it, another application submission returned HTTP 409 identifying the posting as archived, and the existing application remained in seeker history. These were real local API calls, not a seeker browser walkthrough. The sample posting, fictional accounts, and application remain locally for review; no cleanup or GitHub changes were performed.
+
+## Final archive edge-case verification — November 13, 2026
+
+After restarting the updated server, fresh fictional posting #5 accepted an application while active. After its owner archived it, seeker search excluded it, a stale-page application request returned HTTP 409 with an archived-posting message, and the existing application remained in seeker history. These checks exercised the real MySQL-backed API.
+
+The automated suite now passes 50 tests (29 Jest and 21 Node tests). New regression cases simulate an archive between the initial posting lookup and application insert, verifying that no application is reported as saved, and confirm active postings still accept applications. The seeker page now distinguishes the POSTING_UNAVAILABLE response code from duplicate applications. This revised message has not yet been visually verified in the browser; the concurrency case was simulated in automated tests rather than reproduced with simultaneous live requests.
+
+## Seeker browser verification — November 13, 2026
+
+Using the user's signed-in seeker account, archived sample posting #5 displayed “This job is not open for applications.” and hid the application form. The Jobs page displayed exactly the two active postings (#1 and #2), excluding the archived samples. No application or account data was changed during this browser check.
+
+This confirms the archived-detail display and seeker search UI. The revised rejection message for a page archived while already open has not been visually reproduced; its server response was verified through live API calls, and the client handles POSTING_UNAVAILABLE separately from duplicate applications.
