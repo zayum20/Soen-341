@@ -102,7 +102,8 @@ async function loadActivity(kind) {
                     [item.location || 'Location not listed', item.job_type || 'Job type not listed'].join(' · '),
                     'Posted ' + dateLabel(item.created_at),
                     // Keep availability visible while preserving the posting-specific applicant link.
-                    item.archived_at || item.status === 'archived' ? 'Archived' : 'Active'
+                    item.archived_at || item.status === 'archived' ? 'Archived' : 'Active',
+                    deadlineLabel(item.deadline_at)
                 ], actionWrapper);
             } else {
                 const name = [item.first_name, item.last_name].filter(Boolean).join(' ');
@@ -181,6 +182,8 @@ jobForm?.addEventListener('submit', async event => {
         message('message-container', 'Please complete every field. Text cannot contain only spaces.');
         return;
     }
+    // Optional dates are excluded from the required text checks above.
+    jobData.application_deadline = byId('application-deadline').value;
     posting = true;
     const button = jobForm.querySelector('button[type="submit"]');
     button.disabled = true;

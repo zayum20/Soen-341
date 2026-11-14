@@ -197,6 +197,12 @@
     <label for="description">Description:</label>
     <textarea id="description" name="description" rows="4" cols="50" placeholder="Type here..."required></textarea>
   </div>
+<!-- An optional deadline uses the same Toronto cutoff as the full posting page. -->
+<div>
+  <label for="application-deadline">Application deadline (optional):</label>
+  <input id="application-deadline" name="application_deadline" type="date" aria-describedby="deadline-help">
+  <p id="deadline-help">Leave blank for no deadline. Applications close at 11:59 p.m. Toronto time on the selected date.</p>
+</div>
 <!-- Submit button -->
   <button type="submit">Submit Form</button>
 </fieldset>
@@ -204,6 +210,7 @@
         </section>
    
 </main>
+        <script src="posting-deadlines.js"></script>
         <script src="Employer_Dashboard.js"></script>
     </body>
 </html>
