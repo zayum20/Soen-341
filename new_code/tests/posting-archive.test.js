@@ -52,7 +52,7 @@ test("archive database failures are reported", async () => {
 });
 test("seeker search excludes archived postings", async () => {
     db.query.mockImplementationOnce((sql, params, cb) => {
-        expect(sql).toContain("WHERE jobs.archived_at IS NULL AND (");
+        expect(sql).toContain("WHERE jobs.archived_at IS NULL");
         cb(null, []);
     });
     expect((await request(app).get("/api/jobs?q=developer")).status).toBe(200);
@@ -96,4 +96,13 @@ test("an active posting can still accept an application through the guarded inse
     const response = await agent.post("/api/applications").send({ jobId: 7 });
     expect(response.status).toBe(201);
     expect(response.body.application.id).toBe(101);
+});
+
+test("expired deadline blocks applications even before archiving", async () => {
+    const agent = await login("job_seeker"); db.query.mockClear();
+    db.query.mockImplementationOnce((sql, params, cb) => cb(null, [{ id: 7, archived_at: null, deadline_passed: 1 }]));
+    const response = await agent.post("/api/applications").send({ jobId: 7 });
+    expect(response.status).toBe(409);
+    expect(response.body.code).toBe("POSTING_UNAVAILABLE");
+    expect(db.query).toHaveBeenCalledTimes(1);
 });

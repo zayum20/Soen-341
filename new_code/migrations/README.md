@@ -63,3 +63,21 @@ SOURCE new_code/migrations/003_archive_job_postings.sql;
 Archived postings remain in the employer list and existing application views. Seeker
 search excludes them, and the application endpoint rejects new submissions. Direct
 job details report `status: archived` so a saved link can explain availability.
+
+## Optional deadlines (004)
+
+`004_optional_posting_deadlines.sql` adds nullable `jobs.deadline_at` and its index.
+Apply once after 003, before starting the deadline-enabled server. Existing rows
+get NULL (no deadline). This migration has not been applied by the authoring step.
+
+The API accepts `application_deadline` as YYYY-MM-DD, blank, or null. Dates close
+at the start of the next day in America/Toronto, converted to a UTC instant.
+Create defaults to no deadline; edit omission preserves the deadline and explicit
+blank/null removes it. Expired jobs reject applications and are excluded from search
+even before an archive worker runs. API deadline_at values are ISO UTC strings.
+Notification code can use that timestamp without guessing the timezone.
+
+The running server archives expired postings at startup and every 60 seconds.
+Search and application inserts enforce the UTC deadline immediately, independently
+of the worker. Archived postings are not reopened by changing or removing a deadline.
+The worker retains original archive dates and all existing applications.

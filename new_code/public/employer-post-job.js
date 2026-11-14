@@ -18,6 +18,8 @@ function beginEdit(job) {
     Object.entries(fieldIds).forEach(([field, id]) => {
         document.getElementById(id).value = job[field] || "";
     });
+    // Restore the date in Toronto, rather than displaying the next day's UTC date.
+    document.getElementById("application-deadline").value = deadlineInputValue(job.deadline_at);
     publishButton.textContent = "Save changes";
     cancelEdit.hidden = false;
     showPostMessage("Editing: " + job.title, true);
@@ -55,7 +57,8 @@ function renderMyJobs(jobs) {
         <article class="application-card">
             <h2>${escapeHtml(job.title)}</h2>
             <p class="application-meta">${escapeHtml(job.location || "Location not listed")} · ${escapeHtml(job.job_type || "Job type not listed")}</p>
-            <p class="application-meta">${escapeHtml(job.archived_at ? "Archived" : "Open")}</p>
+            <p class="application-meta">${escapeHtml(job.archived_at || job.status === "archived" ? "Archived" : "Open")}</p>
+            <p class="application-meta">${escapeHtml(deadlineLabel(job.deadline_at))}</p>
             <button type="button" class="edit-posting">Edit posting</button>
             <button type="button" class="archive-posting" data-job-id="${escapeHtml(job.id)}" ${job.archived_at ? "disabled" : ""}>${job.archived_at ? "Archived" : "Archive posting"}</button>
         </article>
@@ -126,6 +129,9 @@ postForm.addEventListener("submit", async (event) => {
         showPostMessage("Please complete every field. Text cannot contain only spaces.", false);
         return;
     }
+    // Add the optional date after required-field checks, so blank remains valid.
+    // Sending blank while editing removes a previously saved deadline.
+    jobData.application_deadline = document.getElementById("application-deadline").value;
     const wasEditing = editingJobId !== null;
     saving = true;
     postMessage.hidden = true;
