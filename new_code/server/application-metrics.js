@@ -258,6 +258,7 @@ function applicationInsert(jobId, seekerId, coverNote, snapshot) {
             -- Check availability in the write itself, closing the gap after the earlier lookup.
             SELECT ?, ?, ?, ?, ? FROM jobs
             WHERE id = ? AND archived_at IS NULL
+                AND (deadline_at IS NULL OR deadline_at > UTC_TIMESTAMP())
         `,
         params: [
             jobId,

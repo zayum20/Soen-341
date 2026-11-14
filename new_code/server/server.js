@@ -40,6 +40,8 @@ const {
     EMPLOYER_LIST_SQL,
     EMPLOYER_RESUME_SQL
 } = require("./application-metrics");
+const { parseDeadline } = require("./posting-deadlines");
+const { startDeadlineArchiver } = require("./deadline-archiver");
 const app = express();
 const PORT = 3000;
 
@@ -970,10 +972,15 @@ app.post("/api/jobs", (req, res) => {
         });
     }
 
+    // Blank deadlines stay open indefinitely; validate Toronto dates before writing.
+    let deadline;
+    try { deadline = parseDeadline(req.body.application_deadline); }
+    catch (error) { return res.status(400).json({ message: error.message }); }
+
     //Insert into the jobs table for the database
     const sql=`
-        INSERT INTO jobs (employer_id, title, company, location, category, job_type, description)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO jobs (employer_id, title, company, location, category, job_type, description, deadline_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     db.query(
@@ -985,7 +992,8 @@ app.post("/api/jobs", (req, res) => {
             location.trim(),
             category.trim(),
             job_type,
-            description.trim()
+            description.trim(),
+            deadline
         ],
 
     (error,result)=>{
@@ -1053,12 +1061,18 @@ app.put("/api/jobs/:id", (req, res) => {
         !["Full-time", "Part-time", "Contract", "Internship"].includes(trimmed[4])) {
         return res.status(400).json({ message: "Invalid posting fields or job type." });
     }
+    // Omitted deadline preserves the saved value; explicit blank removes it.
+    const changeDeadline = Object.hasOwn(req.body, "application_deadline");
+    let deadline = null;
+    try { if (changeDeadline) deadline = parseDeadline(req.body.application_deadline); }
+    catch (error) { return res.status(400).json({ message: error.message }); }
     const owner = req.session.userId;
     db.query("SELECT id FROM jobs WHERE id = ? AND employer_id = ?", [id, owner], (error, rows) => {
         if (error) return res.status(500).json({ message: "Could not load posting." });
         if (!rows.length) return res.status(404).json({ message: "Posting not found." });
-        db.query(`UPDATE jobs SET title = ?, company = ?, location = ?, category = ?, job_type = ?, description = ?
-            WHERE id = ? AND employer_id = ?`, [...trimmed, id, owner], (updateError, result) => {
+        db.query(`UPDATE jobs SET title = ?, company = ?, location = ?, category = ?, job_type = ?, description = ?,
+            deadline_at = CASE WHEN ? THEN ? ELSE deadline_at END
+            WHERE id = ? AND employer_id = ?`, [...trimmed, changeDeadline, deadline, id, owner], (updateError, result) => {
             if (updateError) return res.status(500).json({ message: "Could not save posting." });
             if (!result.affectedRows) return res.status(404).json({ message: "Posting not found." });
             return res.json({ message: "Posting updated successfully.", jobID: id });
@@ -1093,7 +1107,8 @@ app.get("/api/jobs", (req, res) => {
             jobs.company AS company_name
         FROM jobs
         -- Archived jobs stay in the database but disappear from seeker search.
-        WHERE jobs.archived_at IS NULL AND (
+        WHERE jobs.archived_at IS NULL
+            AND (jobs.deadline_at IS NULL OR jobs.deadline_at > UTC_TIMESTAMP()) AND (
                 ? = ''
                 OR jobs.title LIKE ?
                 OR jobs.location LIKE ?
@@ -1140,7 +1155,8 @@ app.get("/api/employer/jobs", (req, res) => {
     // Include every editable field so the posting form can restore the saved values.
     const sql = `
         SELECT id, title, company, location, category, job_type, description, archived_at,
-            CASE WHEN archived_at IS NULL THEN 'open' ELSE 'archived' END AS status, created_at
+            DATE_FORMAT(deadline_at, '%Y-%m-%dT%H:%i:%sZ') AS deadline_at,
+            CASE WHEN archived_at IS NULL AND (deadline_at IS NULL OR deadline_at > UTC_TIMESTAMP()) THEN 'open' ELSE 'archived' END AS status, created_at
         FROM jobs
         WHERE employer_id = ?
         ORDER BY created_at DESC
@@ -1177,7 +1193,8 @@ app.get("/api/jobs/:id", (req, res) => {
             jobs.location,
             jobs.job_type,
             jobs.description,
-            CASE WHEN jobs.archived_at IS NULL THEN 'open' ELSE 'archived' END AS status,
+            DATE_FORMAT(jobs.deadline_at, '%Y-%m-%dT%H:%i:%sZ') AS deadline_at,
+            CASE WHEN jobs.archived_at IS NULL AND (jobs.deadline_at IS NULL OR jobs.deadline_at > UTC_TIMESTAMP()) THEN 'open' ELSE 'archived' END AS status,
             jobs.created_at,
             jobs.company AS company_name
         FROM jobs
@@ -1279,7 +1296,7 @@ app.post("/api/applications", (req, res) => {
 
     // Check availability on the server even if the seeker still has an old page open.
     const jobSql = `
-        SELECT id, archived_at
+        SELECT id, archived_at, (deadline_at IS NOT NULL AND deadline_at <= UTC_TIMESTAMP()) AS deadline_passed
         FROM jobs
         WHERE id = ?
     `;
@@ -1301,8 +1318,8 @@ app.post("/api/applications", (req, res) => {
         }
 
         // Existing applications remain readable; only new submissions are blocked.
-        if (jobs[0].archived_at) {
-            return res.status(409).json({ code: "POSTING_UNAVAILABLE", message: "This posting is archived and no longer accepts applications." });
+        if (jobs[0].archived_at || jobs[0].deadline_passed) {
+            return res.status(409).json({ code: "POSTING_UNAVAILABLE", message: "This posting is archived or its deadline has passed and no longer accepts applications." });
         }
 
         db.query(
@@ -1835,9 +1852,13 @@ if (require.main === module) {
 
         console.log("Connected to MySQL database!");
 
-        app.listen(PORT, () => {
+        // Start only in the real app; importing the server in tests starts no timer.
+        // Search and application writes also enforce deadlines between worker checks.
+        const stopDeadlineArchiver = startDeadlineArchiver(db);
+        const server = app.listen(PORT, () => {
             console.log(`Server running at http://localhost:${PORT}`);
         });
+        server.on("close", stopDeadlineArchiver);
     });
 
 }
